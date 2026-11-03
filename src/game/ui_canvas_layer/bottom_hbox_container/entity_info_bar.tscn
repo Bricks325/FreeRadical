@@ -6,21 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://01g5f17eor8s" path="res://assets/atlas/atlas_textures/game_gui/base_info_icons_0003.tres" id="5_dpyxj"]
 [ext_resource type="Texture2D" uid="uid://bbaa7opsu308v" path="res://assets/atlas/atlas_textures/game_gui/base_info_icons_0004.tres" id="6_rato6"]
 
-[sub_resource type="StyleBoxFlat" id="4"]
-bg_color = Color(0.2, 0.2, 0.25, 0.95)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.4, 0.4, 0.5, 1)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
-
 [node name="EntityInfoBar" type="PanelContainer" unique_id=1937124006 node_paths=PackedStringArray("entity_name", "hp_label", "hp_value", "melee_type_icon", "melee_value", "ranged_type_icon", "ranged_value", "phys_armor_icon", "phys_armor_value", "magic_armor_icon", "magic_armor_value")]
 mouse_filter = 2
-theme_override_styles/panel = SubResource("4")
 script = ExtResource("1_1ujae")
 entity_name = NodePath("MarginContainer/HBoxContainer/EntityName")
 hp_label = NodePath("MarginContainer/HBoxContainer/HpHBoxContainer/Label")

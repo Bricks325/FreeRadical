@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://d0mqwnwcq1tcj"]
 
 [ext_resource type="Script" uid="uid://cp1kq42gx0l8a" path="res://controls/setting_canvas_layer/setting_canvas_layer.gd" id="1_pakg3"]
-[ext_resource type="Theme" uid="uid://8ta4okxusy77" path="res://theme.tres" id="2_bl2g4"]
 [ext_resource type="Texture2D" uid="uid://d2nvpgfv8w3pt" path="res://assets/atlas/atlas_textures/gui/options_bg_notxt.tres" id="3_edf68"]
 [ext_resource type="PackedScene" uid="uid://dm25o6c1jxrdw" path="res://controls/setting_canvas_layer/labeled_texture_button.tscn" id="4_35fd5"]
 [ext_resource type="Script" uid="uid://bkebmr73wvf80" path="res://controls/setting_canvas_layer/exit_texture_button_label.gd" id="5_mqx7c"]
@@ -158,7 +157,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("2_bl2g4")
 theme_override_styles/panel = SubResource("StyleBoxTexture_lvsak")
 
 [node name="CenterContainer" type="CenterContainer" parent="PanelContainer" unique_id=1143906173]

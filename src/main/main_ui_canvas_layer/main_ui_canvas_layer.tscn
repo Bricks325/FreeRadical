@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://bu0fdtwv8h2os" path="res://main/wave_editor_button.gd" id="1_6fq81"]
 [ext_resource type="Script" uid="uid://dc8wijvqo6771" path="res://main/main_ui_canvas_layer/main_ui_canvas_layer.gd" id="1_foetc"]
-[ext_resource type="Theme" uid="uid://8ta4okxusy77" path="res://theme.tres" id="1_k2a40"]
 [ext_resource type="Script" uid="uid://2q2ogyvl3u7p" path="res://main/main_ui_canvas_layer/menu_vbox_container/play_button.gd" id="2_ypvuc"]
 [ext_resource type="Script" uid="uid://c0h3rhfsyy6dp" path="res://main/main_ui_canvas_layer/menu_vbox_container/quit_button.gd" id="4_ksu4j"]
 [ext_resource type="Script" uid="uid://clbcxid2atee" path="res://main/main_ui_canvas_layer/menu_vbox_container/quit_confirmation_dialog.gd" id="5_m7rpo"]
@@ -16,7 +15,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_k2a40")
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20

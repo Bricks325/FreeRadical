@@ -190,7 +190,6 @@ offset_bottom = 40.0
 script = ExtResource("39_475l0")
 
 [node name="UICanvasLayer" parent="." unique_id=673863676 instance=ExtResource("37_g4khr")]
-visible = false
 
 [node name="SettingCanvasLayer" parent="." unique_id=1024087080 instance=ExtResource("17_yx81m")]
 visible = false

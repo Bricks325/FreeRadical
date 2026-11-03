@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://rq35ixpelpas"]
 
 [ext_resource type="Script" uid="uid://b1we6nidkroj5" path="res://game/ui_canvas_layer/game_debug_menu/game_debug_menu.gd" id="1_ctb7h"]
-[ext_resource type="Theme" uid="uid://8ta4okxusy77" path="res://theme.tres" id="1_mtqar"]
+[ext_resource type="Script" uid="uid://blyax0v6khj0e" path="res://controls/v_scroll_container.gd" id="2_4jnem"]
 [ext_resource type="Script" uid="uid://b4u2704o6as1c" path="res://game/ui_canvas_layer/game_debug_menu/buttons/skip_wave_button.gd" id="2_mtqar"]
 [ext_resource type="PackedScene" uid="uid://bcpvwfqdmmq0o" path="res://controls/submit_spin_box.tscn" id="3_nu37c"]
 [ext_resource type="Script" uid="uid://bpdfxb6tw1soa" path="res://game/ui_canvas_layer/game_debug_menu/buttons/performance_monitor_button.gd" id="3_thkve"]
@@ -18,66 +18,63 @@
 [ext_resource type="Script" uid="uid://b3fnac1u8mluv" path="res://game/ui_canvas_layer/game_debug_menu/buttons/draw_spatial_hash_grid_check_button.gd" id="15_4jnem"]
 
 [node name="GameDebugMenu" type="FoldableContainer" unique_id=1295185256]
+custom_minimum_size = Vector2(550, 0)
 size_flags_horizontal = 0
 size_flags_vertical = 0
-theme = ExtResource("1_mtqar")
 title = "调试菜单"
 title_alignment = 1
 script = ExtResource("1_ctb7h")
 metadata/_edit_horizontal_guides_ = [-327.0]
 
-[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1892052493]
+[node name="VScrollContainer" type="ScrollContainer" parent="." unique_id=1370349167]
+custom_minimum_size = Vector2(0, 900)
 layout_mode = 2
-theme_override_constants/margin_left = 15
-theme_override_constants/margin_top = 15
-theme_override_constants/margin_right = 15
-theme_override_constants/margin_bottom = 15
+horizontal_scroll_mode = 0
+script = ExtResource("2_4jnem")
+metadata/_custom_type_script = "uid://blyax0v6khj0e"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=173606041]
-layout_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer" unique_id=799414516]
+[node name="MarginContainer" type="MarginContainer" parent="VScrollContainer" unique_id=799414516]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/MarginContainer" unique_id=831072063]
+[node name="VBoxContainer" type="VBoxContainer" parent="VScrollContainer/MarginContainer" unique_id=831072063]
 layout_mode = 2
 
-[node name="PerformanceMonitorButton" type="Button" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer" unique_id=1531079600]
+[node name="PerformanceMonitorButton" type="Button" parent="VScrollContainer/MarginContainer/VBoxContainer" unique_id=1531079600]
 layout_mode = 2
 text = "性能监视器（F3）"
 script = ExtResource("3_thkve")
 
-[node name="WaveFoldableContainer" type="FoldableContainer" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer" unique_id=1162521203]
+[node name="WaveFoldableContainer" type="FoldableContainer" parent="VScrollContainer/MarginContainer/VBoxContainer" unique_id=1162521203]
 layout_mode = 2
 title = "波次"
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/WaveFoldableContainer" unique_id=2039834122]
+[node name="MarginContainer" type="MarginContainer" parent="VScrollContainer/MarginContainer/VBoxContainer/WaveFoldableContainer" unique_id=2039834122]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/WaveFoldableContainer/MarginContainer" unique_id=1586463139]
+[node name="VBoxContainer" type="VBoxContainer" parent="VScrollContainer/MarginContainer/VBoxContainer/WaveFoldableContainer/MarginContainer" unique_id=1586463139]
 layout_mode = 2
 
-[node name="SkipWaveButton" type="Button" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/WaveFoldableContainer/MarginContainer/VBoxContainer" unique_id=323698271]
+[node name="SkipWaveButton" type="Button" parent="VScrollContainer/MarginContainer/VBoxContainer/WaveFoldableContainer/MarginContainer/VBoxContainer" unique_id=323698271]
 layout_mode = 2
 text = "跳过当前波次"
 script = ExtResource("2_mtqar")
 
-[node name="EntityFoldableContainer" type="FoldableContainer" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer" unique_id=433994840]
+[node name="EntityFoldableContainer" type="FoldableContainer" parent="VScrollContainer/MarginContainer/VBoxContainer" unique_id=433994840]
 layout_mode = 2
 title = "实体"
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/EntityFoldableContainer" unique_id=1228679561]
+[node name="MarginContainer" type="MarginContainer" parent="VScrollContainer/MarginContainer/VBoxContainer/EntityFoldableContainer" unique_id=1228679561]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/EntityFoldableContainer/MarginContainer" unique_id=59625295]
+[node name="VBoxContainer" type="VBoxContainer" parent="VScrollContainer/MarginContainer/VBoxContainer/EntityFoldableContainer/MarginContainer" unique_id=59625295]
 layout_mode = 2
 
-[node name="RemoveEntityButton" type="Button" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/EntityFoldableContainer/MarginContainer/VBoxContainer" unique_id=1085479622]
+[node name="RemoveEntityButton" type="Button" parent="VScrollContainer/MarginContainer/VBoxContainer/EntityFoldableContainer/MarginContainer/VBoxContainer" unique_id=1085479622]
 layout_mode = 2
 text = "移除选择的实体"
 script = ExtResource("5_nu37c")
 
-[node name="TakeDamageSubmitSpinBox" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/EntityFoldableContainer/MarginContainer/VBoxContainer" unique_id=295310891 instance=ExtResource("3_nu37c")]
+[node name="TakeDamageSubmitSpinBox" parent="VScrollContainer/MarginContainer/VBoxContainer/EntityFoldableContainer/MarginContainer/VBoxContainer" unique_id=295310891 instance=ExtResource("3_nu37c")]
 layout_mode = 2
 script = ExtResource("4_uo5t2")
 text = "对选择的实体造成伤害"
@@ -85,70 +82,70 @@ suffix = "%"
 step = 1.0
 value = 100.0
 
-[node name="PlayerStatsFoldableContainer" type="FoldableContainer" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer" unique_id=946754947]
+[node name="PlayerStatsFoldableContainer" type="FoldableContainer" parent="VScrollContainer/MarginContainer/VBoxContainer" unique_id=946754947]
 layout_mode = 2
 title = "玩家状态"
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/PlayerStatsFoldableContainer" unique_id=1101397286]
+[node name="MarginContainer" type="MarginContainer" parent="VScrollContainer/MarginContainer/VBoxContainer/PlayerStatsFoldableContainer" unique_id=1101397286]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/PlayerStatsFoldableContainer/MarginContainer" unique_id=973069828]
+[node name="VBoxContainer" type="VBoxContainer" parent="VScrollContainer/MarginContainer/VBoxContainer/PlayerStatsFoldableContainer/MarginContainer" unique_id=973069828]
 layout_mode = 2
 
-[node name="AddCashSubmitSpinBox" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/PlayerStatsFoldableContainer/MarginContainer/VBoxContainer" unique_id=182505193 instance=ExtResource("3_nu37c")]
+[node name="AddCashSubmitSpinBox" parent="VScrollContainer/MarginContainer/VBoxContainer/PlayerStatsFoldableContainer/MarginContainer/VBoxContainer" unique_id=182505193 instance=ExtResource("3_nu37c")]
 layout_mode = 2
 script = ExtResource("5_p8wfp")
 text = "增加金币"
 value = 1000.0
 
-[node name="AddLifeSubmitSpinBox" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/PlayerStatsFoldableContainer/MarginContainer/VBoxContainer" unique_id=1364750038 instance=ExtResource("3_nu37c")]
+[node name="AddLifeSubmitSpinBox" parent="VScrollContainer/MarginContainer/VBoxContainer/PlayerStatsFoldableContainer/MarginContainer/VBoxContainer" unique_id=1364750038 instance=ExtResource("3_nu37c")]
 layout_mode = 2
 script = ExtResource("6_qrfxy")
 text = "增加生命"
 step = 1.0
 value = 100.0
 
-[node name="DrawFoldableContainer" type="FoldableContainer" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer" unique_id=1590559739]
+[node name="DrawFoldableContainer" type="FoldableContainer" parent="VScrollContainer/MarginContainer/VBoxContainer" unique_id=1590559739]
 layout_mode = 2
 title = "绘制"
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/DrawFoldableContainer" unique_id=725751932]
+[node name="MarginContainer" type="MarginContainer" parent="VScrollContainer/MarginContainer/VBoxContainer/DrawFoldableContainer" unique_id=725751932]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/DrawFoldableContainer/MarginContainer" unique_id=245877227]
+[node name="VBoxContainer" type="VBoxContainer" parent="VScrollContainer/MarginContainer/VBoxContainer/DrawFoldableContainer/MarginContainer" unique_id=245877227]
 layout_mode = 2
 
-[node name="DrawHealthCheckButton" type="CheckButton" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/DrawFoldableContainer/MarginContainer/VBoxContainer" unique_id=979716455]
+[node name="DrawHealthCheckButton" type="CheckButton" parent="VScrollContainer/MarginContainer/VBoxContainer/DrawFoldableContainer/MarginContainer/VBoxContainer" unique_id=979716455]
 layout_mode = 2
 text = "绘制血量"
 script = ExtResource("9_qrfxy")
 
-[node name="DrawPathwayCheckButton" type="CheckButton" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/DrawFoldableContainer/MarginContainer/VBoxContainer" unique_id=443496520]
+[node name="DrawPathwayCheckButton" type="CheckButton" parent="VScrollContainer/MarginContainer/VBoxContainer/DrawFoldableContainer/MarginContainer/VBoxContainer" unique_id=443496520]
 layout_mode = 2
 text = "绘制路径"
 script = ExtResource("7_imdes")
 
-[node name="DrawOffsetCheckButton" type="CheckButton" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/DrawFoldableContainer/MarginContainer/VBoxContainer" unique_id=227939869]
+[node name="DrawOffsetCheckButton" type="CheckButton" parent="VScrollContainer/MarginContainer/VBoxContainer/DrawFoldableContainer/MarginContainer/VBoxContainer" unique_id=227939869]
 layout_mode = 2
 text = "绘制偏移"
 script = ExtResource("8_uo5t2")
 
-[node name="DrawRangeCheckButton" type="CheckButton" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/DrawFoldableContainer/MarginContainer/VBoxContainer" unique_id=647037315]
+[node name="DrawRangeCheckButton" type="CheckButton" parent="VScrollContainer/MarginContainer/VBoxContainer/DrawFoldableContainer/MarginContainer/VBoxContainer" unique_id=647037315]
 layout_mode = 2
 text = "绘制范围"
 script = ExtResource("8_iynre")
 
-[node name="DrawPointCheckButton" type="CheckButton" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/DrawFoldableContainer/MarginContainer/VBoxContainer" unique_id=900202695]
+[node name="DrawPointCheckButton" type="CheckButton" parent="VScrollContainer/MarginContainer/VBoxContainer/DrawFoldableContainer/MarginContainer/VBoxContainer" unique_id=900202695]
 layout_mode = 2
 text = "绘制点位"
 script = ExtResource("12_p8wfp")
 
-[node name="DrawSpatialHashGridCheckButton" type="CheckButton" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/DrawFoldableContainer/MarginContainer/VBoxContainer" unique_id=2018233921]
+[node name="DrawSpatialHashGridCheckButton" type="CheckButton" parent="VScrollContainer/MarginContainer/VBoxContainer/DrawFoldableContainer/MarginContainer/VBoxContainer" unique_id=2018233921]
 layout_mode = 2
 text = "绘制空间哈希网格"
 script = ExtResource("15_4jnem")
 
-[node name="DrawBulletTrajectorieCheckButton" type="CheckButton" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/DrawFoldableContainer/MarginContainer/VBoxContainer" unique_id=581889136]
+[node name="DrawBulletTrajectorieCheckButton" type="CheckButton" parent="VScrollContainer/MarginContainer/VBoxContainer/DrawFoldableContainer/MarginContainer/VBoxContainer" unique_id=581889136]
 visible = false
 layout_mode = 2
 text = "启用绘制子弹轨迹"

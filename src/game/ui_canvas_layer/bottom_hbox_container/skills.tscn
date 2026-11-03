@@ -64,20 +64,17 @@ theme_override_constants/separation = 15
 [node name="Skill1" type="Button" parent="." unique_id=199666587]
 custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
-theme = SubResource("5")
 theme_override_font_sizes/font_size = 30
 text = "⚡"
 
 [node name="Skill2" type="Button" parent="." unique_id=1820605624]
 custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
-theme = SubResource("5")
 theme_override_font_sizes/font_size = 30
 text = "🛡️"
 
 [node name="Skill3" type="Button" parent="." unique_id=1596189827]
 custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
-theme = SubResource("5")
 theme_override_font_sizes/font_size = 30
 text = "✨"

@@ -1,6 +1,5 @@
 [gd_scene format=3 uid="uid://c0r2koooh4jee"]
 
-[ext_resource type="Theme" uid="uid://8ta4okxusy77" path="res://theme.tres" id="1_l61cl"]
 [ext_resource type="Script" uid="uid://drujx836dqhq3" path="res://map/map_ui_canvas_layer/map_ui_canvas_layer.gd" id="1_p1qwd"]
 [ext_resource type="Texture2D" uid="uid://53ffcq83gxj7" path="res://map/map_ui_canvas_layer/border.tres" id="3_lvsak"]
 [ext_resource type="Texture2D" uid="uid://cto1koeceieb3" path="res://assets/atlas/atlas_textures/map/mapButtons-notxt_0001.tres" id="10_mcavn"]
@@ -30,7 +29,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
-theme = ExtResource("1_l61cl")
 
 [node name="Border" type="TextureRect" parent="Control" unique_id=1157214676]
 layout_mode = 1

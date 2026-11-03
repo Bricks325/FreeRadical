@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://cxohlj7mh8hb6"]
 
 [ext_resource type="Texture2D" uid="uid://fr2p18p8awcs" path="res://assets/atlas/atlas_textures/game_gui/top_left.tres" id="2_ki64j"]
-[ext_resource type="Theme" uid="uid://8ta4okxusy77" path="res://theme.tres" id="2_rltjd"]
 [ext_resource type="Script" uid="uid://b6nruw0fv66nd" path="res://game/ui_canvas_layer/top_hbox_container/life_value_label.gd" id="3_42nug"]
 [ext_resource type="Script" uid="uid://c63j83w3vyiym" path="res://game/ui_canvas_layer/top_hbox_container/speed_button.gd" id="3_c6vw1"]
 [ext_resource type="Script" uid="uid://bwog06cp2x3g4" path="res://game/ui_canvas_layer/top_hbox_container/cash_value_label.gd" id="4_dp1o2"]
@@ -14,7 +13,6 @@
 [node name="TopHBoxContainer" type="HBoxContainer" unique_id=1978266969]
 size_flags_horizontal = 3
 mouse_filter = 2
-theme = ExtResource("2_rltjd")
 
 [node name="PlayerStatsBackground" type="TextureRect" parent="." unique_id=337611053]
 layout_mode = 2
