@@ -1,15 +1,28 @@
-extends TrackEditorMouseToolBar
+@tool
+extends MouseToolBar
 
 
 ## 波次编辑器引用。
 @export var wave_editor: WaveEditor = null
 
+@onready var track_editors: Array[TrackEditor] = [
+	wave_editor.wave_track_editor,
+	wave_editor.sub_wave_track_editor,
+	wave_editor.spawn_track_editor,
+]
+
 
 func _ready() -> void:
-	tool_button_toggled.connect(_on_tool_button_toggled)
+	super()
+	mode_changed.connect(_on_mode_changed)
+	flags_changed.connect(_on_flags_changed)
 
 
-func _on_tool_button_toggled(_opened_tools: int) -> void:
-	wave_editor.wave_track_editor.mouse_tool_bar.opened_tools = opened_tools
-	wave_editor.sub_wave_track_editor.mouse_tool_bar.opened_tools = opened_tools
-	wave_editor.spawn_track_editor.mouse_tool_bar.opened_tools = opened_tools
+func _on_mode_changed(p_mode: Mode) -> void:
+	for track_editor: TrackEditor in track_editors:
+		track_editor.mouse_tool_bar.mode = p_mode 
+
+
+func _on_flags_changed(p_flags: int) -> void:
+	for track_editor: TrackEditor in track_editors:
+		track_editor.mouse_tool_bar.flags = p_flags

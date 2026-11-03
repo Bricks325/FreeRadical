@@ -11,6 +11,6 @@ class_name AnyFacingAnimationSet
 
 
 func get_animation_name_toward_point(_center: Vector2, _point: Vector2) -> AnimationData:
-	var anim_data := AnimationData.new()
-	anim_data.anim_name = any
-	return anim_data
+	var animation_data := AnimationData.new()
+	animation_data.animation_name = any
+	return animation_data

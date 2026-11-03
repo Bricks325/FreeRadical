@@ -38,7 +38,7 @@ func _on_update(_delta: float) -> void:
 
 		if wave.is_first_getted:
 			wave.is_first_getted = false
-			Log.debug("> 开始波次计时: 波次索引: %d, 波次间隔: %.2f" % [wave_index + 1, wave.interval])
+			Log.debug("开始波次计时: index=%d, duration=%.2f" % [wave_index, wave.interval])
 			AudioManager.play_sfx(wave_spawner_c_config.wave_timer_start_sfx)
 
 			var wave_list: Array[Wave] = wave_spawner_c_config.wave_group.wave_list
@@ -53,7 +53,7 @@ func _on_update(_delta: float) -> void:
 		if WaveManager.is_skip_wave:
 			WaveManager.is_skip_wave = false
 			wave_queue.pop_front()
-			Log.debug("跳过波次: %d" % (wave_index + 1))
+			Log.debug("跳过波次: index=%d" % wave_index)
 		else:
 			# 第一个波次需要等待玩家主动发送
 			if wave_index == 0:
@@ -75,7 +75,7 @@ func _on_update(_delta: float) -> void:
 
 			if wave.is_first_elapsed_time:
 				wave.is_first_elapsed_time = false
-				Log.debug(">>> 发送波次: %d" % (wave_index + 1))
+				Log.debug("发送波次: index=%d" % wave_index)
 				AudioManager.play_sfx(wave_spawner_c_config.wave_timer_finish_sfx)
 				WaveManager.wave_sended.emit(wave_index)
 
@@ -88,10 +88,10 @@ func _on_update(_delta: float) -> void:
 					
 			if wave.sub_wave_queue.size() == 0:
 				wave_queue.pop_front()
-				Log.debug("波次发送完毕: %d" % (wave_index + 1))
+				Log.debug("波次发送完毕: index=%d" % wave_index)
 
 		if wave_queue.size() == 0 and not WaveManager.is_waves_finished:
-			Log.debug("=======所有波次发送完毕=======")
+			Log.debug("所有波次发送完毕")
 			WaveManager.is_waves_finished = true
 			WaveManager.waves_finished.emit()
 

@@ -8,7 +8,7 @@ class_name BarrackComponent
 
 @export var config: BarrackComponentNodeConfig = null:
 	set(v): 
-		Utils.rebind_changed(config, v, _on_config_changed)
+		SignalUtils.reconnect_resource_changed(config, v, _on_config_changed)
 		config = v
 		update_configuration_warnings()
 		queue_redraw()
@@ -28,7 +28,7 @@ func _draw() -> void:
 			config.spawn_offsets.draw_offset_group(self)
 		
 	if DebugManager.draw_range_enabled:
-		Utils.draw_range_ellipse(self, position, config.rally_min_range, config.rally_max_range, Color(0.201, 0.431, 1.0, 0.2))
+		DrawUtils.draw_elliptical_annulus(self, position, config.rally_min_range, config.rally_max_range, Color(0.201, 0.431, 1.0, 0.2))
 
 	if DebugManager.draw_point_enabled:
 		var barrack_record: BarrackRecord = parent.get_node_or_null(Constants.BARRACK_RECORD_NODE_PATH)
@@ -106,7 +106,7 @@ func to_formation_position(center_position: Vector2, count: int, index: int) -> 
 	if count == 1:
 		return center_position
 		
-	var angle_step: float = 2 * PI / count
+	var angle_step: float = TAU / count
 	var angle: float = (index - 1) * angle_step - Constants.HALF_PI
 	
-	return MathUtils.get_point_on_ellipse(center_position, config.rally_radius, angle)
+	return MathUtils.point_at_elliptical_polar_offset(center_position, config.rally_radius, angle)

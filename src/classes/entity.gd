@@ -64,8 +64,8 @@ enum SourceType {
 
 
 #region 属性
-## 更新节点配置模板按钮。
-@export_tool_button("更新节点配置模板") var update_config_template: Callable = _update_config_template
+## 设置与更新节点配置模板按钮。
+@export_tool_button("设置与更新节点配置模板") var set_and_update_config_template: Callable = _set_and_update_config_template
 ## 节点配置模板。
 @export var node_config_template: NodeConfigTemplateNode = null:
 	set(v):
@@ -117,13 +117,13 @@ func _get_configuration_warnings() -> PackedStringArray:
 			if not FileAccess.file_exists(node_config_template.resource_path):
 				warnings.append("请将 node_config_template 节点配置模板保存为文件，否则后续无法在节点配置管理器中索引该实体的节点配置模板。")
 		else:
-			warnings.append("请设置一个 node_config_template 节点配置模板，或点击实体的 “更新节点配置模板” 按钮一键生成。")
+			warnings.append("请设置一个 node_config_template 节点配置模板，或点击实体的 “设置与更新节点配置模板” 按钮一键生成。")
 
 	return warnings
 
 
-func _to_string():
-	return String(name)
+func _to_string() -> String:
+	return name
 
 
 ## 获取本土化名称。
@@ -171,7 +171,7 @@ func clear_waiting() -> void:
 ## -> 等待是否被中断。
 func y_wait(duration: float, break_fn: Callable = Callable()) -> bool:
 	state |= Entity.State.WAITING
-	Log.verbose("实体等待: %s, %.2fs" % [self, duration])
+	Log.verbose("实体等待: entity=%s duration=%.2fs" % [self, duration])
 	var wait_timestamp: float = TimeManager.tick_timestamp
 	while not TimeManager.has_elapsed(wait_timestamp, duration):
 		if (
@@ -179,19 +179,19 @@ func y_wait(duration: float, break_fn: Callable = Callable()) -> bool:
 			or state & Entity.State.INTERRUPT_WAIT 
 			or break_fn.is_valid() and break_fn.call()
 		):
-			Log.verbose("%s 中断等待: %.2fs" % [self, duration])
+			Log.verbose("中断等待: entity=%s duration=%.2fs" % [self, duration])
 			clear_waiting()
 			return true
 
 		await get_tree().process_frame
 
-	Log.verbose("实体等待完毕: %s, %.2fs" % [self, duration])
+	Log.verbose("实体等待完毕: entity=%s duration=%.2fs" % [self, duration])
 	clear_waiting()
 	return false
 #endregion
 
 		
-func _update_config_template() -> void:
+func _set_and_update_config_template() -> void:
 	var scene_file_dir: String = scene_file_path.get_base_dir()
 	var template_dir: String = scene_file_dir.path_join("template")
 	DirAccess.make_dir_absolute(template_dir)
@@ -199,9 +199,9 @@ func _update_config_template() -> void:
 	var new_config_template := NodeConfigTemplateNode.new()
 	_build_config_template_node_recursive(self, new_config_template, template_dir)
 
-	var root_save_path: String = template_dir.path_join("node_config_template.tres")
-	node_config_template = Utils.save_and_load_resource(new_config_template, root_save_path)
-	Log.info("生成配置模板: %s" % root_save_path)
+	var save_path: String = template_dir.path_join("node_config_template.tres")
+	node_config_template = FileUtils.save_and_load_resource(new_config_template, save_path)
+	Log.info("生成配置模板: path=%s" % save_path)
 	EditorInterface.mark_scene_as_unsaved()
 
 
@@ -237,10 +237,10 @@ func _build_config_template_node_recursive(node: Node, current_config_template_p
 			var new_config: NodeConfig = load(cls.path).new()
 			
 			var save_path: String = save_dir.path_join("%s.tres" % node_name.to_snake_case())
-			new_config = Utils.save_and_load_resource(new_config, save_path)
+			new_config = FileUtils.save_and_load_resource(new_config, save_path)
 			child.config = new_config
 			config_template_node.config = new_config
-			Log.verbose("创建配置: %s" % save_path)
+			Log.verbose("创建配置: path=%s" % save_path)
 
 		current_config_template_parent.add_child(config_template_node)
 		_build_config_template_node_recursive(child, config_template_node, template_dir)

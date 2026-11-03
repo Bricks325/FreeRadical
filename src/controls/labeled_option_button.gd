@@ -3,6 +3,9 @@ extends HBoxContainer
 class_name LabeledOptionButton
 
 
+signal item_selected(index: int)
+
+
 @export_category("Label")
 ## 标签文本。
 @export var text: String = "":
@@ -19,4 +22,10 @@ class_name LabeledOptionButton
 
 
 func _ready():
+	option_button.item_selected.connect(_on_item_selected)
+
 	label.text = text
+
+
+func _on_item_selected(index: int) -> void:
+	item_selected.emit(index)

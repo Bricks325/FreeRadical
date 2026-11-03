@@ -36,7 +36,7 @@ enum GetValueMode {
 ## 搜索资源，用于搜索目标。
 @export var searcher: Searcher = null:
 	set(v): 
-		Utils.rebind_changed(searcher, v, emit_changed)
+		SignalUtils.reconnect_resource_changed(searcher, v, emit_changed)
 		searcher = v
 		emit_changed()
 
@@ -44,15 +44,10 @@ enum GetValueMode {
 var value: float = Constants.UNSET
 
 
-var _init_connect_property_signals: Dictionary[String, Callable] = {
-	"searcher": emit_changed,
-}
-
-
 func _init() -> void:
 	resource_local_to_scene = true
 	
-	Utils.connect_property_signals(self, _init_connect_property_signals)
+	SignalUtils.try_connect_resource_changed(searcher, emit_changed)
 
 
 @warning_ignore_start("unused_parameter")
@@ -98,13 +93,13 @@ func get_value(source: Entity, target: Entity) -> float:
 		GetValueMode.RANDOM:
 			return randf_range(min_value, max_value)
 		GetValueMode.ELLIPTICAL_FALLOFF:
-			return MathUtils.get_ellipse_radial_falloff(
+			return MathUtils.remap_to_elliptical_annulus(
 				source.global_position, 
 				target.global_position, 
-				searcher.min_radius,
 				searcher.max_radius,
-				min_value,
-				max_value
+				searcher.min_radius,
+				max_value,
+				min_value
 			)
 		
 	return 0

@@ -11,7 +11,7 @@ const upgrade_progress_bar_path: NodePath = ^"UpgradeTextureProgressBar"
 
 @export var config: UpgradeComponentNodeConfig = null:
 	set(v): 
-		Utils.rebind_changed(config, v, _on_config_changed)
+		SignalUtils.reconnect_resource_changed(config, v, _on_config_changed)
 		config = v
 		update_configuration_warnings()
 		queue_redraw()

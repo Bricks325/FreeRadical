@@ -10,7 +10,7 @@
 
 > [GDScript 编写风格指南](https://docs.godotengine.org/zh-cn/4.x/tutorials/scripting/gdscript/gdscript_styleguide.html)
 
-### 1.1 布尔值变量命名规范
+### 1.1 布尔值变量命名
 
 布尔值变量命名时需要增加前缀，以表示其语义：
 
@@ -33,6 +33,20 @@
 var entities: Array[Entity] = []
 for entity: Entity in entities:
     entity.health -= 10
+```
+
+### 1.3 日志格式
+
+日志格式应让主次分明，事件在前增加冒号，参数名在后，参数用等号说明值，每个参数之间用空格隔开。
+
+```gdscript
+Log.info("事件: 参数名=值")
+```
+
+示例：
+
+```gdscript
+Log.info("受到伤害: entity_name=%s id=%s hp=%s" % [entity.name, entity.id, entity.hp])
 ```
 
 ---

@@ -15,7 +15,7 @@ enum CreatedEntityType {
 
 @export var config: SellComponentNodeConfig = null:
 	set(v): 
-		Utils.rebind_changed(config, v, _on_config_changed)
+		SignalUtils.reconnect_resource_changed(config, v, _on_config_changed)
 		config = v
 		update_configuration_warnings()
 		queue_redraw()

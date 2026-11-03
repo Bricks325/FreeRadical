@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://bci7xf2h77iic"]
+
+[ext_resource type="Script" uid="uid://hqbnidlrycsn" path="res://controls/external_scroll_container.gd" id="1_8uh7m"]
+[ext_resource type="Texture2D" uid="uid://oya8wpn6jmc8" path="res://icon.svg" id="2_6uqi0"]
+
+[node name="Test" type="Control" unique_id=18758336]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(6.49, 6.49)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1436425229]
+layout_mode = 0
+offset_right = 104.6225
+offset_bottom = 52.234207
+
+[node name="ExternalScrollContainer" type="Container" parent="VBoxContainer" unique_id=1807020928 node_paths=PackedStringArray("h_scroll_bar")]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("1_8uh7m")
+h_scroll_bar = NodePath("../HScrollBar")
+metadata/_custom_type_script = "uid://hqbnidlrycsn"
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/ExternalScrollContainer" unique_id=1427986405]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+texture = ExtResource("2_6uqi0")
+expand_mode = 1
+
+[node name="HScrollBar" type="HScrollBar" parent="VBoxContainer" unique_id=750826499]
+layout_mode = 2
+max_value = 128.0
+page = 104.0

@@ -10,4 +10,4 @@ var direction: Enums.Direction = Enums.Direction.DOWN
 ## 是否水平翻转。
 var flip_h: bool = false
 ## 动画名称。
-var anim_name: StringName = &""
+var animation_name: StringName = &""

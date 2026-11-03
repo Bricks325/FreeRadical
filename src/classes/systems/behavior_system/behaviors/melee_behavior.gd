@@ -239,11 +239,11 @@ func _go_melee_position(entity: Entity, melee_c: MeleeComponent, animated_sprite
 	if MathUtils.is_at_destination(
 			entity.global_position, melee_global_position, melee_c.config.arrived_distance	 
 	):
-		#Log.verbose("到达近战位置，全局位置：%s, 目标点：%s, 距离：%s" % [entity.global_position, melee_c.melee_global_position, entity.global_position.distance_to(melee_c.melee_global_position)])
+		#Log.verbose("到达近战位置: global_position=%s melee_global_position=%s distance=%s" % [entity.global_position, melee_c.melee_global_position, entity.global_position.distance_to(melee_c.melee_global_position)])
 		melee_c.melee_state = MeleeComponent.MeleeState.MELEE_POSITION_ARRIVED
 		return true
 	else:
-		#Log.verbose("前往近战位置，全局位置：%s, 目标点：%s, 速度：%s" % [entity.global_position, melee_c.melee_global_position, melee_c.velocity])
+		#Log.verbose("前往近战位置: global_position=%s melee_global_position=%s velocity=%s" % [entity.global_position, melee_c.melee_global_position, melee_c.velocity])
 		melee_c.melee_state = MeleeComponent.MeleeState.MELEE_POSITION_MOVING
 		var direction: Vector2 = entity.global_position.direction_to(melee_global_position)
 		_move_to_direction(entity, melee_c, animated_sprite_c, direction)

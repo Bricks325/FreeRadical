@@ -6,7 +6,7 @@ class_name SelectSystem
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("select_entity"):
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		SelectManager.select_position = InputManager.mouse_global_position
 		SelectManager.is_selecting = true
 		
@@ -31,7 +31,7 @@ func _on_update(_delta: float) -> void:
 		
 ## 选择实体。
 func _select(entity: Entity) -> void:
-	Log.debug("选择实体: %s%s" % [entity, entity.global_position])
+	Log.debug("选择实体: entity=%s position=%s" % [entity, entity.global_position])
 	SelectManager.selected_entity = entity
 	SelectManager.select_mode = SelectManager.SelectMode.NONE
 	
@@ -71,25 +71,25 @@ func _process_select_mode() -> void:
 			var rally_max_range: float = barrack_c.config.rally_max_range
 			var rally_min_range: float = barrack_c.config.rally_min_range
 	
-			if MathUtils.is_in_ellipse_ring(
+			if MathUtils.is_in_elliptical_annulus(
 				entity_global_position,
 				mouse_global_position,
-				rally_min_range,
-				rally_max_range
+				rally_max_range,
+				rally_min_range
 			):
 				barrack_c.set_all_rally_center_global_position(mouse_global_position, true)
 			else:
 				var angle: float = entity_global_position.angle_to_point(mouse_global_position)
 				
 				var rally_center_global_position: Vector2 = entity_global_position
-				if MathUtils.is_in_ellipse(
+				if MathUtils.is_in_elliptical_annulus(
 					entity_global_position,
 					mouse_global_position,
 					rally_min_range
 				):
-					rally_center_global_position = MathUtils.get_point_on_ellipse(entity_global_position, rally_min_range, angle)
+					rally_center_global_position = MathUtils.point_at_elliptical_polar_offset(entity_global_position, rally_min_range, angle)
 				else:
-					rally_center_global_position = MathUtils.get_point_on_ellipse(
+					rally_center_global_position = MathUtils.point_at_elliptical_polar_offset(
 						entity_global_position,
 						rally_max_range,
 						angle

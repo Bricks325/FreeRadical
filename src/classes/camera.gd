@@ -2,7 +2,7 @@
 extends Camera2D
 class_name Camera
 ## 相机节点。
-## 
+##
 ## [Camera] 用于控制游戏中的相机，包括缩放、拖拽等。
 
 
@@ -23,44 +23,43 @@ var _drag_start_position := Vector2.ZERO
 
 func _ready() -> void:
 	if Engine.is_editor_hint():
-		pass
-	else:
-		get_viewport().size_changed.connect(_on_resized_window)
-		
-		_reset_zoom()
-	
+		return
+
+	get_viewport().size_changed.connect(_on_resized_window)
+	_reset_zoom()
+
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action("camera_zoom_in"):
 		_smooth_zoom(false)
-		
+
 	elif event.is_action("camera_zoom_out"):
 		_smooth_zoom(true)
-	
+
 	elif event.is_action_pressed("camera_drag"):
 		_dragging = true
 		_drag_start_position = event.position
 	elif event.is_action_released("camera_drag"):
 		_dragging = false
-	
+
 	if not _dragging:
 		return
-		
+
 	_move(event.position)
 
 
 ## 平滑缩放。
 func _smooth_zoom(reversed: bool = false) -> void:
 	var target_zoom: Vector2
-	
+
 	if reversed:
 		target_zoom = zoom / zoom_factor
 	else:
 		target_zoom = zoom * zoom_factor
-	
+
 	# 限制缩放范围
 	target_zoom = target_zoom.clampf(zoom_min, zoom_max)
-	
+
 	var tween: Tween = create_tween()
 	tween.set_parallel(false)
 	tween.set_ease(Tween.EASE_OUT)

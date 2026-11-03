@@ -8,7 +8,7 @@ class_name WaveEditor
 @export var sub_wave_track_editor: TrackEditor = null
 @export var spawn_track_editor: TrackEditor = null
 @export var spawn_data_vbox_container: WaveEditorSpawnDataVBoxContainer = null
-@export var entity_option_button_label: LabeledOptionButton = null
+@export var entity_labeled_option_button: LabeledOptionButton = null
 
 ## 敌人场景路径到索引的映射。
 var enemy_index_dict: Dictionary[String, int] = {}
@@ -26,48 +26,45 @@ var selected_spawn: WaveSpawn = null
 
 func _ready() -> void:
 	var enemy_index: int = 0
-	for scene_uid: String in entity_scene_path_data.entity_name_to_uid_map.values():
-		var scene_path: String = ResourceUID.uid_to_path(scene_uid)
-		var scene_name: String = scene_path.get_file().get_basename()
+	for scene_name: String in entity_scene_path_data.entity_name_to_uid_map.keys():
 		if not scene_name.begins_with("enemy_"):
 			continue
-		
+
 		var option_item: String = tr(scene_name.to_upper())
-		entity_option_button_label.option_button.add_item(option_item)
+		entity_labeled_option_button.option_button.add_item(option_item)
 		
+		var scene_uid: String = entity_scene_path_data.entity_name_to_uid_map[scene_name]
 		enemy_index_dict[scene_uid] = enemy_index
 		enemy_scene_dict[enemy_index] = scene_uid
 		enemy_index += 1
 
 	wave_track_editor.hide_sub_wave_track_editor()
 
+	wave_group = WaveGroup.new()
+
 
 ## 加载关卡波次组。
 func load_wave_group(path: String) -> void:
-	Log.info("加载关卡波次：%s" % path)
-	wave_group = load(path)
-	wave_track_editor.clear_tracks()
+	Log.info("加载关卡波次组: path=%s" % path)
+	wave_track_editor.clear_tracks(false)
 	wave_track_editor.create_track()
+	wave_group = load(path)
 
 	var wave_list: Array[Wave] = wave_group.wave_list
-
 	var current_time: float = 0.0
 	for wave_index: int in wave_list.size():
 		var wave: Wave = wave_list[wave_index]
-		var track_item: TrackEditorTrackItem = wave_track_editor.create_item()
-
 		if wave_index != 0:
 			current_time += wave.interval
-			track_item.apply_track_position_x(current_time)
 
-		wave_track_editor.insert_item(track_item, true)
+		wave_track_editor.create_item_at_tick_position(0, current_time, false)
 
 	wave_track_editor.hide_sub_wave_track_editor()
 
 
 ## 保存关卡波次组。
 func save_wave_group(path: String) -> void:
-	Log.info("保存关卡波次：%s" % path)
+	Log.info("保存关卡波次组: path=%s" % path)
 	ResourceSaver.save(wave_group, path)
 
 

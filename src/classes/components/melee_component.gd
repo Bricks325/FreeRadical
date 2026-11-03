@@ -32,7 +32,7 @@ enum MeleeState {
 
 @export var config: MeleeComponentNodeConfig = null:
 	set(v): 
-		Utils.rebind_changed(config, v, _on_config_changed)
+		SignalUtils.reconnect_resource_changed(config, v, _on_config_changed)
 		config = v
 		update_configuration_warnings()
 		queue_redraw()
@@ -141,8 +141,8 @@ func blocker_cleanup_melee_relations(entity: Entity) -> void:
 		if search_flag & Searcher.SearchFlag.SKIP_DEAD and blocked.state & Entity.State.DEAD:
 			continue
 			
-		if not MathUtils.is_in_ellipse_ring(
-				center, blocked.global_position, config.searcher.min_radius, config.searcher.max_radius
+		if not MathUtils.is_in_elliptical_annulus(
+				center, blocked.global_position, config.searcher.max_radius, config.searcher.min_radius
 			):
 			continue
 			

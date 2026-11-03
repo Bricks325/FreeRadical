@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 class_name Level
 ## 关卡节点。
 
@@ -29,6 +29,7 @@ func _enter_tree() -> void:
 
 
 func _exit_tree() -> void:
+	DebugManager.cleanup()
 	GameManager.cleanup()
 	EntityManager.cleanup()
 	EntitySpatialHashManager.cleanup()
@@ -53,7 +54,7 @@ func _ready() -> void:
 		AudioManager.play_music(battle_music)
 	else:
 		AudioManager.play_music(ready_music)
-
+		
 
 func _on_first_wave_sended() -> void:
 	GameManager.is_battling = true

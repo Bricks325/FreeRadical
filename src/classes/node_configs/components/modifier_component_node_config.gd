@@ -39,7 +39,7 @@ class_name ModifierComponentNodeConfig
 ## 影响资源，用于对目标造成伤害或治愈目标。
 @export var influence: Influence = null:
 	set(v):
-		Utils.rebind_changed(influence, v, emit_changed)
+		SignalUtils.reconnect_resource_changed(influence, v, emit_changed)
 		influence = v
 		emit_changed()
 ## 造成影响间隔时间。
@@ -51,15 +51,11 @@ class_name ModifierComponentNodeConfig
 ## 影响动画。
 @export var influence_animation: FacingAnimationSet = null
 
-var _init_connect_property_signals: Dictionary[String, Callable] = {
-	"influence": emit_changed,
-}
-
 
 func _init() -> void:
 	super()
 		
-	Utils.connect_property_signals(self, _init_connect_property_signals)
+	SignalUtils.try_connect_resource_changed(influence, emit_changed)
 
 
 func _validate_property(property: Dictionary) -> void:

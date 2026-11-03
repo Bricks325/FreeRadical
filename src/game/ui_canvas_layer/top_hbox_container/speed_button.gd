@@ -27,4 +27,4 @@ func _on_pressed() -> void:
 		get_tree().paused = false
 
 	text = "%.1fx" % time_scale
-	Log.info("调整游戏倍速: %s" % text)
+	Log.info("调整游戏倍速: time_scale=%s" % text)

@@ -4,14 +4,12 @@ extends Node
 ## [EntityManager] 负责管理实体，提供了实体的查找、插入、移除等操作。
 
 
-@warning_ignore_start("unused_signal")
 ## 实体创建信号。
 signal entity_created(entity: Entity)
 ## 实体准备信号。
 signal entity_ready(entity: Entity)
 ## 实体设置信号。
 signal entity_setup(entity: Entity)
-@warning_ignore_restore("unused_signal")
 
 
 ## 实体场景缓存。
@@ -76,13 +74,13 @@ func register_entity_world(entity_world: EntityWorld) -> void:
 func queue_insert_entity(entity: Entity) -> void:
 	entity.visible = false
 	_insert_queue.append(entity)
-	Log.verbose("增加实体到插入队列: %s" % entity)
+	Log.verbose("增加实体到插入队列: entity=%s" % entity)
 
 
 ## 将实体增加到移除队列
 func queue_remove_entity(entity: Entity) -> void:
 	_remove_queue.append(entity)
-	Log.verbose("增加实体到移除队列: %s" % entity)
+	Log.verbose("增加实体到移除队列: entity=%s" % entity)
 
 
 ## 通过场景路径创建实体。
@@ -101,7 +99,7 @@ func setup_entity(entity: Entity) -> Entity:
 	entity.id = _next_id
 	entity.name = "%sI%d" % [entity.name, _next_id]
 
-	Log.debug("创建实体: %s" % entity)
+	Log.debug("创建实体: entity=%s" % entity)
 	_next_id += 1
 
 	entity_ready.emit(entity)
@@ -231,7 +229,7 @@ func _process_insert_queue() -> void:
 		# 	var entities_len: int = _entities.size()
 		# 	if entity.id != entities_len:
 		# 		Log.error(
-		# 			"实体数组长度未与实体 id 对应: id %d, 长度 %d" 
+		# 			"实体数组长度未与实体 id 对应: id=%d len=%d" 
 		# 			% [entity.id, entities_len]
 		# 		)
 		
@@ -241,7 +239,7 @@ func _process_insert_queue() -> void:
 		_entities.append(entity)
 
 		entity.visible = true
-		Log.verbose("插入实体: %s" % entity)
+		Log.verbose("插入实体: entity=%s" % entity)
 
 	_insert_queue.clear()
 
@@ -264,7 +262,7 @@ func _process_remove_queue() -> void:
 		# 先处理所有移除回调，再释放实体
 		pending_free_entities.append(entity)
 		entity.entity_removing.emit()
-		Log.verbose("移除实体: %s" % entity)
+		Log.verbose("移除实体: entity=%s" % entity)
 
 	_remove_queue.clear()
 	for entity: Entity in pending_free_entities:

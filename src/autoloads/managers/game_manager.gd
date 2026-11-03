@@ -5,7 +5,6 @@ extends Node
 ## [GameManager] 负责管理游戏中的数据与相关操作。
 
 
-@warning_ignore_start("unused_signal")
 ## 金币发生更改时发出。
 signal cash_changed(new_cash: float)
 ## 生命发生更改时发出。
@@ -14,7 +13,6 @@ signal life_changed(new_life: int)
 signal paused
 ## 取消暂停游戏时发出。
 signal resumed
-@warning_ignore_restore("unused_signal")
 
 
 var is_paused: bool = false

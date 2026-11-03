@@ -13,7 +13,7 @@ class_name BulletComponentNodeConfig
 ## 影响资源。
 @export var influence: Influence = null:
 	set(v):
-		Utils.rebind_changed(influence, v, emit_changed)
+		SignalUtils.reconnect_resource_changed(influence, v, emit_changed)
 		influence = v
 		emit_changed()
 
@@ -53,13 +53,9 @@ class_name BulletComponentNodeConfig
 ## 未击中目标时创建的实体场景路径列表。
 @export_file("*.tscn") var miss_payloads: PackedStringArray
 
-var _init_connect_property_signals: Dictionary[String, Callable] = {
-	"flight_animation": emit_changed,
-	"influence": emit_changed,
-}
-
 
 func _init() -> void:
 	super()
 		
-	Utils.connect_property_signals(self, _init_connect_property_signals)
+	SignalUtils.try_connect_resource_changed(flight_animation, emit_changed)
+	SignalUtils.try_connect_resource_changed(influence, emit_changed)

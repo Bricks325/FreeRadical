@@ -9,23 +9,19 @@ class_name OffsetComponentNodeConfig
 ## 击中位置偏移组。
 @export var hit_offsets: FacingOffsetSet = null:
 	set(v): 
-		Utils.rebind_changed(hit_offsets, v, emit_changed)
+		SignalUtils.reconnect_resource_changed(hit_offsets, v, emit_changed)
 		hit_offsets = v
 		emit_changed()
 ## 光环位置偏移组。
 @export var aura_offsets: FacingOffsetSet = null:
 	set(v): 
-		Utils.rebind_changed(aura_offsets, v, emit_changed)
+		SignalUtils.reconnect_resource_changed(aura_offsets, v, emit_changed)
 		aura_offsets = v
 		emit_changed()
-
-var _init_connect_property_signals: Dictionary[String, Callable] = {
-	"hit_offsets": emit_changed,
-	"aura_offsets": emit_changed,
-}
 
 
 func _init() -> void:
 	super()
 		
-	Utils.connect_property_signals(self, _init_connect_property_signals)
+	SignalUtils.try_connect_resource_changed(hit_offsets, emit_changed)
+	SignalUtils.try_connect_resource_changed(aura_offsets, emit_changed)

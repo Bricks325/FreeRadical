@@ -9,7 +9,7 @@ class_name BulletComponent
 
 @export var config: BulletComponentNodeConfig = null:
 	set(v): 
-		Utils.rebind_changed(config, v, _on_config_changed)
+		SignalUtils.reconnect_resource_changed(config, v, _on_config_changed)
 		config = v
 		update_configuration_warnings()
 		queue_redraw()

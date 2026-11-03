@@ -17,11 +17,11 @@ var spawn: WaveSpawn = null
 
 
 func _ready() -> void:
-	spawn_interval.spin_box.value_changed.connect(_on_spawn_interval_changed)
-	entity.option_button.item_selected.connect(_on_entity_changed)
-	pathway.spin_box.value_changed.connect(_on_pathway_changed)
-	sub_pathway.spin_box.value_changed.connect(_on_sub_pathway_changed)
-	count.spin_box.value_changed.connect(_on_count_changed)
+	spawn_interval.value_changed.connect(_on_spawn_interval_changed)
+	entity.item_selected.connect(_on_entity_changed)
+	pathway.value_changed.connect(_on_pathway_changed)
+	sub_pathway.value_changed.connect(_on_sub_pathway_changed)
+	count.value_changed.connect(_on_count_changed)
 	enable_reversed.toggled.connect(_on_enable_reversed_toggled)
 	enable_loop.toggled.connect(_on_enable_loop_toggled)
 

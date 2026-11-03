@@ -20,6 +20,8 @@ enum LogLevel {
 	## 日志级别：错误。
 	ERROR = 4,
 }
+
+
 ## 日志级别键数组。
 const log_level_keys: Array[String] = [
 	"VERBOSE",

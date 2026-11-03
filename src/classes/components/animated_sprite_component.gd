@@ -8,7 +8,7 @@ class_name AnimatedSpriteComponent
 
 @export var config: AnimatedSpriteComponentNodeConfig = null:
 	set(v):
-		Utils.rebind_changed(config, v, _on_config_changed)
+		SignalUtils.reconnect_resource_changed(config, v, _on_config_changed)
 		config = v
 		update_configuration_warnings()
 		queue_redraw()
@@ -35,11 +35,11 @@ func continue_play_new_animation(
 	var last_animated_sprite: AnimatedSprite2D = get_playing_animated_sprite(animation_group)
 	var last_frame: int = last_animated_sprite.frame
 	var last_progress: float = last_animated_sprite.progress
-	var anim_data: AnimationData = play_animation(entity, animation_group, source_animation_key, force_play)
+	var animation_data: AnimationData = play_animation(entity, animation_group, source_animation_key, force_play)
 	var current_animated_sprite: AnimatedSprite2D = get_playing_animated_sprite(animation_group)
 	current_animated_sprite.set_frame_and_progress(last_frame, last_progress)
 	
-	return anim_data
+	return animation_data
 
 
 ## 播放新动画。
@@ -54,31 +54,31 @@ func play_animation(
 		
 	var play_index: int = animation_group.play_index
 	var player: Node2D = get_child(play_index)
-	var anim_data: AnimationData = animation_group.get_animation_name_toward_point(
+	var animation_data: AnimationData = animation_group.get_animation_name_toward_point(
 		entity.global_position, entity.facing_global_position
 	)
 	
-	var anim_name: StringName = anim_data.anim_name
-	var filp_h: bool = anim_data.flip_h
+	var animation_name: StringName = animation_data.animation_name
+	var filp_h: bool = animation_data.flip_h
 
 	if player is SpriteGroup:
-		_play_animation_in_group(anim_name, player, filp_h, animation_group.speed_scale, force_play)
+		_play_animation_in_group(animation_name, player, filp_h, animation_group.speed_scale, force_play)
 	else:
-		_play_animation(anim_name, player, filp_h, animation_group.speed_scale, force_play)
+		_play_animation(animation_name, player, filp_h, animation_group.speed_scale, force_play)
 
 	# 处理同步动画。
 	if config.sync_source:
 		var source: Entity = EntityManager.get_entity_by_id(entity.source_id)
 		if source and not source.is_waiting():
-			var s_animated_sprite_c: AnimatedSpriteComponent = source.get_node_or_null(Constants.ANIMATED_SPRITE_COMPONENT_NODE_PATH)
-			var s_animation: FacingAnimationSet = s_animated_sprite_c.config.sync_animations.get(
+			var source_animated_sprite_c: AnimatedSpriteComponent = source.get_node_or_null(Constants.ANIMATED_SPRITE_COMPONENT_NODE_PATH)
+			var source_animation: FacingAnimationSet = source_animated_sprite_c.config.sync_animations.get(
 				source_animation_key
 			)
-			if s_animation:
-				s_animated_sprite_c.play_animation(source, s_animation, source_animation_key, force_play)
-				s_animated_sprite_c.y_wait_animation(source, s_animation)
+			if source_animation:
+				source_animated_sprite_c.play_animation(source, source_animation, source_animation_key, force_play)
+				source_animated_sprite_c.y_wait_animation(source, source_animation)
 
-	return anim_data
+	return animation_data
 
 
 ## 获取动画精灵剩余帧数。
@@ -141,7 +141,7 @@ func y_wait_animation(
 				await animated_sprite.frame_changed
 
 		if is_break:
-			Log.verbose("%s 中断等待动画: %s" % [self, animated_sprite.animation])
+			Log.verbose("中断等待动画: entity=%s animation=%s" % [self, animated_sprite.animation])
 			break
 
 	entity.clear_waiting()
@@ -150,7 +150,7 @@ func y_wait_animation(
 
 ## 使一个精灵播放动画。
 func _play_animation(
-		anim_name: StringName, 
+		animation_name: StringName, 
 		sprite: AnimatedSprite2D, 
 		filp_h: bool = false,
 		speed_scale: float = 1.0,
@@ -158,31 +158,31 @@ func _play_animation(
 	) -> void:
 	if (
 			not force_play 
-			and sprite.animation == anim_name 
+			and sprite.animation == animation_name 
 			and sprite.flip_h == filp_h
 		):
 		return
 
 	var sprite_frames: SpriteFrames = sprite.sprite_frames
 		
-	if not sprite_frames.has_animation(anim_name):
-		Log.error("%s 未找到动画: %s" % [parent, anim_name])
+	if not sprite_frames.has_animation(animation_name):
+		Log.error("未找到动画: entity=%s animation=%s" % [self, animation_name])
 		return
 		
-	Log.verbose("%s 播放动画: %s, 水平镜像: %s" % [parent, anim_name, filp_h])
+	Log.verbose("播放动画: entity=%s animation=%s flip_h=%s" % [self, animation_name, filp_h])
 	sprite.flip_h = filp_h
 	sprite.speed_scale = speed_scale
-	sprite.play(anim_name)
+	sprite.play(animation_name)
 	
 	
 ## 使一个精灵组中的所有精灵播放对应的动画。
 func _play_animation_in_group(
-		anim_name: StringName, 
+		animation_name: StringName, 
 		group: SpriteGroup, 
 		filp_h: bool = false,
 		speed_scale: float = 1.0,
 		force_play: bool = false
 	) -> void:
 	for sprite: AnimatedSprite2D in group.get_children():
-		_play_animation(anim_name, sprite, filp_h, speed_scale, force_play)	
+		_play_animation(animation_name, sprite, filp_h, speed_scale, force_play)	
 		

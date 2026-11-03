@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="WaveGroup" format=3 uid="uid://c3fao8aq2imhy"]
+[gd_resource type="Resource" script_class="WaveGroup" format=3 uid="uid://crsrgsrf3fyi3"]
 
 [ext_resource type="Script" uid="uid://okpyko8fvmx4" path="res://classes/wave/wave_group.gd" id="1_qncpg"]
 [ext_resource type="Script" uid="uid://b1twtcymtb7c1" path="res://classes/wave/wave.gd" id="2_by2yg"]
@@ -15,22 +15,34 @@ script = ExtResource("3_fdy3y")
 spawn_list = Array[ExtResource("4_4n3wi")]([SubResource("Resource_psa55")])
 metadata/_custom_type_script = "uid://sexo7n8p0jrb"
 
-[sub_resource type="Resource" id="Resource_fdy3y"]
-script = ExtResource("4_4n3wi")
-entity = "uid://cdiuclmjr8gt2"
-pathway_index = 0
-
-[sub_resource type="Resource" id="Resource_4n3wi"]
-script = ExtResource("3_fdy3y")
-index = 1
-spawn_list = Array[ExtResource("4_4n3wi")]([SubResource("Resource_fdy3y")])
-
 [sub_resource type="Resource" id="Resource_6segh"]
 script = ExtResource("2_by2yg")
-sub_wave_list = Array[ExtResource("3_fdy3y")]([SubResource("Resource_cy61a"), SubResource("Resource_4n3wi")])
+interval = 0.0
+sub_wave_list = Array[ExtResource("3_fdy3y")]([SubResource("Resource_cy61a")])
 metadata/_custom_type_script = "uid://b1twtcymtb7c1"
+
+[sub_resource type="Resource" id="Resource_fdy3y"]
+script = ExtResource("3_fdy3y")
+delay = 0.7249660768370697
+
+[sub_resource type="Resource" id="Resource_y62bj"]
+script = ExtResource("4_4n3wi")
+interval = 4.896674999292346
+entity = "uid://cdiuclmjr8gt2"
+
+[sub_resource type="Resource" id="Resource_281uk"]
+script = ExtResource("3_fdy3y")
+index = 1
+delay = 7.810609458149343
+spawn_list = Array[ExtResource("4_4n3wi")]([SubResource("Resource_y62bj")])
+
+[sub_resource type="Resource" id="Resource_4n3wi"]
+script = ExtResource("2_by2yg")
+index = 1
+interval = 26.53627920841825
+sub_wave_list = Array[ExtResource("3_fdy3y")]([SubResource("Resource_fdy3y"), SubResource("Resource_281uk")])
 
 [resource]
 script = ExtResource("1_qncpg")
-wave_list = Array[ExtResource("2_by2yg")]([SubResource("Resource_6segh")])
+wave_list = Array[ExtResource("2_by2yg")]([SubResource("Resource_6segh"), SubResource("Resource_4n3wi")])
 metadata/_custom_type_script = "uid://okpyko8fvmx4"

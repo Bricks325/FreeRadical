@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://yynu1sipymxy"]
+
+[ext_resource type="Script" uid="uid://d2fc25oljoa2c" path="res://controls/track_editor/track_area/track.gd" id="1_wk6c8"]
+
+[node name="Track" type="PanelContainer" unique_id=2009568600 node_paths=PackedStringArray("item_container")]
+custom_minimum_size = Vector2(100, 0)
+offset_right = 3.0
+offset_bottom = 105.0
+mouse_filter = 1
+theme_type_variation = &"TrackEditorTrack"
+script = ExtResource("1_wk6c8")
+item_container = NodePath("HBoxContainer/ItemContainer")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1626309563]
+layout_mode = 2
+
+[node name="ItemContainer" type="HSeparator" parent="HBoxContainer" unique_id=786263355]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+theme_type_variation = &"TrackEditorItemContainer"

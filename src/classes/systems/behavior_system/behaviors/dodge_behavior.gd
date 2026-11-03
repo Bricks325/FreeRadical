@@ -23,5 +23,5 @@ func _on_update(entity: Entity) -> bool:
 	if not target:
 		return false
 
-	skill._use_skill(entity, target)
+	skill.use_skill(entity, target)
 	return true

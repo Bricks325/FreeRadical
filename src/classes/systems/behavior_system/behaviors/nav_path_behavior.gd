@@ -115,7 +115,7 @@ func _arrived_end(entity: Entity, nav_path_c: NavPathComponent, is_reversed: boo
 	nav_path_c.navigate_to_node(node)
 	
 	nav_path_c.loop_count += 1
-	Log.debug("到达终点: %s, 到达次数 %d" % [entity, nav_path_c.loop_count])
+	Log.debug("到达终点: entity=%s loop_count=%d" % [entity, nav_path_c.loop_count])
 	
 	if (
 			not nav_path_c_config.loop_enabled 

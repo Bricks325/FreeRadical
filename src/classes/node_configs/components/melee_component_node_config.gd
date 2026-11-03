@@ -15,7 +15,7 @@ class_name MeleeComponentNodeConfig
 ## 近战位置偏移组。
 @export var melee_position_offsets: FacingOffsetSet = null:
 	set(v):
-		Utils.rebind_changed(melee_position_offsets, v, emit_changed)
+		SignalUtils.reconnect_resource_changed(melee_position_offsets, v, emit_changed)
 		melee_position_offsets = v
 		emit_changed()
 ## 到达位置的阈值。
@@ -25,7 +25,7 @@ class_name MeleeComponentNodeConfig
 ## 搜索资源，用于搜索目标。
 @export var searcher: Searcher = null:
 	set(v):
-		Utils.rebind_changed(searcher, v, emit_changed)
+		SignalUtils.reconnect_resource_changed(searcher, v, emit_changed)
 		searcher = v
 		emit_changed()
 ## 最大可以拦截数量。
@@ -35,13 +35,9 @@ class_name MeleeComponentNodeConfig
 ## 拦截成本。
 @export var block_cost: int = 1
 
-var _init_connect_property_signals: Dictionary[String, Callable] = {
-	"melee_position_offsets": emit_changed,
-	"searcher": emit_changed,
-}
-
 
 func _init() -> void:
 	super()
 		
-	Utils.connect_property_signals(self, _init_connect_property_signals)
+	SignalUtils.try_connect_resource_changed(melee_position_offsets, emit_changed)
+	SignalUtils.try_connect_resource_changed(searcher, emit_changed)

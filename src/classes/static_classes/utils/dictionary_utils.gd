@@ -1,9 +1,9 @@
 @abstract
 extends Object
 class_name DictionaryUtils
-## 字典工具类。
+## 字典工具函数库。
 ##
-## [DictionaryUtils] 是一个字典工具类，用于在代码中进行字典操作的辅助函数。
+## [DictionaryUtils] 用于存储与字典相关的工具函数。
 
 
 ## 获取两个字典的对称差集。
@@ -16,9 +16,9 @@ static func get_dict_sysmetric_diff(dict1: Dictionary, dict2: Dictionary) -> Dic
 	for key in dict2:
 		if diff.erase(key):
 			continue
-			
+
 		diff[key] = dict2[key]
-		
+
 	return diff
 
 
@@ -33,7 +33,7 @@ static func get_dict_diffs(dict1: Dictionary, dict2: Dictionary) -> Array[Dictio
 	for key in dict2:
 		if diff1.erase(key):
 			continue
-			
+
 		diff2[key] = dict2[key]
-		
+
 	return [diff1, diff2]

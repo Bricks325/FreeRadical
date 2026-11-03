@@ -9,11 +9,15 @@ offset_bottom = 63.0
 theme_override_constants/separation = 0
 alignment = 1
 script = ExtResource("1_18vxg")
-track_order_label = NodePath("HBoxContainer/TrackOrderLabel")
+track_order_label = NodePath("CenterContainer/HBoxContainer/TrackEditorTrackOrderLabel")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=934389490]
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1578996491]
 layout_mode = 2
 
-[node name="TrackOrderLabel" type="Label" parent="HBoxContainer" unique_id=298308377]
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer" unique_id=934389490]
 layout_mode = 2
+
+[node name="TrackEditorTrackOrderLabel" type="Label" parent="CenterContainer/HBoxContainer" unique_id=298308377]
+layout_mode = 2
+theme_type_variation = &"TrackEditorTrackOrderLabel"
 text = "1"

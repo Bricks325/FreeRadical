@@ -1,0 +1,146 @@
+[gd_scene format=3 uid="uid://2efse8231loj"]
+
+[ext_resource type="Script" uid="uid://oqqykk70js3y" path="res://controls/track_editor/mouse_tool_bar/mouse_tool_bar.gd" id="1_k2gt3"]
+[ext_resource type="Texture2D" uid="uid://db1onpn27dhox" path="res://assets/dpi_textures/godot_icons/tool_select.svg" id="3_3cqgi"]
+[ext_resource type="Script" uid="uid://cgr6yhj36myth" path="res://controls/track_editor/mouse_tool_bar/buttons/mode_button.gd" id="4_pdir8"]
+[ext_resource type="Texture2D" uid="uid://dglk76efmipgx" path="res://assets/dpi_textures/godot_icons/edit_key.svg" id="5_45gew"]
+[ext_resource type="Texture2D" uid="uid://csgtc8dbot1hy" path="res://assets/dpi_textures/godot_icons/tool_pan.svg" id="5_fqoka"]
+[ext_resource type="Texture2D" uid="uid://bk2kow3dpmfsl" path="res://assets/dpi_textures/godot_icons/eraser.svg" id="6_pdir8"]
+[ext_resource type="Texture2D" uid="uid://dswlueim4nqof" path="res://assets/dpi_textures/godot_icons/tool_move.svg" id="7_3xhm3"]
+[ext_resource type="Texture2D" uid="uid://50mrqvxidlms" path="res://assets/dpi_textures/godot_icons/snap_grid.svg" id="8_45gew"]
+[ext_resource type="Script" uid="uid://bj5kwy705nct6" path="res://controls/track_editor/mouse_tool_bar/buttons/flag_button.gd" id="9_3xhm3"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_gibef"]
+
+[sub_resource type="InputEventAction" id="InputEventAction_7uqxx"]
+action = &"track_editor_toggle_select_mode"
+
+[sub_resource type="Shortcut" id="Shortcut_pchhq"]
+events = [SubResource("InputEventAction_7uqxx")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_hwr5e"]
+action = &"track_editor_toggle_pan_mode"
+
+[sub_resource type="Shortcut" id="Shortcut_o2tfu"]
+events = [SubResource("InputEventAction_hwr5e")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_k2gt3"]
+action = &"track_editor_toggle_pan_mode_temporary"
+
+[sub_resource type="Shortcut" id="Shortcut_pxuv0"]
+events = [SubResource("InputEventAction_k2gt3")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_muacy"]
+action = &"track_editor_toggle_add_item_mode"
+
+[sub_resource type="Shortcut" id="Shortcut_0688a"]
+events = [SubResource("InputEventAction_muacy")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_ekhq1"]
+action = &"track_editor_toggle_erase_item_mode"
+
+[sub_resource type="Shortcut" id="Shortcut_5kk1k"]
+events = [SubResource("InputEventAction_ekhq1")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_165ci"]
+action = &"track_editor_toggle_move_item_mode"
+
+[sub_resource type="Shortcut" id="Shortcut_esg41"]
+events = [SubResource("InputEventAction_165ci")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_dt7t5"]
+action = &"track_editor_toggle_snap_flag"
+
+[sub_resource type="Shortcut" id="Shortcut_lgfxo"]
+events = [SubResource("InputEventAction_dt7t5")]
+
+[node name="MouseToolBar" type="HBoxContainer" unique_id=890797523]
+offset_right = 176.0
+offset_bottom = 24.0
+script = ExtResource("1_k2gt3")
+mode_button_group = SubResource("ButtonGroup_gibef")
+
+[node name="SelectItemModeButton" type="Button" parent="." unique_id=1903254406]
+layout_mode = 2
+tooltip_text = "选择模式。
+左键：选择项。
+左键+拖拽：移动选中项。
+Shift+左键+拖拽：移动选中项并吸附到最近刻度。
+右键：增加项。
+Ctrl+右键：删除项。"
+theme_type_variation = &"MouseToolBarBaseButton"
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_gibef")
+shortcut = SubResource("Shortcut_pchhq")
+icon = ExtResource("3_3cqgi")
+script = ExtResource("4_pdir8")
+metadata/_custom_type_script = "uid://cgr6yhj36myth"
+
+[node name="PanModeButton" type="Button" parent="." unique_id=119108187]
+layout_mode = 2
+tooltip_text = "平移模式。
+你还可以使用平移快捷键（空格）在任何模式下临时切换到平移模式。"
+theme_type_variation = &"MouseToolBarBaseButton"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_gibef")
+shortcut = SubResource("Shortcut_o2tfu")
+icon = ExtResource("5_fqoka")
+script = ExtResource("4_pdir8")
+mode = 1
+temporary_toggle_shortcut = SubResource("Shortcut_pxuv0")
+metadata/_custom_type_script = "uid://cgr6yhj36myth"
+
+[node name="VSeparator" type="VSeparator" parent="." unique_id=416600887]
+layout_mode = 2
+
+[node name="AddItemModeButton" type="Button" parent="." unique_id=515546032]
+layout_mode = 2
+tooltip_text = "增加模式。"
+theme_type_variation = &"MouseToolBarBaseButton"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_gibef")
+shortcut = SubResource("Shortcut_0688a")
+icon = ExtResource("5_45gew")
+script = ExtResource("4_pdir8")
+mode = 2
+metadata/_custom_type_script = "uid://cgr6yhj36myth"
+
+[node name="EraseItemModeButton" type="Button" parent="." unique_id=629698750]
+layout_mode = 2
+tooltip_text = "擦除模式。"
+theme_type_variation = &"MouseToolBarBaseButton"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_gibef")
+shortcut = SubResource("Shortcut_5kk1k")
+icon = ExtResource("6_pdir8")
+script = ExtResource("4_pdir8")
+mode = 3
+metadata/_custom_type_script = "uid://cgr6yhj36myth"
+
+[node name="MoveItemModeButton" type="Button" parent="." unique_id=515625815]
+layout_mode = 2
+tooltip_text = "移动模式。
+Shift+左键+拖拽：移动选中项并吸附到最近刻度。"
+theme_type_variation = &"MouseToolBarBaseButton"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_gibef")
+shortcut = SubResource("Shortcut_esg41")
+icon = ExtResource("7_3xhm3")
+script = ExtResource("4_pdir8")
+mode = 4
+metadata/_custom_type_script = "uid://cgr6yhj36myth"
+
+[node name="FlagButtonVSeparator" type="VSeparator" parent="." unique_id=1864101683]
+layout_mode = 2
+
+[node name="SnapFlagButton" type="Button" parent="." unique_id=423978973]
+layout_mode = 2
+tooltip_text = "轨道吸附。"
+theme_type_variation = &"MouseToolBarBaseButton"
+toggle_mode = true
+button_pressed = true
+shortcut = SubResource("Shortcut_lgfxo")
+icon = ExtResource("8_45gew")
+script = ExtResource("9_3xhm3")
+metadata/_custom_type_script = "uid://bj5kwy705nct6"

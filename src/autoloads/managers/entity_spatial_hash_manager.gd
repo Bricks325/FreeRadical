@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 ## 实体空间哈希管理器。
 ##
 ## [EntitySpatialHashManager] 用于通过实体坐标快速查找实体。
@@ -16,11 +16,33 @@ var _spatial_hash_column_count: int = 15
 var spatial_hash_grid: Array[SpaceIndexCell] = []
 
 
+func _ready() -> void:
+	DebugManager.draw_state_changed.connect(_on_draw_state_changed)
+	z_index = 1000
+
+
 func _physics_process(_delta: float) -> void:
 	_grouping_entities()
 
 
-## 初始化实体管理器。
+func _draw() -> void:
+	if DebugManager.draw_entity_spatial_hash_grid_enabled:
+		for i: int in spatial_hash_grid.size():
+			var rect := Rect2(
+				i % _spatial_hash_row_count * _spatial_hash_cell_size,
+				floorf(float(i) / _spatial_hash_row_count) * _spatial_hash_cell_size,
+				_spatial_hash_cell_size, 
+				_spatial_hash_cell_size
+			)
+			draw_rect(
+				rect,
+				Color.GREEN,
+				false,
+				3
+			)
+
+
+## 初始化实体空间哈希管理器。
 func init() -> void:
 	var spatial_hash_cell_count: int = _spatial_hash_row_count * _spatial_hash_column_count
 	spatial_hash_grid.resize(spatial_hash_cell_count)
@@ -34,9 +56,9 @@ func cleanup() -> void:
 
 
 ## 全局位置转换空间哈希单元格索引。
-func global_position_to_spatial_hash_cell_index(position: Vector2) -> int:
-	var grid_x: int = floori(position.x / _spatial_hash_cell_size)
-	var grid_y: int = floori(position.y / _spatial_hash_cell_size)
+func global_position_to_spatial_hash_cell_index(p_position: Vector2) -> int:
+	var grid_x: int = floori(p_position.x / _spatial_hash_cell_size)
+	var grid_y: int = floori(p_position.y / _spatial_hash_cell_size)
 
 	return grid_position_to_spatial_hash_cell_index(grid_x, grid_y)
 
@@ -79,7 +101,7 @@ func search_entities_in_ellipse(
 
 			var pending_entities: Array[Entity] = cell.get_entity_group(faction, entity_type)
 			for entity: Entity in pending_entities:
-				if not MathUtils.is_in_ellipse_ring(search_global_position, entity.global_position, min_range, max_range, aspect):
+				if not MathUtils.is_in_elliptical_annulus(search_global_position, entity.global_position, max_range, min_range, aspect):
 					continue
 					
 				entities.append(entity)
@@ -115,7 +137,7 @@ func search_entities_in_ellipse_filtered(
 
 			var pending_entities: Array[Entity] = cell.get_entity_group(faction, entity_type)
 			for entity: Entity in pending_entities:
-				if not MathUtils.is_in_ellipse_ring(search_global_position, entity.global_position, min_range, max_range, aspect):
+				if not MathUtils.is_in_elliptical_annulus(search_global_position, entity.global_position, max_range, min_range, aspect):
 					continue
 					
 				if not filter.call(entity):
@@ -168,3 +190,7 @@ class SpaceIndexCell extends RefCounted:
 	func clear() -> void:
 		for entity_group: Array[Entity] in entity_groups.values():
 			entity_group.clear()
+
+
+func _on_draw_state_changed(_draw_type: DebugManager.DrawType) -> void:
+	queue_redraw()

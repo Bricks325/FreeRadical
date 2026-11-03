@@ -3,6 +3,9 @@ extends HBoxContainer
 class_name LabeledSpinBox
 
 
+signal value_changed(value: float)
+
+
 @export_category("Label")
 ## 标签文本。
 @export var text: String = "":
@@ -45,8 +48,14 @@ class_name LabeledSpinBox
 
 
 func _ready():
+	spin_box.value_changed.connect(_on_value_changed)
+
 	label.text = text
 	spin_box.prefix = prefix
 	spin_box.suffix = suffix
 	spin_box.step = step
 	spin_box.value = value
+
+
+func _on_value_changed(p_value: float) -> void:
+	value_changed.emit(p_value)

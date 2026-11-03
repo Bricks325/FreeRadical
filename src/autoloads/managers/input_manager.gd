@@ -12,5 +12,5 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventMouse:
 		mouse_global_position = get_global_mouse_position()
 		
-	if event.is_action_pressed("click"):
-		Log.debug("点击 %s" % mouse_global_position)
+	if event is InputEventMouseButton and event.pressed:
+		Log.debug("点击: position=%s button_index=%d" % [mouse_global_position, event.button_index])

@@ -24,7 +24,7 @@ const SFXBus: StringName = &"SFX"
 
 
 ## 音效播放器总数。
-var _sfx_player_count: int = 10
+var _sfx_player_count: int = 16
 ## 音效播放器数组。
 var _sfx_player_list: Array[AudioStreamPlayer] = []
 ## 音乐播放器。

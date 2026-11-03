@@ -61,15 +61,7 @@ func _on_update(_delta: float) -> void:
 				# 在下一帧中处理反伤，避免循环反伤。
 				new_damage_queue.append(bad_damage)
 			
-		Log.verbose(
-			"造成伤害: 目标: %s，来源: %s，值: %s"
-			% [
-				target,
-				source_name,
-				actual_damage
-			]
-		)
-
+		Log.verbose("造成伤害: target=%s source=%s damage=%.2f" % [target, source, actual_damage])
 		var damage_number := DamageNumber.new()
 		damage_number.value = actual_damage
 		damage_number.damage_type = damage.damage_type

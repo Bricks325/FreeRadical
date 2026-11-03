@@ -15,6 +15,7 @@
 [ext_resource type="Script" uid="uid://ck2ky7ouubxga" path="res://game/ui_canvas_layer/game_debug_menu/buttons/draw_bullet_trajectorie_check_button.gd" id="9_mvyv1"]
 [ext_resource type="Script" uid="uid://qpfivwlvp2ka" path="res://game/ui_canvas_layer/game_debug_menu/buttons/draw_health_check_button.gd" id="9_qrfxy"]
 [ext_resource type="Script" uid="uid://dlv2hpmabwbyt" path="res://game/ui_canvas_layer/game_debug_menu/buttons/draw_point_check_button.gd" id="12_p8wfp"]
+[ext_resource type="Script" uid="uid://b3fnac1u8mluv" path="res://game/ui_canvas_layer/game_debug_menu/buttons/draw_spatial_hash_grid_check_button.gd" id="15_4jnem"]
 
 [node name="GameDebugMenu" type="FoldableContainer" unique_id=1295185256]
 size_flags_horizontal = 0
@@ -141,6 +142,11 @@ script = ExtResource("8_iynre")
 layout_mode = 2
 text = "绘制点位"
 script = ExtResource("12_p8wfp")
+
+[node name="DrawSpatialHashGridCheckButton" type="CheckButton" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/DrawFoldableContainer/MarginContainer/VBoxContainer" unique_id=2018233921]
+layout_mode = 2
+text = "绘制空间哈希网格"
+script = ExtResource("15_4jnem")
 
 [node name="DrawBulletTrajectorieCheckButton" type="CheckButton" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/DrawFoldableContainer/MarginContainer/VBoxContainer" unique_id=581889136]
 visible = false

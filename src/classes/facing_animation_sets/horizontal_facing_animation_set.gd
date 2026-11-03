@@ -23,18 +23,20 @@ func _validate_property(property: Dictionary):
 
 
 func get_animation_name_toward_point(center: Vector2, point: Vector2) -> AnimationData:
-	var anim_data := AnimationData.new()
+	var animation_data := AnimationData.new()
+	var animation_name: StringName = &""
 	var direction: Enums.Direction = MathUtils.get_quadrant_direction(center, point)
-
 	match direction:
 		Enums.Direction.LEFT_UP, Enums.Direction.LEFT_DOWN:
 			if right_replace_left:
-				anim_data.anim_name = right
-				anim_data.flip_h = true
+				animation_name = right
+				animation_data.flip_h = true
 			else:
-				anim_data.anim_name = left
+				animation_name = left
 		Enums.Direction.RIGHT_UP, Enums.Direction.RIGHT_DOWN:
-			anim_data.anim_name = right
-	anim_data.direction = direction
+			animation_name = right
+			
+	animation_data.animation_name = animation_name
+	animation_data.direction = direction
 
-	return anim_data
+	return animation_data

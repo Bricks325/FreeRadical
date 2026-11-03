@@ -1,9 +1,9 @@
 @abstract
 extends Object
 class_name ArrayUtils
-## 数组工具类。
+## 数组工具函数库。
 ##
-## [ArrayUtils] 是一个数组工具类，用于在代码中进行数组操作的辅助函数。
+## [ArrayUtils] 用于存储与数组相关的工具函数。
 
 
 ## 交换并删除数组中的元素。[br][br]
@@ -12,9 +12,9 @@ static func array_swap_delete(array: Array, index: int) -> void:
 	var array_size: int = array.size()
 	if array_size == 0:
 		return
-		
+
 	var element = array.pop_back()
-		
+
 	if index == array_size - 1:
 		return
 
@@ -73,5 +73,5 @@ static func get_array_diffs(array1: Array, array2: Array) -> Array[Array]:
 static func pick_random(array: Array) -> Variant:
 	if array.is_empty():
 		return null
-		
+
 	return array[randi() % array.size()]

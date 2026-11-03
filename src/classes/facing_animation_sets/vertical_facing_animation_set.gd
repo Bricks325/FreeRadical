@@ -15,17 +15,20 @@ class_name VerticalFacingAnimationSet
 
 
 func get_animation_name_toward_point(center: Vector2, point: Vector2) -> AnimationData:
-	var anim_data := AnimationData.new()
+	var animation_data := AnimationData.new()
+	var animation_name: StringName = &""
 	var direction: Enums.Direction = MathUtils.get_quadrant_direction(center, point)
 
 	if vertical_mirror and direction & Enums.Direction.LEFT:
-		anim_data.flip_h = true
+		animation_data.flip_h = true
 
 	match direction:
 		Enums.Direction.LEFT_UP, Enums.Direction.RIGHT_UP:
-			anim_data.anim_name = up
+			animation_name = up
 		Enums.Direction.LEFT_DOWN, Enums.Direction.RIGHT_DOWN:
-			anim_data.anim_name = down
-	anim_data.direction = direction
+			animation_name = down
 
-	return anim_data
+	animation_data.animation_name = animation_name
+	animation_data.direction = direction
+
+	return animation_data

@@ -41,7 +41,7 @@ enum SearchFlag {
 ## 搜索中心偏移量。
 @export var center_offsets: FacingOffsetSet = null:
 	set(v): 
-		Utils.rebind_changed(center_offsets, v, emit_changed)
+		SignalUtils.reconnect_resource_changed(center_offsets, v, emit_changed)
 		center_offsets = v
 		emit_changed()
 ## 搜索最小半径。
@@ -81,14 +81,10 @@ enum SearchFlag {
 ## 是否启用升序排序。
 @export var sort_ascending_enabled: bool = false
 
-var _init_connect_property_signals: Dictionary[String, Callable] = {
-	"center_offsets": emit_changed,
-}
-
 
 func _init() -> void:
 	resource_local_to_scene = true
-	Utils.connect_property_signals(self, _init_connect_property_signals)
+	SignalUtils.try_connect_resource_changed(center_offsets, emit_changed)
 
 
 func _validate_property(property: Dictionary) -> void:
@@ -113,11 +109,11 @@ func search_target(center: Vector2, search_entity: Entity = null, filter := Call
 ## 绘制搜索范围。
 func draw_search_range(drawer: CanvasItem, center: Vector2) -> void:
 	if center_offsets:
-		Utils.draw_range_ellipse(drawer, center + center_offsets.right, min_radius, max_radius)
+		DrawUtils.draw_elliptical_annulus(drawer, center + center_offsets.right, min_radius, max_radius)
 
 		center_offsets.draw_offset_group(drawer)
 	else:
-		Utils.draw_range_ellipse(drawer, center, min_radius, max_radius)
+		DrawUtils.draw_elliptical_annulus(drawer, center, min_radius, max_radius)
 
 
 ## 搜索目标。

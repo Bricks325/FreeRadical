@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://cu7maip3aa7o2"]
+
+[ext_resource type="Script" uid="uid://bwvaohorij5aa" path="res://controls/track_editor/track_area/ruler/tick.gd" id="1_h0t3a"]
+
+[node name="Tick" type="HBoxContainer" unique_id=1576354432 node_paths=PackedStringArray("tick_number")]
+offset_right = 48.0
+offset_bottom = 39.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+offset_transform_enabled = true
+theme_override_constants/separation = 0
+script = ExtResource("1_h0t3a")
+tick_number = NodePath("TrackEditorTickNumber")
+
+[node name="TrackEditorTickLine" type="VSeparator" parent="." unique_id=2112852494]
+layout_mode = 2
+theme_type_variation = &"TrackEditorTickLine"
+
+[node name="TrackEditorTickNumber" type="Label" parent="." unique_id=427668380]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"TrackEditorTickNumber"
+text = "0000"
+clip_text = true

@@ -26,5 +26,5 @@ func _ready() -> void:
 func _on_size_changed() -> void:
 	var new_size: Vector2 = get_viewport().get_visible_rect().size
 	
-	Log.debug("重设窗口大小: %s" % new_size)
+	Log.debug("重设窗口大小: size=%s" % new_size)
 	window_size = new_size

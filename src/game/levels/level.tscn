@@ -49,7 +49,7 @@ script = ExtResource("3_xp3ar")
 list = PackedStringArray("uid://1hu4h6ul3c4c")
 metadata/_custom_type_script = "uid://b2b214g352w4u"
 
-[node name="Level" type="Node" unique_id=1748941305]
+[node name="Level" type="Node2D" unique_id=1505089824]
 script = ExtResource("1_7ttr4")
 cash = 9999
 default_tower_holder = "uid://ckf2o2h3wv2xo"

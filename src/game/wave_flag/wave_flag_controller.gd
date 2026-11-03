@@ -7,12 +7,12 @@ var pathway_to_wave_flag_map: Dictionary[Pathway, WaveFlag] = {}
 
 func _ready() -> void:
 	if Engine.is_editor_hint():
-		pass
-	else:
-		for child: WaveFlag in get_children():
-			pathway_to_wave_flag_map[child.bound_pathway_node] = child
+		return
 
-		WaveManager.wave_timer_started.connect(_on_wave_timer_started)
+	for child: WaveFlag in get_children():
+		pathway_to_wave_flag_map[child.bound_pathway_node] = child
+
+	WaveManager.wave_timer_started.connect(_on_wave_timer_started)
 
 
 func _get_configuration_warnings() -> PackedStringArray:
