@@ -9,11 +9,11 @@ func _on_insert(barrack: Entity) -> bool:
 	var barrack_c: BarrackComponent = barrack.get_node_or_null(Constants.BARRACK_COMPONENT_NODE_PATH)
 	if not barrack_c:
 		return true
-	
+
 	var barrack_record: BarrackRecord = barrack.get_node_or_null(Constants.BARRACK_RECORD_NODE_PATH)
 	if not barrack_record.rally_center_global_position:
 		barrack_record.rally_center_global_position = barrack.to_global(barrack_record.default_rally_center_position)
-	
+
 	_spawn_all_soldiers(barrack, barrack_c, barrack_record)
 
 	return true
@@ -23,7 +23,7 @@ func _on_remove(barrack: Entity) -> bool:
 	var barrack_c: BarrackComponent = barrack.get_node_or_null(Constants.BARRACK_COMPONENT_NODE_PATH)
 	if not barrack_c:
 		return true
-	
+
 	var barrack_record: BarrackRecord = barrack.get_node_or_null(Constants.BARRACK_RECORD_NODE_PATH)
 	var soldier_ids: PackedInt32Array = barrack_record.soldier_ids
 	for soldier_id: int in soldier_ids:
@@ -40,7 +40,7 @@ func _on_update(barrack: Entity) -> bool:
 
 	if barrack_c.config.disabled:
 		return false
-	
+
 	var barrack_record: BarrackRecord = barrack.get_node_or_null(Constants.BARRACK_RECORD_NODE_PATH)
 	if TimeManager.has_elapsed(barrack_c.spawn_timestamp, barrack_c.config.spawn_interval):
 		_spawn_by_time(barrack, barrack_c, barrack_record)
@@ -69,7 +69,7 @@ func _create_soldier(
 	soldier.global_position = soldier_global_position
 
 	EntityManager.queue_insert_entity(soldier)
-	
+
 	return soldier
 
 
@@ -81,10 +81,10 @@ func _spawn_by_time(barrack: Entity, barrack_c: BarrackComponent, barrack_record
 	var barrack_c_config: BarrackComponentNodeConfig = barrack_c.config
 	if soldier_ids.size() >= barrack_c_config.max_soldier_count:
 		return
-		
+
 	AudioManager.play_sfx(barrack_c_config.spawn_sfx)
 	var animated_sprite_c: AnimatedSpriteComponent = barrack.get_node_or_null(Constants.ANIMATED_SPRITE_COMPONENT_NODE_PATH)
-	var spawn_animation: FacingAnimationSet = animated_sprite_c.config.spawn_animation
+	var spawn_animation: FacingAnimationSet = barrack_c_config.spawn_animation
 	if spawn_animation:
 		animated_sprite_c.play_animation(barrack, spawn_animation)
 	if await barrack.y_wait(barrack_c_config.spawn_delay):
@@ -93,7 +93,7 @@ func _spawn_by_time(barrack: Entity, barrack_c: BarrackComponent, barrack_record
 	var soldier: Entity = _create_soldier(barrack, barrack_c, barrack_record)
 	soldier_ids.append(soldier.id)
 	barrack_c.need_reset_rally_center_global_position = true
-	
+
 	if spawn_animation:
 		animated_sprite_c.y_wait_animation(barrack, spawn_animation)
 
@@ -127,16 +127,12 @@ func _spawn_all_soldiers(barrack: Entity, barrack_c: BarrackComponent, barrack_r
 			if old_melee_c:
 				var melee_c: MeleeComponent = soldier.get_node_or_null(Constants.MELEE_COMPONENT_NODE_PATH)
 				if melee_c:
-					melee_c.is_blocker = old_melee_c.is_blocker
-					soldier.state = Entity.State.MELEE
+					melee_c.block_global_position = old_melee_c.block_global_position
+					
+					for target_id: int in old_melee_c.target_ids:
+						var target: Entity = EntityManager.get_entity_by_id(target_id)
+						melee_c.block_target(soldier, target)
 
-					if melee_c.is_blocker:
-						for blocked_id: int in old_melee_c.blocked_id_list:
-							melee_c.blocker_bind_melee_relations(soldier.id, blocked_id)
-					else:
-						for blocker_id: int in old_melee_c.blocker_id_list:
-							melee_c.blocked_bind_melee_relations(blocker_id, soldier.id)
-	
 	barrack_record.soldier_ids = new_soldier_ids
 	var old_soldier_ids_size: int = old_soldier_ids.size()
 	if old_soldier_ids_size < barrack_c_config.max_soldier_count:

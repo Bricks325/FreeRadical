@@ -77,20 +77,20 @@ func get_spatial_hash_cell(index: int) -> SpaceIndexCell:
 
 
 ## 通过空间哈希网格搜索椭圆环范围内目标。
-func search_entities_in_ellipse(
+func search_entities_in_elliptical_annulus(
 		search_global_position: Vector2,
-		min_range: float,
-		max_range: float,
+		outer_radius: float,
+		inner_radius: float,
 		faction: InteractPolicyComponent.Faction,
 		entity_type: InteractPolicyComponent.EntityType,
 		aspect: float = 0.7
 	) -> Array[Entity]:
 	var entities: Array[Entity] = []
 
-	var grid_min_x: int = max(0, floori((search_global_position.x - max_range) / _spatial_hash_cell_size))
-	var grid_max_x: int = ceili((search_global_position.x + max_range) / _spatial_hash_cell_size)
-	var grid_min_y: int = max(0, floori((search_global_position.y - max_range) / _spatial_hash_cell_size))
-	var grid_max_y: int = ceili((search_global_position.y + max_range) / _spatial_hash_cell_size)
+	var grid_min_x: int = max(0, floori((search_global_position.x - outer_radius) / _spatial_hash_cell_size))
+	var grid_max_x: int = ceili((search_global_position.x + outer_radius) / _spatial_hash_cell_size)
+	var grid_min_y: int = max(0, floori((search_global_position.y - outer_radius) / _spatial_hash_cell_size))
+	var grid_max_y: int = ceili((search_global_position.y + outer_radius) / _spatial_hash_cell_size)
 
 	for grid_x: int in range(grid_min_x, grid_max_x + 1):
 		for grid_y: int in range(grid_min_y, grid_max_y + 1):
@@ -101,7 +101,7 @@ func search_entities_in_ellipse(
 
 			var pending_entities: Array[Entity] = cell.get_entity_group(faction, entity_type)
 			for entity: Entity in pending_entities:
-				if not MathUtils.is_in_elliptical_annulus(search_global_position, entity.global_position, max_range, min_range, aspect):
+				if not MathUtils.is_in_elliptical_annulus(search_global_position, entity.global_position, outer_radius, inner_radius, aspect):
 					continue
 					
 				entities.append(entity)
@@ -111,11 +111,11 @@ func search_entities_in_ellipse(
 
 ## 通过空间哈希网格搜索椭圆环范围内目标。[br][br]
 ## [param filter]: 过滤函数。返回 [code]false[/code] 表示被过滤。[br][br]
-## 与 [method EntityManager.search_entities_in_ellipse] 不同的是，支持过滤函数。
-func search_entities_in_ellipse_filtered(
+## 与 [method EntityManager.search_entities_in_elliptical_annulus] 不同的是，支持过滤函数。
+func search_entities_in_elliptical_annulus_filtered(
 		search_global_position: Vector2,
-		min_range: float,
-		max_range: float,
+		outer_radius: float,
+		inner_radius: float,
 		faction: InteractPolicyComponent.Faction,
 		entity_type: InteractPolicyComponent.EntityType,
 		filter := Callable(),
@@ -123,10 +123,10 @@ func search_entities_in_ellipse_filtered(
 	) -> Array[Entity]:
 	var entities: Array[Entity] = []
 
-	var grid_min_x: int = max(0, floori((search_global_position.x - max_range) / _spatial_hash_cell_size))
-	var grid_max_x: int = ceili((search_global_position.x + max_range) / _spatial_hash_cell_size)
-	var grid_min_y: int = max(0, floori((search_global_position.y - max_range) / _spatial_hash_cell_size))
-	var grid_max_y: int = ceili((search_global_position.y + max_range) / _spatial_hash_cell_size)
+	var grid_min_x: int = max(0, floori((search_global_position.x - outer_radius) / _spatial_hash_cell_size))
+	var grid_max_x: int = ceili((search_global_position.x + outer_radius) / _spatial_hash_cell_size)
+	var grid_min_y: int = max(0, floori((search_global_position.y - outer_radius) / _spatial_hash_cell_size))
+	var grid_max_y: int = ceili((search_global_position.y + outer_radius) / _spatial_hash_cell_size)
 
 	for grid_x: int in range(grid_min_x, grid_max_x + 1):
 		for grid_y: int in range(grid_min_y, grid_max_y + 1):
@@ -137,7 +137,7 @@ func search_entities_in_ellipse_filtered(
 
 			var pending_entities: Array[Entity] = cell.get_entity_group(faction, entity_type)
 			for entity: Entity in pending_entities:
-				if not MathUtils.is_in_elliptical_annulus(search_global_position, entity.global_position, max_range, min_range, aspect):
+				if not MathUtils.is_in_elliptical_annulus(search_global_position, entity.global_position, outer_radius, inner_radius, aspect):
 					continue
 					
 				if not filter.call(entity):
@@ -156,6 +156,8 @@ func _grouping_entities() -> void:
 	for entity: Entity in EntityManager.get_valid_entities():
 		var cell_index: int = global_position_to_spatial_hash_cell_index(entity.global_position)
 		var cell: SpaceIndexCell = get_spatial_hash_cell(cell_index)
+		if not cell:
+			continue
 		
 		var interact_policy_c: InteractPolicyComponent = entity.get_node_or_null(Constants.INTERACT_POLICY_COMPONENT_NODE_PATH)
 		if not interact_policy_c:

@@ -7,15 +7,13 @@ class_name RallyBehavior
 
 func _on_update(entity: Entity) -> bool:
 	var rally_c: RallyComponent = entity.get_node_or_null(Constants.RALLY_COMPONENT_NODE_PATH)
-	if not rally_c or rally_c.arrived:
+	if not rally_c:
 		return false
 		
-	if not rally_c.is_force_rally and not entity.state & (Entity.State.IDLE | Entity.State.RALLY):
+	if not entity.state & Entity.State.RALLY:
 		return false
 		
 	if rally_c.navigation_agent.is_navigation_finished():
-		rally_c.arrived = true
-		rally_c.is_force_rally = false
 		entity.state = Entity.State.IDLE
 		return false
 
@@ -26,14 +24,15 @@ func _on_update(entity: Entity) -> bool:
 		* rally_c.config.speed 
 		* TimeManager.frame_length
 	)
-	rally_c.navigation_agent.velocity = velocity
-	var animated_sprite_c: AnimatedSpriteComponent = entity.get_node_or_null(Constants.ANIMATED_SPRITE_COMPONENT_NODE_PATH)
+	var distance_squared: float = entity.global_position.distance_squared_to(next_path_position)
+	if velocity.length_squared() > distance_squared:
+		velocity = velocity.limit_length(sqrt(distance_squared))
 	
 	var next_global_position: Vector2 = entity.global_position + velocity
 	entity.facing_global_position = next_global_position
+	var animated_sprite_c: AnimatedSpriteComponent = entity.get_node_or_null(Constants.ANIMATED_SPRITE_COMPONENT_NODE_PATH)
 	animated_sprite_c.play_animation(entity, rally_c.config.motion_animation, &"walk")
 	entity.global_position = next_global_position
 	entity.facing_global_position = next_global_position + velocity
-	entity.state = Entity.State.RALLY
 	
 	return true

@@ -84,17 +84,15 @@ static func point_at_polar_offset(center: Vector2, radius: float, angle: float) 
 #region 椭圆相关工具函数。
 ## 计算点到椭圆中心的归一化距离。
 static func ellipse_distance_normalized(dx: float, dy: float, radius: float, aspect: float = 0.7) -> float:
-	return (dx / radius) ** 2 + (dy / radius * aspect) ** 2
+	return (dx / radius) ** 2 + (dy / (radius * aspect)) ** 2
 
 
 ## 判断点是否位于椭圆中，包含椭圆的边界上的点。
 static func is_in_ellipse(center: Vector2, point: Vector2, radius: float, aspect: float = 0.7) -> bool:
-	var a: float = radius
-	var b: float = radius * aspect
 	var dx: float = point.x - center.x
 	var dy: float = point.y - center.y
-
-	return (dx / a) ** 2 + (dy / b) ** 2 <= 1
+	
+	return ellipse_distance_normalized(dx, dy, radius, aspect) <= 1
 
 
 ## 判断点是否位于椭圆环内，包含椭圆环的边界上的点。
@@ -188,7 +186,7 @@ static func to_percent(number: float) -> float:
 
 ## 判断点是否到达目标位置。
 static func is_at_destination(position: Vector2, target_position: Vector2, threshold: float = 5.0) -> bool:
-	return position.distance_to(target_position) <= threshold
+	return position.distance_squared_to(target_position) <= threshold ** 2
 
 
 ## 根据角度获取上/下/左/右四方向中的一个，见 [enum Enums.Direction]。

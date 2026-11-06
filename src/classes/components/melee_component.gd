@@ -4,9 +4,8 @@ extends Component
 class_name MeleeComponent
 ## 近战组件
 ##
-## [MeleeComponent] 可以让实体可以使用近战技能与拦截，每个近战近战以 [MeleeSkill] 资源子节点的形式存在。[br][br]
-## 若 [member is_blocker] 为 [code]true[/code] 作为拦截者：搜索并标记被拦截者，前往第一个被拦截者的近战位置。[br]
-## 若 [member is_blocker] 为 [code]false[/code] 作为被拦截者：如果是第一个被拦截等待拦截者到达近战位置，如果拦截者的 [member is_passive] 为 [code]true[/code] 则主动前往拦截者的近战位置。
+## [MeleeComponent] 可以让实体可以拦截目标然后使用 [MeleeSkill] 攻击被拦截的目标，近战技能以子节点的形式存在。[br][br]
+##
 
 
 @warning_ignore_start("unused_signal")
@@ -17,21 +16,22 @@ signal start_melee_skill_cooldown(skill: MeleeSkill)
 @warning_ignore_restore("unused_signal")
 
 
-## 近战状态枚举。
-enum MeleeState {
-	## 近战状态：到达原位置。
+## 状态枚举。
+enum State {
+	## 状态：已到达原始位置。
 	ORIGINAL_POSITION_ARRIVED,
-	## 近战状态：返回位置中。
-	ORIGINAL_POSITION_MOVING,      
-	## 近战状态：已到达位置。
-	MELEE_POSITION_ARRIVED,    
-	## 近战状态：前往近战位置中。
-	MELEE_POSITION_MOVING,  
+	## 状态：返回原始位置中。
+	ORIGINAL_POSITION_MOVING,
+	## 状态：已到达拦截位置。
+	BLOCK_POSITION_ARRIVED,
+	## 状态：前往拦截位置中。
+	BLOCK_POSITION_MOVING,
 }
 
 
-@export var config: MeleeComponentNodeConfig = null:
-	set(v): 
+#region 属性
+@export var config: MeleeComponentNodeConfig:
+	set(v):
 		SignalUtils.reconnect_resource_changed(config, v, _on_config_changed)
 		config = v
 		update_configuration_warnings()
@@ -39,130 +39,103 @@ enum MeleeState {
 
 ## 是否是拦截者。
 var is_blocker: bool = false
-## 拦截者 ID 列表。
-var blocker_id_list := PackedInt32Array()
-## 拦截数量，根据被拦截者的拦截成本计算。
-var blocked_count: int = 0
-## 被拦截者 ID 列表。
-var blocked_id_list := PackedInt32Array()
-## 是额外拦截者。
-var is_extra_blocker: bool = false
+## 状态。
+var state: State = State.ORIGINAL_POSITION_ARRIVED
+## 被拦截的目标数量，包含拦截成本。
+var target_count: int
+## 被拦截的目标 ID 列表。
+var target_ids: PackedInt32Array
 ## 原始全局位置。
-var original_global_position := Vector2.ZERO
-## 近战全局位置。
-var melee_global_position := Vector2.ZERO
-## 移动速度。
-var velocity := Vector2.ZERO
-## 近战状态。
-var melee_state: MeleeState = MeleeState.ORIGINAL_POSITION_ARRIVED
+var original_global_position: Vector2
+## 拦截全局位置。
+var block_global_position: Vector2
+## 是否额外拦截者。
+var is_extra_blocker: bool = false
+#endregion
 
 
 func _draw() -> void:
 	if not config:
 		return
-		
+
 	if DebugManager.draw_range_enabled:
 		if config.searcher:
 			config.searcher.draw_search_range(self, position)
 
 	if DebugManager.draw_offset_enabled:
-		if config.melee_position_offsets:
-			config.melee_position_offsets.draw_offset_group(self)
+		if config.block_position_offsets:
+			config.block_position_offsets.draw_offset_group(self)
+
+	if DebugManager.draw_point_enabled:
+		if block_global_position:
+			var original_position: Vector2 = to_local(original_global_position)
+			var block_position: Vector2 = to_local(block_global_position)
+			draw_circle(
+				original_position,
+				9,
+				Color.RED,
+				true
+			)
+			draw_circle(
+				block_position,
+				9,
+				Color.RED,
+				true
+			)
+			draw_dashed_line(
+				original_position,
+				block_position,
+				Color.RED,
+				2
+			)
 
 
 func _get_configuration_warnings() -> PackedStringArray:
 	var warnings: PackedStringArray = super()
-	
+
 	if not get_children():
 		warnings.append("请至少增加一个 MeleeSkill 或其类型的子节点，否则实体无法释放近战技能。")
-	
+
 	return warnings
 
-	
-## 拦截者绑定拦截关系。
-func blocker_bind_melee_relations(blocker_id: int, blocked_id: int) -> void: 
-	var blocked: Entity = EntityManager.get_entity_by_id(blocked_id)
-	var blocked_melee_c: MeleeComponent = blocked.get_node_or_null(Constants.MELEE_COMPONENT_NODE_PATH)
-	
-	blocked_melee_c.blocker_id_list.append(blocker_id)
-	blocked_id_list.append(blocked_id)
-	blocked_count += blocked_melee_c.config.block_cost
+
+## 拦截目标。
+func block_target(entity: Entity, target: Entity) -> void:
+	var target_melee_c: MeleeComponent = target.get_node_or_null(Constants.MELEE_COMPONENT_NODE_PATH)
+	var target_melee_c_config: MeleeComponentNodeConfig = target_melee_c.config
+	target_melee_c.target_ids.append(entity.id)
+	target_melee_c.target_count += config.block_cost
+	target.state = Entity.State.MELEE
+
+	target_ids.append(target.id)
+	target_count += target_melee_c_config.block_cost
+	entity.state = Entity.State.MELEE
 
 
-## 被拦截者绑定拦截关系。
-func blocked_bind_melee_relations(blocker_id: int, blocked_id: int) -> void: 
-	var blocker: Entity = EntityManager.get_entity_by_id(blocker_id)
-	var blocker_melee_c: MeleeComponent = blocker.get_node_or_null(Constants.MELEE_COMPONENT_NODE_PATH)
-	
-	blocker_id_list.append(blocker_id)
-	blocker_melee_c.blocked_id_list.append(blocked_id)
-	blocker_melee_c.blocked_count += config.block_cost
+## 单向解除拦截目标。
+func unblock_target(entity: Entity, target: Entity) -> void:
+	var target_melee_c: MeleeComponent = target.get_node_or_null(Constants.MELEE_COMPONENT_NODE_PATH)
+	target_melee_c.target_ids.erase(entity.id)
+	target_melee_c.target_count -= config.block_cost
 
 
-## 拦截者解除拦截关系。
-func blocker_unbind_melee_relations(entity: Entity) -> void:
-	for blocked_id: int in blocked_id_list:
-		var blocked: Entity = EntityManager.get_entity_by_id(blocked_id)
-		var blocked_melee_c: MeleeComponent = blocked.get_node_or_null(Constants.MELEE_COMPONENT_NODE_PATH)
-		blocked_melee_c.blocker_id_list.erase(entity.id)
-		
-	blocked_id_list.clear()
-	blocked_count = 0
-	melee_state = MeleeState.ORIGINAL_POSITION_ARRIVED
-	is_extra_blocker = false
+## 解除双方拦截的目标。
+func unblock_target_both(entity: Entity, target: Entity) -> void:
+	var target_melee_c: MeleeComponent = target.get_node_or_null(Constants.MELEE_COMPONENT_NODE_PATH)
+	unblock_target(entity, target)
+
+	target_ids.erase(target.id)
+	target_count -= target_melee_c.config.block_cost
 
 
-## 被拦截者解除拦截关系。
-func blocked_unbind_melee_relations(entity: Entity) -> void:
-	for blocker_id: int in blocker_id_list:
-		var blocker: Entity = EntityManager.get_entity_by_id(blocker_id)
-		var blocker_melee_c: MeleeComponent = blocker.get_node_or_null(Constants.MELEE_COMPONENT_NODE_PATH)
-		blocker_melee_c.blocked_id_list.erase(entity.id)
-	
-	blocker_id_list.clear()
+## 解除所有拦截目标。
+func unblock_all_targets(entity: Entity) -> void:
+	for target_id: int in target_ids:
+		var target: Entity = EntityManager.get_entity_by_id(target_id)
+		var target_melee_c: MeleeComponent = target.get_node_or_null(Constants.MELEE_COMPONENT_NODE_PATH)
+		target_melee_c.target_ids.erase(entity.id)
+		target_melee_c.target_count -= config.block_cost
 
-
-## 拦截者清理无效拦截关系。
-func blocker_cleanup_melee_relations(entity: Entity) -> void:
-	var center: Vector2 = entity.global_position
-	var rally_c: RallyComponent = entity.get_node_or_null(Constants.RALLY_COMPONENT_NODE_PATH)
-	if rally_c:
-		center = rally_c.rally_center_global_position
-
-	var new_blockeds_ids := PackedInt32Array()
-	blocked_count = 0
-	
-	for id: int in blocked_id_list:
-		var blocked: Entity = EntityManager.get_entity_by_id(id)
-		if not blocked:
-			continue 
-		
-		var search_flag: int = config.searcher.search_flag
-		if search_flag & Searcher.SearchFlag.SKIP_DEAD and blocked.state & Entity.State.DEAD:
-			continue
-			
-		if not MathUtils.is_in_elliptical_annulus(
-				center, blocked.global_position, config.searcher.max_radius, config.searcher.min_radius
-			):
-			continue
-			
-		var b_melee_c: MeleeComponent = blocked.get_node_or_null(Constants.MELEE_COMPONENT_NODE_PATH)
-		
-		new_blockeds_ids.append(id)
-		blocked_count += b_melee_c.config.block_cost
-		
-	blocked_id_list = new_blockeds_ids
-
-
-## 被拦截者清理无效拦截关系。
-func blocked_cleanup_melee_relations(_e: Entity) -> void:
-	var new_blockers_ids := PackedInt32Array()
-	
-	for id: int in blocker_id_list:
-		var blocker: Entity = EntityManager.get_entity_by_id(id)
-		if not blocker:
-			continue 
-			
-		new_blockers_ids.append(id)
-		
-	blocker_id_list = new_blockers_ids
+	target_ids.clear()
+	target_count = 0
+	state = State.ORIGINAL_POSITION_MOVING

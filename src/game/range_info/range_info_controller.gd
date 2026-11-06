@@ -54,8 +54,7 @@ func _show(entity: Entity) -> void:
 
 	var melee_c: MeleeComponent = selected_entity.get_node_or_null(Constants.MELEE_COMPONENT_NODE_PATH)
 	if melee_c:
-		if melee_c.is_blocker:
-			_create_range_info_circle(melee_range_info_scene, entity)
+		_create_range_info_circle(melee_range_info_scene, entity)
 
 	var barrack_c: BarrackComponent = selected_entity.get_node_or_null(Constants.BARRACK_COMPONENT_NODE_PATH)
 	if barrack_c:

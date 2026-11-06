@@ -40,18 +40,18 @@ enum SearchFlag {
 
 ## 搜索中心偏移量。
 @export var center_offsets: FacingOffsetSet = null:
-	set(v): 
+	set(v):
 		SignalUtils.reconnect_resource_changed(center_offsets, v, emit_changed)
 		center_offsets = v
 		emit_changed()
 ## 搜索最小半径。
 @export var min_radius: float = 0.0:
-	set(v): 
+	set(v):
 		min_radius = v
 		emit_changed()
 ## 搜索最大半径。
 @export var max_radius: float = 0.0:
-	set(v): 
+	set(v):
 		max_radius = v
 		emit_changed()
 ## 最大搜索目标数量，-1 表示不限制。
@@ -129,22 +129,21 @@ func search_targets(center: Vector2, entity: Entity = null, filter := Callable()
 			match target_faction:
 				InteractPolicyComponent.Faction.ENEMY: faction = InteractPolicyComponent.Faction.FRIENDLY
 				InteractPolicyComponent.Faction.FRIENDLY: faction = InteractPolicyComponent.Faction.ENEMY
-	
+
 	filter = _get_packed_filter(entity, interact_policy_c, filter)
 	var targets: Array[Entity] = (
-		EntitySpatialHashManager.search_entities_in_ellipse_filtered(
-			center, 
-			min_radius, 
-			max_radius, 
+		EntitySpatialHashManager.search_entities_in_elliptical_annulus_filtered(
+			center,
+			max_radius,
+			min_radius,
 			faction,
 			target_entity_types,
 			filter,
-		) 
-		if filter.is_valid() else 
-		EntitySpatialHashManager.search_entities_in_ellipse(
-			center, 
-			min_radius, 
-			max_radius, 
+		) if filter.is_valid()
+		else EntitySpatialHashManager.search_entities_in_elliptical_annulus(
+			center,
+			max_radius,
+			min_radius,
 			faction,
 			target_entity_types,
 		)
@@ -165,25 +164,25 @@ func search_targets(center: Vector2, entity: Entity = null, filter := Callable()
 			for flag: InteractPolicyComponent.EntityFlag in interact_policy_flag_sort_prioritys:
 				if not has_flags & flag:
 					continue
-				
+
 				if not buckets.has(flag):
 					var bucket: Array[Entity] = []
 					buckets[flag] = bucket
-					
+
 				buckets[flag].append(target)
 				is_found = true
 				break
 
 			if is_found:
 				continue
-			
+
 			other_entities.append(target)
 
 		var new_targets: Array[Entity] = []
 		for flag: InteractPolicyComponent.EntityFlag in interact_policy_flag_sort_prioritys:
 			if not buckets.has(flag):
 				continue
-				
+
 			var bucket: Array[Entity] = buckets[flag]
 			_sort_targets(bucket, center)
 			new_targets.append_array(bucket)
@@ -204,12 +203,12 @@ func _get_packed_filter(entity: Entity, interact_policy_c: InteractPolicyCompone
 	var extra_filters: Array[Callable] = []
 	if search_flag & SearchFlag.SKIP_DOOMED: extra_filters.append(_skip_doomed_filter)
 	if search_flag & SearchFlag.SKIP_DEAD: extra_filters.append(_skip_dead_filter)
-			
+
 	if extra_filters.size() > 0:
 		var extra_filter: Callable = func(target: Entity) -> bool:
 			if exclude_self_entity_enabled and target == entity:
 				return false
-				
+
 			var target_interact_policy_c: InteractPolicyComponent = target.get_node_or_null(Constants.INTERACT_POLICY_COMPONENT_NODE_PATH)
 			if interact_policy_c and target_interact_policy_c:
 				if interact_policy_c.is_banned_either(target_interact_policy_c, entity.scene_file_uid, target.scene_file_uid):
@@ -221,7 +220,7 @@ func _get_packed_filter(entity: Entity, interact_policy_c: InteractPolicyCompone
 				return false
 			return true
 		if filter.is_valid():
-			filter = func(target: Entity) -> bool: 
+			filter = func(target: Entity) -> bool:
 				return filter.call(target) and extra_filter.call(target)
 		else:
 			filter = extra_filter
@@ -321,7 +320,7 @@ func _sort_by_distance(a: Entity, b: Entity, search_global_position: Vector2) ->
 func _sort_by_melee_damage(a: Entity, b: Entity) -> bool:
 	var melee_damage_a: float = INF if sort_ascending_enabled else -INF
 	var melee_damage_b: float = INF if sort_ascending_enabled else -INF
-	
+
 	var a_melee_c: MeleeComponent = a.get_node_or_null(Constants.MELEE_COMPONENT_NODE_PATH)
 	if a_melee_c:
 		var first_melee_skill := a_melee_c.get_child(0) as MeleeSkill
@@ -344,7 +343,7 @@ func _sort_by_melee_damage(a: Entity, b: Entity) -> bool:
 func _sort_by_ranged_damage(a: Entity, b: Entity) -> bool:
 	var ranged_damage_a: float = INF if sort_ascending_enabled else -INF
 	var ranged_damage_b: float = INF if sort_ascending_enabled else -INF
-		
+
 	var a_skill_c: SkillComponent = a.get_node_or_null(Constants.SKILL_COMPONENT_NODE_PATH)
 	if a_skill_c:
 		var first_ranged_skill := a_skill_c.get_child(0) as RangedSkill
@@ -371,6 +370,6 @@ func _sort_by_ranged_damage(a: Entity, b: Entity) -> bool:
 func _sort_by_id(a: Entity, b: Entity) -> bool:
 	var id_a: int = a.id
 	var id_b: int = b.id
-	
+
 	return id_a < id_b if sort_ascending_enabled else id_a > id_b
 #endregion

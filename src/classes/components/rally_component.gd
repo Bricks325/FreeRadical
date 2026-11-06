@@ -17,10 +17,6 @@ const navigation_agent_path: NodePath = ^"NavigationAgent2D"
 		update_configuration_warnings()
 		queue_redraw()
 
-## 是否已到达集结位置。
-var arrived: bool = false
-## 是否强制集结。
-var is_force_rally: bool = false
 ## 集结中心全局位置。
 var rally_center_global_position := Vector2.ZERO
 
@@ -45,18 +41,15 @@ func _get_configuration_warnings() -> PackedStringArray:
 
 ## 设置新的集结全局位置。
 func new_rally_global_position(
-		p_entity: Entity,
+		entity: Entity,
 		new_global_position: Vector2, 
-		is_forced: bool = false,
 		center: Vector2 = new_global_position,
 		play_sfx: bool = true
 	) -> void:
-	is_force_rally = is_forced
-	if is_forced:
-		if p_entity.state & Entity.State.WAITING:
-			p_entity.state |= Entity.State.INTERRUPT_WAIT
+	if entity.state & Entity.State.WAITING:
+		entity.state |= Entity.State.INTERRUPT_WAIT
 	
-	arrived = false
+	entity.state = Entity.State.RALLY
 	navigation_agent.target_position = new_global_position
 	rally_center_global_position = center
 	

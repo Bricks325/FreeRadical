@@ -15,7 +15,7 @@ func _init_trajectory(bullet: Entity, bullet_c: BulletComponent, _target: Entity
 
 
 func _update_trajectory(bullet: Entity, bullet_c: BulletComponent, target: Entity, _flying_time: float, _delta: float) -> void:
-	if is_instance_valid(target):
+	if target:
 		var to: Vector2 = target.global_position
 		var offset_c: OffsetComponent = target.get_node_or_null(Constants.OFFSET_COMPONENT_NODE_PATH)
 		if offset_c and offset_c.config.hit_offsets:

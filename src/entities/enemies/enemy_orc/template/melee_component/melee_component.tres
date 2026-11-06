@@ -16,4 +16,4 @@ resource_local_to_scene = true
 script = ExtResource("1_ij2k1")
 speed = 41.0
 motion_animation = ExtResource("2_hllld")
-melee_position_offsets = SubResource("Resource_5aqn7")
+block_position_offsets = SubResource("Resource_5aqn7")

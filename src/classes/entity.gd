@@ -73,11 +73,11 @@ enum SourceType {
 		update_configuration_warnings()
 
 ## 实体场景名称。
-var scene_name: String = ""
+var scene_name: String
 ## 场景 UID。
-var scene_file_uid: String = ""
+var scene_file_uid: String
 ## 实体本地化名称。
-var localization_key: String = ""
+var localization_key: String
 ## 实体唯一 ID。
 var id: int = Constants.UNSET
 ## 所有者或来源 ID。
@@ -85,15 +85,15 @@ var source_id: int = Constants.UNSET
 ## 来源类型。
 var source_type: SourceType = SourceType.NONE
 ## 拥有的修改器 ID 列表。
-var has_modifier_ids := PackedInt32Array()
+var has_modifier_ids: PackedInt32Array
 ## 拥有的修改器 ID 列表是否变化。
-var is_modifier_ids_changed: bool = false
+var is_modifier_ids_changed: bool
 ## 拥有的光环 ID 列表。
-var has_aura_ids := PackedInt32Array()
+var has_aura_ids: PackedInt32Array
 ## 以此实体为目标的子弹 ID 列表。
-var aimed_bullet_ids := PackedInt32Array()
+var aimed_bullet_ids: PackedInt32Array
 ## 以此实体为目标的子弹 ID 列表是否变化。
-var is_aimed_bullet_ids_changed: bool = false
+var is_aimed_bullet_ids_changed: bool
 ## 状态。
 var state: int = Entity.State.IDLE
 ## 元状态。

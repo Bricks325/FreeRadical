@@ -61,7 +61,7 @@ func _process_select_mode() -> void:
 			var rally_c: RallyComponent = SelectManager.selected_entity.get_node_or_null(
 				Constants.RALLY_COMPONENT_NODE_PATH
 			)
-			rally_c.new_rally_global_position(SelectManager.selected_entity, InputManager.mouse_global_position, true)
+			rally_c.new_rally_global_position(SelectManager.selected_entity, InputManager.mouse_global_position)
 		SelectManager.SelectMode.BARRACK_RALLY:
 			var entity_global_position: Vector2 = SelectManager.selected_entity.global_position
 			var mouse_global_position: Vector2 = InputManager.mouse_global_position
@@ -77,7 +77,7 @@ func _process_select_mode() -> void:
 				rally_max_range,
 				rally_min_range
 			):
-				barrack_c.set_all_rally_center_global_position(mouse_global_position, true)
+				barrack_c.set_all_rally_center_global_position(mouse_global_position)
 			else:
 				var angle: float = entity_global_position.angle_to_point(mouse_global_position)
 				
@@ -94,7 +94,7 @@ func _process_select_mode() -> void:
 						rally_max_range,
 						angle
 					)
-				barrack_c.set_all_rally_center_global_position(rally_center_global_position, true)
+				barrack_c.set_all_rally_center_global_position(rally_center_global_position)
 
 
 func _on_entity_tree_exiting() -> void:
