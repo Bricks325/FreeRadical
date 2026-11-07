@@ -1,23 +1,23 @@
 @tool
 extends Node2D
-## 路径管理器
+class_name PathwayContainer
+## 路径容器。
 ##
-## 管理路径子节点 [Pathway]
+## [PathwayContainer] 用于存储 [Pathway]。
 
 
 func _ready() -> void:
 	if Engine.is_editor_hint():
 		return
-		
-	_process_path_intersection()
+	
+	_preprocess_pathway_intersection()
 
 
-## 处理路径相交。
-func _process_path_intersection() -> void:
+## 预处理路径相交。
+func _preprocess_pathway_intersection() -> void:
 	var all_nodes: Array[PathwayNode] = PathwayManager.all_nodes
 	var threshold: float = PathwayManager.intersect_dist_threshold
 	var cell_size: float = threshold
-
 	var grid: Dictionary[Array, Array] = {}
 
 	for node: PathwayNode in all_nodes:

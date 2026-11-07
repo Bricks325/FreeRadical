@@ -1,9 +1,18 @@
 [gd_scene format=3 uid="uid://c3pw2s2ybgdou"]
 
-[ext_resource type="PackedScene" uid="uid://cxohlj7mh8hb6" path="res://game/ui_canvas_layer/top_hbox_container/top_hbox_container.tscn" id="1_olxg3"]
 [ext_resource type="Script" uid="uid://cpnmrjrpdut1d" path="res://game/ui_canvas_layer/ui_canvas_layer.gd" id="1_x1lfd"]
-[ext_resource type="PackedScene" uid="uid://dguwvlhp3jmgn" path="res://game/ui_canvas_layer/bottom_hbox_container/bottom_hbox_container.tscn" id="2_x1lfd"]
+[ext_resource type="Texture2D" uid="uid://fr2p18p8awcs" path="res://assets/atlas/atlas_textures/game_gui/top_left.tres" id="2_7edy2"]
+[ext_resource type="Script" uid="uid://b6nruw0fv66nd" path="res://game/ui_canvas_layer/top_hbox_container/life_value_label.gd" id="3_300mx"]
+[ext_resource type="Script" uid="uid://bwog06cp2x3g4" path="res://game/ui_canvas_layer/top_hbox_container/cash_value_label.gd" id="4_d6uq1"]
 [ext_resource type="PackedScene" uid="uid://rq35ixpelpas" path="res://game/ui_canvas_layer/game_debug_menu/game_debug_menu.tscn" id="4_l1fhb"]
+[ext_resource type="Script" uid="uid://0ij1hpn28sd7" path="res://game/ui_canvas_layer/top_hbox_container/wave_value_label.gd" id="5_wrktv"]
+[ext_resource type="Script" uid="uid://c63j83w3vyiym" path="res://game/ui_canvas_layer/top_hbox_container/speed_button.gd" id="6_vhl28"]
+[ext_resource type="Texture2D" uid="uid://b2d6l4o80yl4d" path="res://assets/atlas/atlas_textures/game_gui/pause_base.tres" id="7_vajb2"]
+[ext_resource type="Texture2D" uid="uid://dvpechw5vc1lw" path="res://assets/atlas/atlas_textures/game_gui/pause_btn_0001.tres" id="8_udlvk"]
+[ext_resource type="Texture2D" uid="uid://rc4nl7q77bmq" path="res://assets/atlas/atlas_textures/game_gui/pause_btn_0002.tres" id="9_4eoio"]
+[ext_resource type="Script" uid="uid://c2b6jq0ncd151" path="res://game/ui_canvas_layer/top_hbox_container/pause_texture_button.gd" id="10_oe57e"]
+[ext_resource type="PackedScene" uid="uid://mfnosman5g4t" path="res://game/ui_canvas_layer/bottom_hbox_container/skills.tscn" id="12_use3o"]
+[ext_resource type="PackedScene" uid="uid://g4ovunr1s3vb" path="res://game/ui_canvas_layer/bottom_hbox_container/entity_info_bar.tscn" id="13_nu8nw"]
 
 [node name="UICanvasLayer" type="CanvasLayer" unique_id=934359936]
 process_mode = 3
@@ -27,8 +36,66 @@ size_flags_vertical = 3
 mouse_filter = 2
 theme_override_constants/separation = 20
 
-[node name="TopHBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1978266969 instance=ExtResource("1_olxg3")]
+[node name="TopHBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1978266969]
 layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="PlayerStatsBackground" type="TextureRect" parent="MarginContainer/VBoxContainer/TopHBoxContainer" unique_id=337611053]
+layout_mode = 2
+texture = ExtResource("2_7edy2")
+
+[node name="LifeValueLabel" type="Label" parent="MarginContainer/VBoxContainer/TopHBoxContainer/PlayerStatsBackground" unique_id=287686407]
+layout_mode = 0
+offset_left = 144.0
+offset_top = 22.0
+offset_right = 178.0
+offset_bottom = 64.0
+text = "20"
+script = ExtResource("3_300mx")
+
+[node name="CashValueLabel" type="Label" parent="MarginContainer/VBoxContainer/TopHBoxContainer/PlayerStatsBackground" unique_id=461566231]
+layout_mode = 0
+offset_left = 247.0
+offset_top = 22.0
+offset_right = 298.0
+offset_bottom = 64.0
+text = "500"
+script = ExtResource("4_d6uq1")
+
+[node name="WaveValueLabel" type="Label" parent="MarginContainer/VBoxContainer/TopHBoxContainer/PlayerStatsBackground" unique_id=29332469]
+layout_mode = 0
+offset_left = 449.0
+offset_top = 22.0
+offset_right = 495.0
+offset_bottom = 64.0
+text = "0/6"
+script = ExtResource("5_wrktv")
+
+[node name="Spacer" type="Control" parent="MarginContainer/VBoxContainer/TopHBoxContainer" unique_id=1638167074]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="SpeedButton" type="Button" parent="MarginContainer/VBoxContainer/TopHBoxContainer" unique_id=1346277862]
+layout_mode = 2
+toggle_mode = true
+text = "1.0x"
+script = ExtResource("6_vhl28")
+
+[node name="PauseBackground" type="TextureRect" parent="MarginContainer/VBoxContainer/TopHBoxContainer" unique_id=1012152388]
+layout_mode = 2
+texture = ExtResource("7_vajb2")
+
+[node name="PauseTextureButton" type="TextureButton" parent="MarginContainer/VBoxContainer/TopHBoxContainer/PauseBackground" unique_id=1274899798]
+layout_mode = 0
+offset_left = 66.0
+offset_top = 15.0
+offset_right = 145.0
+offset_bottom = 86.0
+texture_normal = ExtResource("8_udlvk")
+texture_hover = ExtResource("9_4eoio")
+script = ExtResource("10_oe57e")
 
 [node name="GameDebugMenu" parent="MarginContainer/VBoxContainer" unique_id=1295185256 instance=ExtResource("4_l1fhb")]
 layout_mode = 2
@@ -38,5 +105,20 @@ layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="BottomBar" parent="MarginContainer/VBoxContainer" unique_id=1514093739 instance=ExtResource("2_x1lfd")]
+[node name="BottomBar" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1514093739]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 30
+alignment = 2
+
+[node name="Skills" parent="MarginContainer/VBoxContainer/BottomBar" unique_id=851295426 instance=ExtResource("12_use3o")]
+layout_mode = 2
+
+[node name="BottomSpacer" type="Control" parent="MarginContainer/VBoxContainer/BottomBar" unique_id=1545679964]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="EntityInfoBar" parent="MarginContainer/VBoxContainer/BottomBar" unique_id=1937124006 instance=ExtResource("13_nu8nw")]
 layout_mode = 2

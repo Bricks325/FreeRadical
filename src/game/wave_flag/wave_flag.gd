@@ -6,10 +6,10 @@ class_name WaveFlag
 ## 用于显示波次到来时间与释放波次
 
 
-## 绑定的 [Pathway] 路径节点。
-@export var bound_pathway_node: Pathway = null:
+## 绑定的 [Pathway]。
+@export var pathway: Pathway = null:
 	set(v):
-		bound_pathway_node = v
+		pathway = v
 		update_configuration_warnings()
 
 ## 箭头旋转角度
@@ -67,15 +67,9 @@ func _ready() -> void:
 func _get_configuration_warnings() -> PackedStringArray:
 	var warnings := PackedStringArray()
 
-	if not bound_pathway_node:
-		warnings.append("请在 bound_pathway_node 中绑定一个 Pathway 路径节点。")
-	else:
-		var bound_pathway_index: int = bound_pathway_node.get_index()
-		var wave_flag_index: int = get_index()
-		
-		if bound_pathway_index != wave_flag_index:
-			warnings.append("bound_pathway_node 绑定的 Pathway 路径节点索引为 %d，但当前波次旗帜索引为 %d，为了规范性建议将它们对应起来。" % [bound_pathway_index, wave_flag_index])
-
+	if not pathway:
+		warnings.append("请在 pathway 中绑定一个 Pathway 路径节点。")
+	
 	if not arrow_rotation:
 		warnings.append("arrow_rotation 箭头旋转角度为 0，是否忘记设置？。")
 		

@@ -34,17 +34,11 @@ var current_influence_count: int = 0
 var influence_timestamp: float = 0.0
 
 
-func _validate_property(property: Dictionary):
-	match property.name:
-		"aura_type":
-			property.hint_string = "mask_check(%s)" % Type
-
-
 func _draw() -> void:
 	if not config:
 		return
 		
-	if DebugManager.draw_range_enabled:
+	if DebugDrawManager.is_drawer_visible(DebugDrawer.Type.RANGE):
 		if config.searcher:
 			config.searcher.draw_search_range(self, position)
 		if config.influence:

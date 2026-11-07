@@ -18,11 +18,11 @@ func _draw() -> void:
 	if not config:
 		return
 
-	if DebugManager.draw_range_enabled:
+	if DebugDrawManager.is_drawer_visible(DebugDrawer.Type.RANGE):
 		if config.searcher:
 			config.searcher.draw_search_range(self, position)
 
-	if DebugManager.draw_offset_enabled:
+	if DebugDrawManager.is_drawer_visible(DebugDrawer.Type.OFFSET):
 		if config.spawn_offsets:
 			config.spawn_offsets.draw_offset_group(self)
 
@@ -41,8 +41,7 @@ func _use_skill(entity: Entity, target: Entity = null) -> void:
 	var spawn_global_position: Vector2 = target.global_position if config.searcher else entity_global_position
 	entity.facing_global_position = spawn_global_position
 	if config.spawn_offsets:
-		var spawn_offset: Vector2 = config.spawn_offsets.get_offset_toward_point(entity_global_position, spawn_global_position)
-		spawn_global_position += spawn_offset
+		spawn_global_position += config.spawn_offsets.get_offset_toward_point(entity_global_position, spawn_global_position)
 	entity.facing_global_position = spawn_global_position
 	animated_sprite_c.play_animation(entity, config.animation, &"spawn")
 	if await entity.y_wait(config.delay):

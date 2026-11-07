@@ -18,11 +18,11 @@ func _draw() -> void:
 	if not config:
 		return
 
-	if DebugManager.draw_range_enabled:
+	if DebugDrawManager.is_drawer_visible(DebugDrawer.Type.RANGE):
 		if config.searcher:
 			config.searcher.draw_search_range(self, position)
 
-	if DebugManager.draw_offset_enabled:
+	if DebugDrawManager.is_drawer_visible(DebugDrawer.Type.OFFSET):
 		if config.bullet_offsets:
 			config.bullet_offsets.draw_offset_group(self)
 

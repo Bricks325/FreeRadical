@@ -58,15 +58,15 @@ func _draw() -> void:
 	if not config:
 		return
 
-	if DebugManager.draw_range_enabled:
+	if DebugDrawManager.is_drawer_visible(DebugDrawer.Type.RANGE):
 		if config.searcher:
 			config.searcher.draw_search_range(self, position)
 
-	if DebugManager.draw_offset_enabled:
+	if DebugDrawManager.is_drawer_visible(DebugDrawer.Type.OFFSET):
 		if config.block_position_offsets:
 			config.block_position_offsets.draw_offset_group(self)
 
-	if DebugManager.draw_point_enabled:
+	if DebugDrawManager.is_drawer_visible(DebugDrawer.Type.POINT):
 		if block_global_position:
 			var original_position: Vector2 = to_local(original_global_position)
 			var block_position: Vector2 = to_local(block_global_position)

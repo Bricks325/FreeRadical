@@ -15,7 +15,7 @@ class_name OffsetComponent
 
 
 func _draw() -> void:
-	if DebugManager.draw_offset_enabled:
+	if DebugDrawManager.is_drawer_visible(DebugDrawer.Type.OFFSET):
 		if config:
 			if config.hit_offsets:
 				config.hit_offsets.draw_offset_group(self)

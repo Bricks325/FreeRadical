@@ -45,10 +45,9 @@ func _spawn_bullets(
 		bullet.rotation = bullet_rotation
 		var bullet_global_position: Vector2 = entity.global_position
 		if config.bullet_offsets:
-			var offset: Vector2 = config.bullet_offsets.get_offset_toward_point(
+			bullet_global_position += config.bullet_offsets.get_offset_toward_point(
 				entity.global_position, entity.facing_global_position
 			)
-			bullet_global_position += offset
 		bullet.global_position = bullet_global_position
 
 		EntityManager.queue_insert_entity(bullet)

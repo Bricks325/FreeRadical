@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://be4ofxijaafml" path="res://game/levels/level.tscn" id="1_v1h2f"]
 [ext_resource type="PackedScene" uid="uid://dxjst2smnggks" path="res://entities/spawners/wave_spawner/wave_spawner.tscn" id="2_h35x0"]
 [ext_resource type="Texture2D" uid="uid://crvvy8xb6n6ko" path="res://assets/atlas/atlas_textures/level_0/background.tres" id="2_r6jdw"]
-[ext_resource type="Resource" uid="uid://c3fao8aq2imhy" path="res://game/levels/level_4_wave.tres" id="4_r6jdw"]
+[ext_resource type="Resource" uid="uid://crsrgsrf3fyi3" path="res://game/levels/level_4_wave.tres" id="4_r6jdw"]
 [ext_resource type="PackedScene" uid="uid://cbim4b2xcnwsy" path="res://entities/tower_holders/tower_holder_cloud/tower_holder_cloud.tscn" id="5_u7kdy"]
 [ext_resource type="Script" uid="uid://5rvcj41ueju4" path="res://game/pathway/pathway.gd" id="7_1e0px"]
 [ext_resource type="PackedScene" uid="uid://cl3cd8sdbjwhv" path="res://entities/level_0/statue_decal/statue_decal.tscn" id="7_u7kdy"]
@@ -75,16 +75,16 @@ metadata/_scene_painted = true
 [node name="StatueDecal" parent="EntityWorld" parent_id_path=PackedInt32Array(1798674281) index="10" unique_id=1550676829 instance=ExtResource("7_u7kdy")]
 position = Vector2(1236.5, 552.5)
 
-[node name="Pathway" type="Path2D" parent="PathwayContainer" parent_id_path=PackedInt32Array(886912364) index="0" unique_id=817791901]
+[node name="Pathway" type="Path2D" parent="PathwayContainer" parent_id_path=PackedInt32Array(886912364) index="1" unique_id=817791901]
 curve = SubResource("Curve2D_mthp1")
 script = ExtResource("7_1e0px")
 metadata/_custom_type_script = "uid://5rvcj41ueju4"
 
-[node name="WaveFlag" parent="WaveFlagController" parent_id_path=PackedInt32Array(64694769) index="0" unique_id=1005784656 node_paths=PackedStringArray("bound_pathway_node") instance=ExtResource("8_r6jdw")]
+[node name="WaveFlag" parent="WaveFlagController" parent_id_path=PackedInt32Array(64694769) index="0" unique_id=1005784656 node_paths=PackedStringArray("pathway") instance=ExtResource("8_r6jdw")]
 layout_mode = 0
 offset_left = 1056.0
 offset_top = 58.0
 offset_right = 1141.0
 offset_bottom = 143.0
-bound_pathway_node = NodePath("../../PathwayContainer/Pathway")
+pathway = NodePath("../../PathwayContainer/Pathway")
 arrow_rotation = 0.33335788713091685

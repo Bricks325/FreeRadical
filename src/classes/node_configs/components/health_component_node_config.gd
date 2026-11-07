@@ -46,3 +46,10 @@ class_name HealthComponentNodeConfig
 @export var death_sfx: AudioGroup = null
 ## 死亡后实体移除延迟（秒）。
 @export var death_remove_delay: float = 2.0
+
+
+func _validate_property(property: Dictionary):
+	match property.name:
+		"immuned":
+			property.hint_string = "mask_check(%s)" % Damage.Type
+		

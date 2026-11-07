@@ -10,7 +10,7 @@ class_name Record
 func _ready():
 	process_mode = Node.PROCESS_MODE_DISABLED
 
-	DebugManager.draw_state_changed.connect(_on_draw_state_changed)
+	DebugDrawManager.drawer_visible_changed.connect(_on_drawer_visible_changed)
 
 
 func _get_configuration_warnings() -> PackedStringArray:
@@ -22,5 +22,5 @@ func _get_configuration_warnings() -> PackedStringArray:
 	return warnings
 
 
-func _on_draw_state_changed(_draw_type: DebugManager.DrawType) -> void:
+func _on_drawer_visible_changed(_drawer: DebugDrawer) -> void:
 	queue_redraw()

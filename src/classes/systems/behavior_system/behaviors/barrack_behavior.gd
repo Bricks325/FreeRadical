@@ -62,10 +62,9 @@ func _create_soldier(
 	var barrack_global_position: Vector2 = barrack.global_position
 	var soldier_global_position: Vector2 = barrack_global_position
 	if barrack_c_config.spawn_offsets:
-		var offset: Vector2 = barrack_c_config.spawn_offsets.get_offset_toward_point(
+		soldier_global_position += barrack_c_config.spawn_offsets.get_offset_toward_point(
 			barrack_global_position, barrack.facing_global_position
 		)
-		soldier_global_position += offset
 	soldier.global_position = soldier_global_position
 
 	EntityManager.queue_insert_entity(soldier)

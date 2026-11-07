@@ -18,11 +18,11 @@ func _draw() -> void:
 	if not config:
 		return
 		
-	if DebugManager.draw_range_enabled:
+	if DebugDrawManager.is_drawer_visible(DebugDrawer.Type.RANGE):
 		if config.searcher:
 			config.searcher.draw_search_range(self, position)
 
-	if DebugManager.draw_range_enabled:
+	if DebugDrawManager.is_drawer_visible(DebugDrawer.Type.RANGE):
 		if config.influence:
 			config.influence.draw_influence_range(self, position)
 

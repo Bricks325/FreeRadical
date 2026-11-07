@@ -122,7 +122,7 @@ func _process_sub_wave(wave: Wave) -> void:
 			nav_path_c_config.loop_enabled = spawn.loop_enabled
 			
 			var node: PathwayNode = nav_path_c.get_pathway_node(
-				PathwayManager.node_count - 1 if nav_path_c_config.reversed_enabled else 0
+				PathwayManager.sub_pathway_node_count - 1 if nav_path_c_config.reversed_enabled else 0
 			)
 			nav_path_c.set_nav_path(spawn.pathway_index, spawn.sub_pathway_index, node.index)
 		

@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://64enpxjk7ee2"]
+
+[ext_resource type="Script" uid="uid://dswgweyvy78e4" path="res://autoloads/managers/debug_draw_manager/debug_draw_manager.gd" id="1_hlc1q"]
+[ext_resource type="Script" uid="uid://ds2ebyjs8kwqv" path="res://autoloads/managers/debug_draw_manager/debug_multi_mesh_instance_drawers/pathway_drawer.gd" id="2_074em"]
+[ext_resource type="Script" uid="uid://ceb8h4hvol8od" path="res://autoloads/managers/debug_draw_manager/debug_multi_mesh_instance_drawers/entity_spatial_hash_grid.gd" id="3_p0f71"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_hccu1"]
+radius = 3.0
+height = 6.0
+radial_segments = 4
+rings = 16
+
+[sub_resource type="MultiMesh" id="MultiMesh_p0f71"]
+use_colors = true
+mesh = SubResource("SphereMesh_hccu1")
+
+[sub_resource type="QuadMesh" id="QuadMesh_r34ow"]
+
+[sub_resource type="MultiMesh" id="MultiMesh_i0xha"]
+use_colors = true
+mesh = SubResource("QuadMesh_r34ow")
+
+[node name="DebugDrawManager" type="Node2D" unique_id=1629816854]
+z_index = 1000
+script = ExtResource("1_hlc1q")
+
+[node name="PathwayDrawer" type="Node2D" parent="." unique_id=998977921 node_paths=PackedStringArray("multi_mesh_instance")]
+script = ExtResource("2_074em")
+multi_mesh_instance = NodePath("MultiMeshInstance2D")
+drawer_type = 2
+metadata/_custom_type_script = "uid://bnjx7hddtwtjq"
+
+[node name="MultiMeshInstance2D" type="MultiMeshInstance2D" parent="PathwayDrawer" unique_id=249600783]
+multimesh = SubResource("MultiMesh_p0f71")
+
+[node name="EntitySpatialHashGrid" type="Node2D" parent="." unique_id=1612021169 node_paths=PackedStringArray("multi_mesh_instance")]
+script = ExtResource("3_p0f71")
+multi_mesh_instance = NodePath("MultiMeshInstance2D")
+drawer_type = 6
+metadata/_custom_type_script = "uid://bnjx7hddtwtjq"
+
+[node name="MultiMeshInstance2D" type="MultiMeshInstance2D" parent="EntitySpatialHashGrid" unique_id=844954576]
+multimesh = SubResource("MultiMesh_i0xha")

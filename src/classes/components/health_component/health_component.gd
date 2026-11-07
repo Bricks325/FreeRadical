@@ -49,7 +49,7 @@ func _draw() -> void:
 	if not config:
 		return
 		
-	if DebugManager.draw_health_enabled:
+	if DebugDrawManager.is_drawer_visible(DebugDrawer.Type.HEALTH):
 		draw_string(
 			ThemeDB.fallback_font,
 			health_bar.position,
@@ -59,13 +59,6 @@ func _draw() -> void:
 			24,
 			Color.GREEN
 		)
-		
-
-
-func _validate_property(property: Dictionary):
-	match property.name:
-		"immuned":
-			property.hint_string = "mask_check(%s)" % Damage.Type
 			
 
 func _get_configuration_warnings() -> PackedStringArray:

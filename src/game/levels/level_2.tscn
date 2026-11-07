@@ -105,54 +105,54 @@ default_rally_center_position = Vector2(215.564, 47.109)
 position = Vector2(471, 478)
 default_rally_center_position = Vector2(150.674, 140.709)
 
-[node name="Pathway" type="Path2D" parent="PathwayContainer" parent_id_path=PackedInt32Array(886912364) index="0" unique_id=1468860882]
+[node name="Pathway" type="Path2D" parent="PathwayContainer" parent_id_path=PackedInt32Array(886912364) index="1" unique_id=1468860882]
 position = Vector2(-104, 311)
 curve = SubResource("Curve2D_0iaxv")
 script = ExtResource("3_sk5k4")
 
-[node name="Pathway2" type="Path2D" parent="PathwayContainer" parent_id_path=PackedInt32Array(886912364) index="1" unique_id=29691433]
+[node name="Pathway2" type="Path2D" parent="PathwayContainer" parent_id_path=PackedInt32Array(886912364) index="2" unique_id=29691433]
 position = Vector2(-104, 311)
 curve = SubResource("Curve2D_08mmt")
 script = ExtResource("3_sk5k4")
 
-[node name="Pathway3" type="Path2D" parent="PathwayContainer" parent_id_path=PackedInt32Array(886912364) index="2" unique_id=1219985068]
+[node name="Pathway3" type="Path2D" parent="PathwayContainer" parent_id_path=PackedInt32Array(886912364) index="3" unique_id=1219985068]
 curve = SubResource("Curve2D_l53as")
 script = ExtResource("3_sk5k4")
 
-[node name="Pathway4" type="Path2D" parent="PathwayContainer" parent_id_path=PackedInt32Array(886912364) index="3" unique_id=1679206438]
+[node name="Pathway4" type="Path2D" parent="PathwayContainer" parent_id_path=PackedInt32Array(886912364) index="4" unique_id=1679206438]
 curve = SubResource("Curve2D_3sk1a")
 script = ExtResource("3_sk5k4")
 
-[node name="WaveFlag" parent="WaveFlagController" parent_id_path=PackedInt32Array(64694769) index="0" unique_id=1969317594 node_paths=PackedStringArray("bound_pathway_node") instance=ExtResource("10_qxy0u")]
+[node name="WaveFlag" parent="WaveFlagController" parent_id_path=PackedInt32Array(64694769) index="0" unique_id=1969317594 node_paths=PackedStringArray("pathway") instance=ExtResource("10_qxy0u")]
 layout_mode = 1
 offset_left = 1134.0
 offset_top = 89.0
 offset_right = 1219.0
 offset_bottom = 174.0
-bound_pathway_node = NodePath("../../PathwayContainer/Pathway")
+pathway = NodePath("../../PathwayContainer/Pathway")
 
-[node name="WaveFlag2" parent="WaveFlagController" parent_id_path=PackedInt32Array(64694769) index="1" unique_id=1005784656 node_paths=PackedStringArray("bound_pathway_node") instance=ExtResource("10_qxy0u")]
+[node name="WaveFlag2" parent="WaveFlagController" parent_id_path=PackedInt32Array(64694769) index="1" unique_id=1005784656 node_paths=PackedStringArray("pathway") instance=ExtResource("10_qxy0u")]
 layout_mode = 1
 offset_left = 1206.0
 offset_top = 89.0
 offset_right = 1291.0
 offset_bottom = 174.0
-bound_pathway_node = NodePath("../../PathwayContainer/Pathway2")
+pathway = NodePath("../../PathwayContainer/Pathway2")
 
-[node name="WaveFlag3" parent="WaveFlagController" parent_id_path=PackedInt32Array(64694769) index="2" unique_id=1375735121 node_paths=PackedStringArray("bound_pathway_node") instance=ExtResource("10_qxy0u")]
+[node name="WaveFlag3" parent="WaveFlagController" parent_id_path=PackedInt32Array(64694769) index="2" unique_id=1375735121 node_paths=PackedStringArray("pathway") instance=ExtResource("10_qxy0u")]
 layout_mode = 1
 offset_left = 83.0
 offset_top = 553.0
 offset_right = 168.0
 offset_bottom = 638.0
-bound_pathway_node = NodePath("../../PathwayContainer/Pathway3")
+pathway = NodePath("../../PathwayContainer/Pathway3")
 arrow_rotation = -1.5707963267948966
 
-[node name="WaveFlag4" parent="WaveFlagController" parent_id_path=PackedInt32Array(64694769) index="3" unique_id=875018427 node_paths=PackedStringArray("bound_pathway_node") instance=ExtResource("10_qxy0u")]
+[node name="WaveFlag4" parent="WaveFlagController" parent_id_path=PackedInt32Array(64694769) index="3" unique_id=875018427 node_paths=PackedStringArray("pathway") instance=ExtResource("10_qxy0u")]
 layout_mode = 1
 offset_left = 83.0
 offset_top = 636.0
 offset_right = 168.0
 offset_bottom = 721.0
-bound_pathway_node = NodePath("../../PathwayContainer/Pathway4")
+pathway = NodePath("../../PathwayContainer/Pathway4")
 arrow_rotation = -1.5707963267948966

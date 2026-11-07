@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://cxohlj7mh8hb6"]
+[gd_scene format=3 uid="uid://boptxjf74patp"]
 
 [ext_resource type="Texture2D" uid="uid://fr2p18p8awcs" path="res://assets/atlas/atlas_textures/game_gui/top_left.tres" id="2_ki64j"]
 [ext_resource type="Script" uid="uid://b6nruw0fv66nd" path="res://game/ui_canvas_layer/top_hbox_container/life_value_label.gd" id="3_42nug"]

@@ -10,7 +10,7 @@ func _ready() -> void:
 		return
 
 	for child: WaveFlag in get_children():
-		pathway_to_wave_flag_map[child.bound_pathway_node] = child
+		pathway_to_wave_flag_map[child.pathway] = child
 
 	WaveManager.wave_timer_started.connect(_on_wave_timer_started)
 
@@ -26,6 +26,6 @@ func _get_configuration_warnings() -> PackedStringArray:
 
 func _on_wave_timer_started(wave_index: int) -> void:
 	for pathway_index in WaveManager.current_wave_pathway_indexes:
-		var bound_pathway_node: Pathway = PathwayManager.get_pathway(pathway_index)
-		var wave_flag: WaveFlag = pathway_to_wave_flag_map[bound_pathway_node]
+		var pathway: Pathway = PathwayManager.get_pathway(pathway_index)
+		var wave_flag: WaveFlag = pathway_to_wave_flag_map[pathway]
 		wave_flag._show(wave_index)

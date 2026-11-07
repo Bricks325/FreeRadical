@@ -5,17 +5,12 @@
 [ext_resource type="Script" uid="uid://b4u2704o6as1c" path="res://game/ui_canvas_layer/game_debug_menu/buttons/skip_wave_button.gd" id="2_mtqar"]
 [ext_resource type="PackedScene" uid="uid://bcpvwfqdmmq0o" path="res://controls/submit_spin_box.tscn" id="3_nu37c"]
 [ext_resource type="Script" uid="uid://bpdfxb6tw1soa" path="res://game/ui_canvas_layer/game_debug_menu/buttons/performance_monitor_button.gd" id="3_thkve"]
+[ext_resource type="Script" uid="uid://dhvrdsxr7gifr" path="res://game/ui_canvas_layer/game_debug_menu/buttons/hide_ui_check_button.gd" id="4_mpppj"]
 [ext_resource type="Script" uid="uid://36t0lghloy1b" path="res://game/ui_canvas_layer/game_debug_menu/buttons/take_damage_spin_box_button.gd" id="4_uo5t2"]
 [ext_resource type="Script" uid="uid://ct5d6bry6ggof" path="res://game/ui_canvas_layer/game_debug_menu/buttons/remove_entity_button.gd" id="5_nu37c"]
 [ext_resource type="Script" uid="uid://csrlc6byvqkmt" path="res://game/ui_canvas_layer/game_debug_menu/buttons/add_cash_spin_box_button.gd" id="5_p8wfp"]
 [ext_resource type="Script" uid="uid://cjrwko5ieksjt" path="res://game/ui_canvas_layer/game_debug_menu/buttons/add_life_spin_box_button.gd" id="6_qrfxy"]
-[ext_resource type="Script" uid="uid://d1k854yj7p8up" path="res://game/ui_canvas_layer/game_debug_menu/buttons/draw_pathway_check_button.gd" id="7_imdes"]
-[ext_resource type="Script" uid="uid://dbmbgltffnygg" path="res://game/ui_canvas_layer/game_debug_menu/buttons/draw_range_check_button.gd" id="8_iynre"]
-[ext_resource type="Script" uid="uid://djucl5libiyhg" path="res://game/ui_canvas_layer/game_debug_menu/buttons/draw_offset_check_button.gd" id="8_uo5t2"]
-[ext_resource type="Script" uid="uid://ck2ky7ouubxga" path="res://game/ui_canvas_layer/game_debug_menu/buttons/draw_bullet_trajectorie_check_button.gd" id="9_mvyv1"]
-[ext_resource type="Script" uid="uid://qpfivwlvp2ka" path="res://game/ui_canvas_layer/game_debug_menu/buttons/draw_health_check_button.gd" id="9_qrfxy"]
-[ext_resource type="Script" uid="uid://dlv2hpmabwbyt" path="res://game/ui_canvas_layer/game_debug_menu/buttons/draw_point_check_button.gd" id="12_p8wfp"]
-[ext_resource type="Script" uid="uid://b3fnac1u8mluv" path="res://game/ui_canvas_layer/game_debug_menu/buttons/draw_spatial_hash_grid_check_button.gd" id="15_4jnem"]
+[ext_resource type="Script" uid="uid://25n02xb2aeev" path="res://game/ui_canvas_layer/game_debug_menu/buttons/debug_draw_check_button.gd" id="10_3br8v"]
 
 [node name="GameDebugMenu" type="FoldableContainer" unique_id=1295185256]
 custom_minimum_size = Vector2(550, 0)
@@ -39,10 +34,23 @@ layout_mode = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="VScrollContainer/MarginContainer" unique_id=831072063]
 layout_mode = 2
 
-[node name="PerformanceMonitorButton" type="Button" parent="VScrollContainer/MarginContainer/VBoxContainer" unique_id=1531079600]
+[node name="CommonFoldableContainer" type="FoldableContainer" parent="VScrollContainer/MarginContainer/VBoxContainer" unique_id=436460150]
+layout_mode = 2
+title = "通用"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VScrollContainer/MarginContainer/VBoxContainer/CommonFoldableContainer" unique_id=1743551832]
+layout_mode = 2
+
+[node name="PerformanceMonitorButton" type="Button" parent="VScrollContainer/MarginContainer/VBoxContainer/CommonFoldableContainer/VBoxContainer" unique_id=1531079600]
 layout_mode = 2
 text = "性能监视器（F3）"
 script = ExtResource("3_thkve")
+
+[node name="HideUICheckButton" type="CheckButton" parent="VScrollContainer/MarginContainer/VBoxContainer/CommonFoldableContainer/VBoxContainer" unique_id=1498560217]
+visible = false
+layout_mode = 2
+text = "隐藏 UI（F5）"
+script = ExtResource("4_mpppj")
 
 [node name="WaveFoldableContainer" type="FoldableContainer" parent="VScrollContainer/MarginContainer/VBoxContainer" unique_id=1162521203]
 layout_mode = 2
@@ -112,41 +120,47 @@ title = "绘制"
 [node name="MarginContainer" type="MarginContainer" parent="VScrollContainer/MarginContainer/VBoxContainer/DrawFoldableContainer" unique_id=725751932]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VScrollContainer/MarginContainer/VBoxContainer/DrawFoldableContainer/MarginContainer" unique_id=245877227]
+[node name="DebugDrawCheckButtons" type="VBoxContainer" parent="VScrollContainer/MarginContainer/VBoxContainer/DrawFoldableContainer/MarginContainer" unique_id=245877227]
 layout_mode = 2
 
-[node name="DrawHealthCheckButton" type="CheckButton" parent="VScrollContainer/MarginContainer/VBoxContainer/DrawFoldableContainer/MarginContainer/VBoxContainer" unique_id=979716455]
+[node name="Health" type="CheckButton" parent="VScrollContainer/MarginContainer/VBoxContainer/DrawFoldableContainer/MarginContainer/DebugDrawCheckButtons" unique_id=979716455]
 layout_mode = 2
+tooltip_text = "绘制血量为数字。"
 text = "绘制血量"
-script = ExtResource("9_qrfxy")
+script = ExtResource("10_3br8v")
+drawer_type = 1
 
-[node name="DrawPathwayCheckButton" type="CheckButton" parent="VScrollContainer/MarginContainer/VBoxContainer/DrawFoldableContainer/MarginContainer/VBoxContainer" unique_id=443496520]
+[node name="Pathway" type="CheckButton" parent="VScrollContainer/MarginContainer/VBoxContainer/DrawFoldableContainer/MarginContainer/DebugDrawCheckButtons" unique_id=443496520]
 layout_mode = 2
+tooltip_text = "绘制路径节点。"
 text = "绘制路径"
-script = ExtResource("7_imdes")
+script = ExtResource("10_3br8v")
+drawer_type = 2
 
-[node name="DrawOffsetCheckButton" type="CheckButton" parent="VScrollContainer/MarginContainer/VBoxContainer/DrawFoldableContainer/MarginContainer/VBoxContainer" unique_id=227939869]
+[node name="Offset" type="CheckButton" parent="VScrollContainer/MarginContainer/VBoxContainer/DrawFoldableContainer/MarginContainer/DebugDrawCheckButtons" unique_id=227939869]
 layout_mode = 2
+tooltip_text = "绘制各种偏移位置，如：命中偏移、拦截位置偏移等。"
 text = "绘制偏移"
-script = ExtResource("8_uo5t2")
+script = ExtResource("10_3br8v")
+drawer_type = 3
 
-[node name="DrawRangeCheckButton" type="CheckButton" parent="VScrollContainer/MarginContainer/VBoxContainer/DrawFoldableContainer/MarginContainer/VBoxContainer" unique_id=647037315]
+[node name="Range" type="CheckButton" parent="VScrollContainer/MarginContainer/VBoxContainer/DrawFoldableContainer/MarginContainer/DebugDrawCheckButtons" unique_id=647037315]
 layout_mode = 2
+tooltip_text = "绘制各种范围，如：攻击范围等。"
 text = "绘制范围"
-script = ExtResource("8_iynre")
+script = ExtResource("10_3br8v")
+drawer_type = 4
 
-[node name="DrawPointCheckButton" type="CheckButton" parent="VScrollContainer/MarginContainer/VBoxContainer/DrawFoldableContainer/MarginContainer/VBoxContainer" unique_id=900202695]
+[node name="Point" type="CheckButton" parent="VScrollContainer/MarginContainer/VBoxContainer/DrawFoldableContainer/MarginContainer/DebugDrawCheckButtons" unique_id=900202695]
 layout_mode = 2
+tooltip_text = "绘制各种点位，如：拦截位置、集结点等。"
 text = "绘制点位"
-script = ExtResource("12_p8wfp")
+script = ExtResource("10_3br8v")
+drawer_type = 5
 
-[node name="DrawSpatialHashGridCheckButton" type="CheckButton" parent="VScrollContainer/MarginContainer/VBoxContainer/DrawFoldableContainer/MarginContainer/VBoxContainer" unique_id=2018233921]
+[node name="EntitySpatialHashGrid" type="CheckButton" parent="VScrollContainer/MarginContainer/VBoxContainer/DrawFoldableContainer/MarginContainer/DebugDrawCheckButtons" unique_id=2018233921]
 layout_mode = 2
-text = "绘制空间哈希网格"
-script = ExtResource("15_4jnem")
-
-[node name="DrawBulletTrajectorieCheckButton" type="CheckButton" parent="VScrollContainer/MarginContainer/VBoxContainer/DrawFoldableContainer/MarginContainer/VBoxContainer" unique_id=581889136]
-visible = false
-layout_mode = 2
-text = "启用绘制子弹轨迹"
-script = ExtResource("9_mvyv1")
+tooltip_text = "绘制实体哈希网格。"
+text = "绘制实体空间哈希网格"
+script = ExtResource("10_3br8v")
+drawer_type = 6

@@ -1,79 +1,77 @@
-extends Node2D
+extends Node
 ## 实体空间哈希管理器。
 ##
 ## [EntitySpatialHashManager] 用于通过实体坐标快速查找实体。
 
 
+#region 属性
 ## 空间哈希的网格大小。
-var _spatial_hash_cell_size: int = 100
-## 空间哈希的网格行数。
-var _spatial_hash_row_count: int = 26
-## 空间哈希的网格列数。
-var _spatial_hash_column_count: int = 15
-
-
-## 空间哈希网格数组。
-var spatial_hash_grid: Array[SpaceIndexCell] = []
-
-
-func _ready() -> void:
-	DebugManager.draw_state_changed.connect(_on_draw_state_changed)
-	z_index = 1000
+var cell_size: int = 100
+## 空间哈希的网格最大行数。
+var grid_max_x: int = 26
+## 空间哈希的网格最大列数。
+var grid_max_y: int = 15
+## 空间哈希网格。
+var grid: Array[SpaceIndexCell] = []
+#endregion
 
 
 func _physics_process(_delta: float) -> void:
 	_grouping_entities()
 
 
-func _draw() -> void:
-	if DebugManager.draw_entity_spatial_hash_grid_enabled:
-		for i: int in spatial_hash_grid.size():
-			var rect := Rect2(
-				i % _spatial_hash_row_count * _spatial_hash_cell_size,
-				floorf(float(i) / _spatial_hash_row_count) * _spatial_hash_cell_size,
-				_spatial_hash_cell_size, 
-				_spatial_hash_cell_size
-			)
-			draw_rect(
-				rect,
-				Color.GREEN,
-				false,
-				3
-			)
-
-
+#region 公开方法
 ## 初始化实体空间哈希管理器。
 func init() -> void:
-	var spatial_hash_cell_count: int = _spatial_hash_row_count * _spatial_hash_column_count
-	spatial_hash_grid.resize(spatial_hash_cell_count)
-	for i: int in spatial_hash_cell_count:
-		spatial_hash_grid[i] = SpaceIndexCell.new()
+	var cell_count: int = grid_max_x * grid_max_y
+	grid.resize(cell_count)
+	for cell_index: int in cell_count:
+		grid[cell_index] = SpaceIndexCell.new()
 
 
 ## 清理实体空间哈希管理器，这通常用于清除实体空间哈希管理器中的所有引用。
 func cleanup() -> void:
-	spatial_hash_grid.clear()
+	grid.clear()
 
 
-## 全局位置转换空间哈希单元格索引。
-func global_position_to_spatial_hash_cell_index(p_position: Vector2) -> int:
-	var grid_x: int = floori(p_position.x / _spatial_hash_cell_size)
-	var grid_y: int = floori(p_position.y / _spatial_hash_cell_size)
+## 全局位置转换单元格索引，见 [method grid_position_to_cell_index] 。
+func global_position_to_cell_index(global_position: Vector2) -> int:
+	var grid_x: int = floori(global_position.x / cell_size)
+	var grid_y: int = floori(global_position.y / cell_size)
 
-	return grid_position_to_spatial_hash_cell_index(grid_x, grid_y)
-
-
-## 网格坐标转换空间哈希单元格索引。
-func grid_position_to_spatial_hash_cell_index(x: int, y: int) -> int:
-	return x * _spatial_hash_column_count + y
+	return grid_position_to_cell_index(grid_x, grid_y)
 
 
-## 获取空间哈希单元格。如果单元格不存在则返回 [code]null[/code]。
-func get_spatial_hash_cell(index: int) -> SpaceIndexCell:
-	if index < 0 or index >= spatial_hash_grid.size():
+## 网格坐标转换单元格索引。
+func grid_position_to_cell_index(grid_x: int, grid_y: int) -> int:
+	return grid_y * grid_max_x + grid_x
+
+
+## 单元格索引转换单元格网格坐标。
+func cell_index_to_grid_position(index: int) -> Vector2i:
+	var grid_x: int = index % grid_max_x
+	var grid_y: int = floori(float(index) / grid_max_x)
+	return Vector2i(grid_x, grid_y)
+
+
+## 根据单元格索引获取单元格。如果单元格不存在则返回 [code]null[/code]。
+func get_cell_by_index(index: int) -> SpaceIndexCell:
+	if index < 0 or index >= grid.size():
 		return null
 
-	return spatial_hash_grid.get(index)
+	return grid.get(index)
+
+
+## 根据全局位置获取单元格。如果单元格不存在则返回 [code]null[/code]，见 [method get_cell_by_index] 。
+func get_cell_by_global_position(global_position: Vector2) -> SpaceIndexCell:
+	var cell_index: int = global_position_to_cell_index(global_position)
+	return get_cell_by_index(cell_index)
+
+
+## 根据网格坐标获取单元格。如果单元格不存在则返回 [code]null[/code]，见 [method get_cell_by_index] 。
+func get_cell_by_grid_position(grid_x: int, grid_y: int) -> SpaceIndexCell:
+	var cell_index: int = grid_position_to_cell_index(grid_x, grid_y)
+	return get_cell_by_index(cell_index)
 
 
 ## 通过空间哈希网格搜索椭圆环范围内目标。
@@ -87,15 +85,14 @@ func search_entities_in_elliptical_annulus(
 	) -> Array[Entity]:
 	var entities: Array[Entity] = []
 
-	var grid_min_x: int = max(0, floori((search_global_position.x - outer_radius) / _spatial_hash_cell_size))
-	var grid_max_x: int = ceili((search_global_position.x + outer_radius) / _spatial_hash_cell_size)
-	var grid_min_y: int = max(0, floori((search_global_position.y - outer_radius) / _spatial_hash_cell_size))
-	var grid_max_y: int = ceili((search_global_position.y + outer_radius) / _spatial_hash_cell_size)
+	var range_min_x: int = max(0, floori((search_global_position.x - outer_radius) / cell_size))
+	var range_max_x: int = ceili((search_global_position.x + outer_radius) / cell_size)
+	var range_min_y: int = max(0, floori((search_global_position.y - outer_radius) / cell_size))
+	var range_max_y: int = ceili((search_global_position.y + outer_radius) / cell_size)
 
-	for grid_x: int in range(grid_min_x, grid_max_x + 1):
-		for grid_y: int in range(grid_min_y, grid_max_y + 1):
-			var cell_index: int = grid_position_to_spatial_hash_cell_index(grid_x, grid_y)
-			var cell: SpaceIndexCell = get_spatial_hash_cell(cell_index)
+	for grid_x: int in range(range_min_x, range_max_x + 1):
+		for grid_y: int in range(range_min_y, range_max_y + 1):
+			var cell: SpaceIndexCell = get_cell_by_grid_position(grid_x, grid_y)
 			if not cell:
 				continue
 
@@ -123,15 +120,14 @@ func search_entities_in_elliptical_annulus_filtered(
 	) -> Array[Entity]:
 	var entities: Array[Entity] = []
 
-	var grid_min_x: int = max(0, floori((search_global_position.x - outer_radius) / _spatial_hash_cell_size))
-	var grid_max_x: int = ceili((search_global_position.x + outer_radius) / _spatial_hash_cell_size)
-	var grid_min_y: int = max(0, floori((search_global_position.y - outer_radius) / _spatial_hash_cell_size))
-	var grid_max_y: int = ceili((search_global_position.y + outer_radius) / _spatial_hash_cell_size)
+	var range_min_x: int = max(0, floori((search_global_position.x - outer_radius) / cell_size))
+	var range_max_x: int = ceili((search_global_position.x + outer_radius) / cell_size)
+	var range_min_y: int = max(0, floori((search_global_position.y - outer_radius) / cell_size))
+	var range_max_y: int = ceili((search_global_position.y + outer_radius) / cell_size)
 
-	for grid_x: int in range(grid_min_x, grid_max_x + 1):
-		for grid_y: int in range(grid_min_y, grid_max_y + 1):
-			var cell_index: int = grid_position_to_spatial_hash_cell_index(grid_x, grid_y)
-			var cell: SpaceIndexCell = get_spatial_hash_cell(cell_index)
+	for grid_x: int in range(range_min_x, range_max_x + 1):
+		for grid_y: int in range(range_min_y, range_max_y + 1):
+			var cell: SpaceIndexCell = get_cell_by_grid_position(grid_x, grid_y)
 			if not cell:
 				continue
 
@@ -146,16 +142,17 @@ func search_entities_in_elliptical_annulus_filtered(
 				entities.append(entity)
 
 	return entities
+#endregion
 
 
+#region 私有方法
 ## 分组实体。
 func _grouping_entities() -> void:
-	for cell: SpaceIndexCell in spatial_hash_grid:
+	for cell: SpaceIndexCell in grid:
 		cell.clear()
 
 	for entity: Entity in EntityManager.get_valid_entities():
-		var cell_index: int = global_position_to_spatial_hash_cell_index(entity.global_position)
-		var cell: SpaceIndexCell = get_spatial_hash_cell(cell_index)
+		var cell: SpaceIndexCell = get_cell_by_global_position(entity.global_position)
 		if not cell:
 			continue
 		
@@ -171,8 +168,10 @@ func _grouping_entities() -> void:
 
 			var group_key: int = interact_policy_c_config.faction << Constants.INT64_LEN_HALF | entity_type
 			cell.entity_groups[group_key].append(entity)
+#endregion
 
 
+#region 类
 ## 空间哈希网格单元。
 class SpaceIndexCell extends RefCounted:
 	## 网格内的实体组。
@@ -192,7 +191,4 @@ class SpaceIndexCell extends RefCounted:
 	func clear() -> void:
 		for entity_group: Array[Entity] in entity_groups.values():
 			entity_group.clear()
-
-
-func _on_draw_state_changed(_draw_type: DebugManager.DrawType) -> void:
-	queue_redraw()
+#endregion

@@ -6,4 +6,4 @@ func _ready() -> void:
 
 
 func _on_pressed() -> void:
-	DebugManager.draw_entity_spatial_hash_grid_enabled = button_pressed
+	pass

@@ -32,7 +32,7 @@ func _draw() -> void:
 	if not config:
 		return
 		
-	if DebugManager.draw_offset_enabled:
+	if DebugDrawManager.is_drawer_visible(DebugDrawer.Type.OFFSET):
 		draw_circle(
 			config.select_menu_offset, 
 			4,
@@ -41,20 +41,20 @@ func _draw() -> void:
 			1
 		)
 
-		if DebugManager.draw_range_enabled:
-			if config.can_select:
-				var rect := Rect2(config.select_rect.position, config.select_rect.size)
-				draw_rect(
-					rect, 
-					Color(0.2, 0.6, 1.0, 0.25), 
-					true
-				)
-				draw_rect(
-					rect, 
-					Color(0.2, 0.6, 1.0, 0.9), 
-					false, 
-					1
-				)
+	if DebugDrawManager.is_drawer_visible(DebugDrawer.Type.RANGE):
+		if config.can_select:
+			var rect := Rect2(config.select_rect.position, config.select_rect.size)
+			draw_rect(
+				rect, 
+				Color(0.2, 0.6, 1.0, 0.25), 
+				true
+			)
+			draw_rect(
+				rect, 
+				Color(0.2, 0.6, 1.0, 0.9), 
+				false, 
+				1
+			)
 	
 
 ## 获取全局位置的矩形。

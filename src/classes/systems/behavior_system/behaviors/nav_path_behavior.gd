@@ -18,7 +18,7 @@ func _on_insert(entity: Entity) -> bool:
 		
 	var nav_path_c_config: NavPathComponentNodeConfig = nav_path_c.config
 	if nav_path_c_config.end_pathway_node_index < 0:
-		nav_path_c_config.end_pathway_node_index = PathwayManager.node_count + nav_path_c_config.end_pathway_node_index
+		nav_path_c_config.end_pathway_node_index = PathwayManager.sub_pathway_node_count + nav_path_c_config.end_pathway_node_index
 
 	var node: PathwayNode = nav_path_c.get_pathway_node()
 	nav_path_c.navigate_to_node(node)
@@ -55,7 +55,7 @@ func _update_forward(entity: Entity, nav_path_c: NavPathComponent, animated_spri
 	var next_node_index: int = node_index
 	var next_node: PathwayNode = nav_path_c.get_pathway_node(next_node_index)
 	while (
-		next_node_index + 1 < PathwayManager.node_count
+		next_node_index + 1 < PathwayManager.sub_pathway_node_count
 		and nav_path_c.progress >= next_node.progress
 	):
 		next_node_index += 1
@@ -71,7 +71,7 @@ func _update_forward(entity: Entity, nav_path_c: NavPathComponent, animated_spri
 ## 更新反向移动逻辑。
 func _update_reversed(entity: Entity, nav_path_c: NavPathComponent, animated_sprite_c: AnimatedSpriteComponent) -> bool:
 	var node_index: int = nav_path_c.pathway_node_index
-	if node_index == PathwayManager.node_count - 1 - nav_path_c.config.end_pathway_node_index:
+	if node_index == PathwayManager.sub_pathway_node_count - 1 - nav_path_c.config.end_pathway_node_index:
 		_arrived_end(entity, nav_path_c, true)
 		return false
 		

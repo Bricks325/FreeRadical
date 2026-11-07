@@ -22,7 +22,7 @@ var soldier_ids := PackedInt32Array()
 
 
 func _draw() -> void:
-	if DebugManager.draw_point_enabled:
+	if DebugDrawManager.is_drawer_visible(DebugDrawer.Type.POINT):
 		if default_rally_center_position:
 			draw_circle(
 				default_rally_center_position,

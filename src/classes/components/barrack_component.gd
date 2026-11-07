@@ -23,14 +23,14 @@ func _draw() -> void:
 	if not config:
 		return
 		
-	if DebugManager.draw_offset_enabled:
+	if DebugDrawManager.is_drawer_visible(DebugDrawer.Type.OFFSET):
 		if config.spawn_offsets:
 			config.spawn_offsets.draw_offset_group(self)
 		
-	if DebugManager.draw_range_enabled:
+	if DebugDrawManager.is_drawer_visible(DebugDrawer.Type.RANGE):
 		DrawUtils.draw_elliptical_annulus(self, position, config.rally_min_range, config.rally_max_range, Color(0.201, 0.431, 1.0, 0.2))
 
-	if DebugManager.draw_point_enabled:
+	if DebugDrawManager.is_drawer_visible(DebugDrawer.Type.POINT):
 		var barrack_record: BarrackRecord = parent.get_node_or_null(Constants.BARRACK_RECORD_NODE_PATH)
 		if barrack_record:
 			var rally_center_position: Vector2 = to_local(barrack_record.rally_center_global_position)

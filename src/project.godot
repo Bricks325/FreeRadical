@@ -39,7 +39,6 @@ buses/default_bus_layout="res://autoloads/managers/audio_manager/audio_bus_layou
 
 [autoload]
 
-DebugManager="*uid://dswgweyvy78e4"
 EntityManager="*uid://babmyw7m1iga5"
 EntitySpatialHashManager="*uid://djn4sf00i2vvf"
 SystemManager="*uid://bsm7ajayilotu"
@@ -59,6 +58,7 @@ GridManager="*uid://bsty3nv6hyvtv"
 PathwayManager="*res://autoloads/managers/pathway_manager.gd"
 NodeConfigManager="*uid://cjutve3qggyot"
 DebugMenu="*uid://cggqb75a8w8r"
+DebugDrawManager="*uid://64enpxjk7ee2"
 
 [display]
 

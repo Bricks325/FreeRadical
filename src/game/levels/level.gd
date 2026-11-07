@@ -28,23 +28,8 @@ func _enter_tree() -> void:
 	GameManager.default_tower_holder = default_tower_holder
 
 
-func _exit_tree() -> void:
-	DebugManager.cleanup()
-	GameManager.cleanup()
-	EntityManager.cleanup()
-	EntitySpatialHashManager.cleanup()
-	GridManager.cleanup()
-	SelectManager.cleanup()
-	PathwayManager.cleanup()
-	WaveManager.cleanup()
-	NodeConfigManager.cleanup()
-	DamageManager.cleanup()
-
-	get_tree().paused = false
-	Engine.time_scale = 1.0
-
-
 func _ready() -> void:
+	DebugDrawManager.ready()
 	WaveManager.first_wave_sended.connect(_on_first_wave_sended)
 
 	GameManager.cash = cash
@@ -54,6 +39,23 @@ func _ready() -> void:
 		AudioManager.play_music(battle_music)
 	else:
 		AudioManager.play_music(ready_music)
+
+
+func _exit_tree() -> void:
+	GameManager.cleanup()
+	PathwayManager.cleanup()
+	EntityManager.cleanup()
+	EntitySpatialHashManager.cleanup()
+	GridManager.cleanup()
+	SelectManager.cleanup()
+	PathwayManager.cleanup()
+	WaveManager.cleanup()
+	NodeConfigManager.cleanup()
+	DamageManager.cleanup()
+	DebugDrawManager.cleanup()
+
+	get_tree().paused = false
+	Engine.time_scale = 1.0
 		
 
 func _on_first_wave_sended() -> void:

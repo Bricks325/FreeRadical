@@ -30,33 +30,44 @@ var loop_count: int = 0
 var timestamp: float = 0.0
 
 
+#region 公开方法
 ## [method PathwayManager.get_subpath] 的简写，已传递 [param pathway_index], [param sub_pathway_index]
 func get_subpath() -> Path2D:
 	return PathwayManager.get_subpath(pathway_index, sub_pathway_index)
 
 
 ## [method PathwayManager.calculate_progress_ratio] 的简写，已传递 [param pathway_index], [param sub_pathway_index]
-func calculate_progress_ratio(p_progress: float = progress) -> float:
+func calculate_progress_ratio(p_progress: float = -1.0) -> float:
+	if p_progress == -1.0:
+		p_progress = progress
 	return PathwayManager.calculate_progress_ratio(pathway_index, sub_pathway_index, p_progress)
 	
 
 ## [method PathwayManager.get_ratio_global_position] 的简写，已传递 [param pathway_index], [param sub_pathway_index]
-func get_ratio_global_position(p_ratio: float = ratio) -> Vector2:
+func get_ratio_global_position(p_ratio: float = -1.0) -> Vector2:
+	if p_ratio == -1.0:
+		p_ratio = ratio
 	return PathwayManager.get_ratio_global_position(pathway_index, sub_pathway_index, p_ratio)
 	
 
 ## [method PathwayManager.get_progress_global_position] 的简写，已传递 [param pathway_index], [param sub_pathway_index]
-func get_progress_global_position(p_progress: float = progress) -> Vector2:
+func get_progress_global_position(p_progress: float = -1.0) -> Vector2:
+	if p_progress == -1.0:
+		p_progress = progress
 	return PathwayManager.get_progress_global_position(pathway_index, sub_pathway_index, p_progress)
 
 
 ## [method PathwayManager.get_progress_by_ratio] 的简写，已传递 [param pathway_index], [param sub_pathway_index]
-func get_progress_by_ratio(p_ratio: float = ratio) -> float:
+func get_progress_by_ratio(p_ratio: float = -1.0) -> float:
+	if p_ratio == -1.0:
+		p_ratio = ratio
 	return PathwayManager.get_progress_by_ratio(pathway_index, sub_pathway_index, p_ratio)
 
 
 ## [method PathwayManager.get_pathway_node] 的简写，已传递 [param pathway_index], [param sub_pathway_index]
-func get_pathway_node(index: int = pathway_node_index) -> PathwayNode:
+func get_pathway_node(index: int = -1) -> PathwayNode:
+	if index == -1:
+		index = pathway_node_index
 	return PathwayManager.get_pathway_node(pathway_index, sub_pathway_index, index)
 
 
@@ -90,5 +101,6 @@ func set_nav_path_to_nearest_node(entity: Entity, search_global_position: Vector
 			pi_list = [s_nav_path_c.pi]
 			spi_list = [s_nav_path_c.spi]
 
-	var node: PathwayNode = PathwayManager.find_nearest_node_to_global_position(search_global_position, pi_list, spi_list)
+	var node: PathwayNode = PathwayManager.find_nearest_node_at_global_position(search_global_position, pi_list, spi_list)
 	nav_path_c.set_nav_path(node.pathway_index, node.sub_pathway_index, node.index)
+#endregion

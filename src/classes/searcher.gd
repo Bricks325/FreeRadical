@@ -119,8 +119,7 @@ func draw_search_range(drawer: CanvasItem, center: Vector2) -> void:
 ## 搜索目标。
 func search_targets(center: Vector2, entity: Entity = null, filter := Callable()) -> Array[Entity]:
 	if entity and center_offsets:
-		var center_offset: Vector2 = center_offsets.get_offset_toward_point(entity.global_position, entity.facing_global_position)
-		center += center_offset
+		center += center_offsets.get_offset_toward_point(entity.global_position, entity.facing_global_position)
 
 	var faction: InteractPolicyComponent.Faction = target_faction
 	var interact_policy_c: InteractPolicyComponent = entity.get_node_or_null(Constants.INTERACT_POLICY_COMPONENT_NODE_PATH)
