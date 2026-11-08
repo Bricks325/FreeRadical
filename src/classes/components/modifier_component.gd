@@ -26,7 +26,7 @@ enum Type {
 }
 
 
-@export var config: ModifierComponentNodeConfig = null:
+@export var config: ModifierComponentNodeConfig:
 	set(v): 
 		SignalUtils.reconnect_resource_changed(config, v, _on_config_changed)
 		config = v

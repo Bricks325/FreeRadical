@@ -9,7 +9,7 @@ signal clicked(track: TrackEditorTrack, event: InputEvent)
 signal create_item_request(track: TrackEditorTrack, event: InputEvent)
 
 
-@export var item_container: HSeparator = null
+@export var item_container: HSeparator
 
 
 func _gui_input(event: InputEvent) -> void:

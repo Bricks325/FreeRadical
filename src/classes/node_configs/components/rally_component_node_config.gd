@@ -7,7 +7,7 @@ class_name RallyComponentNodeConfig
 
 
 ## 移动速度。
-@export var speed: float = 100.0
+@export_custom(PROPERTY_HINT_NONE, "suffix: px/s") var speed: float = 100.0
 ## 是否可点击集结。
 @export var can_select_rally: bool = true
 ## 移动动画组。

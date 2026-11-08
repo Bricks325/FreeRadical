@@ -2,7 +2,7 @@
 extends LabeledTextureButton
 
 
-@export var setting_canvas_layer: SettingCanvasLayer = null
+@export var setting_canvas_layer: SettingCanvasLayer
 
 
 func _ready() -> void:

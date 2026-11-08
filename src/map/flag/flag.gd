@@ -2,14 +2,15 @@
 extends Node2D
 
 
-@export_file("*.tscn") var level_scene_path: String = "":
+## 关卡场景路径。
+@export_file("*.tscn") var level_scene_path: String:
 	set(v):
 		level_scene_path = v
 		update_configuration_warnings()
 
 @export_group("Ref")
-@export var animated_sprite: AnimatedSprite2D = null
-@export var area: Area2D = null
+@export var animated_sprite: AnimatedSprite2D
+@export var area: Area2D
 
 
 func _ready() -> void:

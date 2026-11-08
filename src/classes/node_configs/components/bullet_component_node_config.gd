@@ -19,19 +19,22 @@ class_name BulletComponentNodeConfig
 
 @export_group("Rotation")
 ## 子弹旋转速度。
-@export var rotation_speed: float = 0.0
-## 是否启用看向目标点，会覆盖 [member rotation_speed]。
-@export var facing_enabled: bool = true
+@export_range(-1440.0, 1440.0, 1.0, "radians_as_degrees", "or_less", "or_greater", "suffix: °/s") var rotation_speed: float = 0.0
+## 是否启用看向目标点，启用后会忽略 [member rotation_speed]。
+@export var facing_enabled: bool = true:
+	set(v):
+		facing_enabled = v
+		notify_property_list_changed()
 
 @export_group("Hit")
 ## 是否可以到达目标位置。
 @export var can_arrived: bool = true
 ## 击中目标的阈值。
-@export var hit_distance: float = 30.0
+@export_custom(PROPERTY_HINT_NONE, "suffix: px") var hit_distance: float = 30.0
 ## 击中目标后是否移除子弹实体。
 @export var hit_remove: bool = true
-## 击中目标后造成影响的延迟（秒）。
-@export var hit_delay: float = 0.0
+## 击中目标后造成影响的延迟（帧）。
+@export_custom(PROPERTY_HINT_NONE, "suffix: frames") var hit_delay_frames: float = 0.0
 ## 击中目标后播放的动画组。
 @export var hit_animation: FacingAnimationSet = null
 ## 击中目标后播放的音效组。
@@ -44,8 +47,8 @@ class_name BulletComponentNodeConfig
 @export var miss_remove: bool = true
 ## 未击中目标时是否也造成影响。
 @export var miss_influence_enabled: bool = true
-## 未击中目标时造成影响的延迟（秒）。
-@export var miss_delay: float = 0.0
+## 未击中目标时造成影响的延迟（帧）。
+@export_custom(PROPERTY_HINT_NONE, "suffix: frames") var miss_delay_frames: float = 0.0
 ## 未击中目标时播放的动画组。
 @export var miss_animation: FacingAnimationSet = null
 ## 未击中目标时播放的音效组。
@@ -59,3 +62,8 @@ func _init() -> void:
 		
 	SignalUtils.try_connect_resource_changed(flight_animation, emit_changed)
 	SignalUtils.try_connect_resource_changed(influence, emit_changed)
+
+
+func _validate_property(property: Dictionary):
+	if property.name == "left" and rotation_speed:
+		property.usage = PROPERTY_USAGE_NONE

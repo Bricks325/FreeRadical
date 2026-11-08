@@ -11,13 +11,13 @@ resource_local_to_scene = true
 script = ExtResource("1_tjocj")
 up = &"ranged_up"
 down = &"ranged_down"
-vertical_mirror = true
+flip_on_left = true
 
 [sub_resource type="Resource" id="Resource_c4v6e"]
 script = ExtResource("2_uw1br")
 up = Vector2(13.05, -34.11)
 down = Vector2(-12.69, -34.47)
-vertical_mirror = true
+flip_on_left = true
 metadata/_custom_type_script = "uid://4kvs678x33m5"
 
 [sub_resource type="Resource" id="Resource_tuthn"]
@@ -30,7 +30,7 @@ metadata/_custom_type_script = "uid://4dsevfnug1a1"
 [sub_resource type="Resource" id="Resource_vtoys"]
 script = ExtResource("6_fj6yc")
 list = PackedStringArray("uid://b4j870vtyljlk")
-delay = 0.3
+delay_frames = 18
 metadata/_custom_type_script = "uid://b2b214g352w4u"
 
 [resource]
@@ -40,7 +40,6 @@ bullet_scene = "uid://bubogx21tfcoe"
 bullet_offsets = SubResource("Resource_c4v6e")
 searcher = SubResource("Resource_tuthn")
 skill_types = 1
-delay = 0.33
 animation = SubResource("Resource_8g6nx")
 sfx = SubResource("Resource_vtoys")
 cooldown = 1.5

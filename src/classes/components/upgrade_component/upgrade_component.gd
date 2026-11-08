@@ -9,7 +9,7 @@ class_name UpgradeComponent
 
 const upgrade_progress_bar_path: NodePath = ^"UpgradeTextureProgressBar"
 
-@export var config: UpgradeComponentNodeConfig = null:
+@export var config: UpgradeComponentNodeConfig:
 	set(v): 
 		SignalUtils.reconnect_resource_changed(config, v, _on_config_changed)
 		config = v

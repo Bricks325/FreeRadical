@@ -79,7 +79,7 @@ func play_audio(
 	if not audio_data:
 		return
 		
-	await TimeManager.y_wait(audio_data.delay)
+	await TimeManager.y_wait(Utils.frames_to_seconds(audio_data.delay_frames))
 	
 	var play_list := PackedStringArray()
 	var data_list: PackedStringArray = audio_data.list

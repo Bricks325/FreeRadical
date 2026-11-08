@@ -42,12 +42,12 @@ class_name ModifierComponentNodeConfig
 		SignalUtils.reconnect_resource_changed(influence, v, emit_changed)
 		influence = v
 		emit_changed()
-## 造成影响间隔时间。
-@export var influence_interval: float = 0.0
+## 造成影响间隔时间（秒）。
+@export_custom(PROPERTY_HINT_NONE, "suffix: s") var influence_interval: float = 0.0
 ## 最大影响次数，-1 表示无限次数。
 @export var max_influence_count: int = 1
-## 影响延迟时间。
-@export var influence_delay: float = 0.0
+## 影响延迟时间（帧）。
+@export_custom(PROPERTY_HINT_NONE, "suffix: frame") var influence_delay_frames: float = 0.0
 ## 影响动画。
 @export var influence_animation: FacingAnimationSet = null
 

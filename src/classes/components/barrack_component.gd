@@ -6,7 +6,7 @@ class_name BarrackComponent
 ## [BarrackComponent] 可以让实体生成士兵。
 
 
-@export var config: BarrackComponentNodeConfig = null:
+@export var config: BarrackComponentNodeConfig:
 	set(v): 
 		SignalUtils.reconnect_resource_changed(config, v, _on_config_changed)
 		config = v
@@ -28,7 +28,7 @@ func _draw() -> void:
 			config.spawn_offsets.draw_offset_group(self)
 		
 	if DebugDrawManager.is_drawer_visible(DebugDrawer.Type.RANGE):
-		DrawUtils.draw_elliptical_annulus(self, position, config.rally_min_range, config.rally_max_range, Color(0.201, 0.431, 1.0, 0.2))
+		DrawUtils.draw_elliptical_annulus(self, position, config.rally_min_radius, config.rally_max_radius, Color(0.201, 0.431, 1.0, 0.2))
 
 	if DebugDrawManager.is_drawer_visible(DebugDrawer.Type.POINT):
 		var barrack_record: BarrackRecord = parent.get_node_or_null(Constants.BARRACK_RECORD_NODE_PATH)
@@ -104,4 +104,4 @@ func to_formation_position(center_position: Vector2, count: int, index: int) -> 
 	var angle_step: float = TAU / count
 	var angle: float = (index - 1) * angle_step - Constants.HALF_PI
 	
-	return MathUtils.point_at_elliptical_polar_offset(center_position, config.rally_radius, angle)
+	return MathUtils.point_at_elliptical_polar_offset(center_position, config.formation_radius, angle)

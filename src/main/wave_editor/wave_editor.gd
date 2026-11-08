@@ -3,19 +3,19 @@ class_name WaveEditor
 
 
 @export_group("Ref")
-@export var entity_scene_path_data: EntitySceneData = null
-@export var wave_track_editor: TrackEditor = null
-@export var sub_wave_track_editor: TrackEditor = null
-@export var spawn_track_editor: TrackEditor = null
-@export var spawn_data_vbox_container: WaveEditorSpawnDataVBoxContainer = null
-@export var entity_labeled_option_button: LabeledOptionButton = null
+@export var entity_scene_path_data: EntitySceneData
+@export var wave_track_editor: TrackEditor
+@export var sub_wave_track_editor: TrackEditor
+@export var spawn_track_editor: TrackEditor
+@export var spawn_data_vbox_container: WaveEditorSpawnDataVBoxContainer
+@export var entity_labeled_option_button: LabeledOptionButton
 
 ## 敌人场景路径到索引的映射。
 var enemy_index_dict: Dictionary[String, int] = {}
 ## 索引到敌人场景路径的映射。
 var enemy_scene_dict: Dictionary[int, String] = {}
 ## 关卡波次组。
-var wave_group: WaveGroup = null
+var wave_group: WaveGroup
 ## 选中的波次。
 var selected_wave: Wave = null
 ## 选中的子波次。

@@ -101,7 +101,7 @@ func _hit(bullet: Entity, bullet_c: BulletComponent, target: Entity, animated_sp
 	AudioManager.play_sfx(bullet_c_config.hit_sfx)
 	if bullet_c_config.hit_animation:
 		animated_sprite_c.play_animation(bullet, bullet_c_config.hit_animation)
-		if await bullet.y_wait(bullet_c_config.hit_delay):
+		if await bullet.y_wait(Utils.frames_to_seconds(bullet_c_config.hit_delay_frames)):
 			return
 		
 	bullet_c_config.influence.take_influence(bullet, target, bullet_c.to)
@@ -121,7 +121,7 @@ func _miss(bullet: Entity, bullet_c: BulletComponent, animated_sprite_c: Animate
 	AudioManager.play_sfx(bullet_c_config.miss_sfx)
 	if bullet_c_config.miss_animation:
 		animated_sprite_c.play_animation(bullet, bullet_c_config.miss_animation)
-		if await bullet.y_wait(bullet_c_config.miss_delay):
+		if await bullet.y_wait(Utils.frames_to_seconds(bullet_c_config.miss_delay_frames)):
 			return
 
 	var influence: Influence = bullet_c_config.influence

@@ -23,7 +23,7 @@ func _spawn_bullets(
 		config: RangedSkillNodeConfig
 	) -> void:
 	var entity_to_target_angle: float = entity.global_position.angle_to_point(target.global_position)
-	var half_angle_range: float = config.bullet_angle_range / 2
+	var half_angle_range: float = config.bullet_angle_range * 0.5
 	var da: float = (config.bullet_angle_range) / config.bullet_count + 1
 	
 	for bullet_index: int in config.bullet_count:

@@ -20,7 +20,7 @@ enum InfoBarType {
 }
 
 
-@export var config: SelectComponentNodeConfig = null:
+@export var config: SelectComponentNodeConfig:
 	set(v): 
 		SignalUtils.reconnect_resource_changed(config, v, _on_config_changed)
 		config = v

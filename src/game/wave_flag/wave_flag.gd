@@ -7,7 +7,7 @@ class_name WaveFlag
 
 
 ## 绑定的 [Pathway]。
-@export var pathway: Pathway = null:
+@export var pathway: Pathway:
 	set(v):
 		pathway = v
 		update_configuration_warnings()
@@ -25,13 +25,13 @@ class_name WaveFlag
 		update_configuration_warnings()
 
 @export_group("Ref")
-@export var animation_player: AnimationPlayer = null
-@export var arrow: TextureRect = null
-@export var decoration: TextureRect = null
-@export var progress_bar: TextureProgressBar = null
-@export var arrow_glow: TextureRect = null
-@export var border_glow: TextureRect = null
-@export var texture_button: TextureButton = null
+@export var animation_player: AnimationPlayer
+@export var arrow: TextureRect
+@export var decoration: TextureRect
+@export var progress_bar: TextureProgressBar
+@export var arrow_glow: TextureRect
+@export var border_glow: TextureRect
+@export var texture_button: TextureButton
 
 var loop_tween: Tween = null
 var value_tween: Tween = null

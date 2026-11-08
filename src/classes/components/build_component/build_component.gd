@@ -9,7 +9,7 @@ class_name BuildComponent
 const build_progress_bar_path: NodePath = ^"BuildTextureProgressBar"
 
 
-@export var config: BuildComponentNodeConfig = null:
+@export var config: BuildComponentNodeConfig:
 	set(v): 
 		SignalUtils.reconnect_resource_changed(config, v, _on_config_changed)
 		config = v

@@ -6,7 +6,7 @@ class_name SpawnerComponent
 ## [SpawnerComponent] 可以让实体生成其他实体。
 
 
-@export var config: SpawnerComponentNodeConfig = null:
+@export var config: SpawnerComponentNodeConfig:
 	set(v):
 		SignalUtils.reconnect_resource_changed(config, v, _on_config_changed)
 		config = v

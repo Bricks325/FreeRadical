@@ -6,5 +6,5 @@
 resource_local_to_scene = true
 script = ExtResource("1_smkxn")
 right = &"death_left_right"
-right_replace_left = true
+flip_right_for_left = true
 metadata/_custom_type_script = "uid://bmqnty76ueopt"

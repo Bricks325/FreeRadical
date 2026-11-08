@@ -6,7 +6,7 @@ class_name OffsetComponent
 ## [OffsetComponent] 可以让实体的判断点的位置偏移指定的距离。
 
 
-@export var config: OffsetComponentNodeConfig = null:
+@export var config: OffsetComponentNodeConfig:
 	set(v): 
 		SignalUtils.reconnect_resource_changed(config, v, _on_config_changed)
 		config = v

@@ -4,9 +4,9 @@ class_name RangeInfoController
 
 
 @export_group("Ref")
-@export var skill_range_info_scene: PackedScene = null
-@export var melee_range_info_scene: PackedScene = null
-@export var barrack_rally_range_info_scene: PackedScene = null
+@export var skill_range_info_scene: PackedScene
+@export var melee_range_info_scene: PackedScene
+@export var barrack_rally_range_info_scene: PackedScene
 
 var selected_entity: Entity = null
 var size_tween_dict: Dictionary[RangeInfo, Tween] = {}

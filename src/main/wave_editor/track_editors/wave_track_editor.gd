@@ -25,7 +25,7 @@ func _on_item_selected(item: TrackEditorItem) -> void:
 		var sub_wave: SubWave = sub_wave_list[sub_wave_index]
 		var delay: float = sub_wave.delay
 
-		if not delay_use_count_dict.has(delay):
+		if delay not in delay_use_count_dict:
 			delay_use_count_dict[delay] = 0
 
 		delay_use_count_dict[delay] += 1

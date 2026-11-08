@@ -13,7 +13,7 @@ signal progress_bar_value_tween_finished
 
 
 @export_group("Ref")
-@export var loading_screen_scene: PackedScene = null
+@export var loading_screen_scene: PackedScene
 
 ## 目标场景路径。
 var _target_scene_path: String

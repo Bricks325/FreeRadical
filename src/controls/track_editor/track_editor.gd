@@ -45,12 +45,12 @@ const STYLE_TYPE_NAME: StringName = &"TrackEditor"
 		if add_track_button:
 			_set_multiple_track_section_visible(v)
 ## 项拖动时的吸附阈值。
-@export var snap_threshold: float = 4.0
+@export_custom(PROPERTY_HINT_NONE, "suffix: px") var snap_threshold: float = 4.0
 
 		#region 轨道刻度长度属性
 @export_subgroup("Tick Length")
 ## 轨道刻度像素长度。
-@export var tick_length_pixel: float = 75.0:
+@export_custom(PROPERTY_HINT_NONE, "suffix: px") var tick_length_pixel: float = 75.0:
 	set(v):
 		tick_length_pixel = v
 		if ruler:
@@ -94,44 +94,44 @@ const STYLE_TYPE_NAME: StringName = &"TrackEditor"
 #region 引用
 @export_group("Ref")
 ## 轨道刻度长度旋钮引用。
-@export var tick_length_spin_box: SpinBox = null
+@export var tick_length_spin_box: SpinBox
 ## 轨道刻度长度滑块引用。
-@export var tick_length_slider: Slider = null
+@export var tick_length_slider: Slider
 ## 添加轨道按钮引用。
-@export var add_track_button: Button = null
+@export var add_track_button: Button
 ## 鼠标工具栏引用。
-@export var mouse_tool_bar: MouseToolBar = null
+@export var mouse_tool_bar: MouseToolBar
 ## 轨道区域引用。
-@export var track_area: TrackEditorTrackArea = null
+@export var track_area: TrackEditorTrackArea
 ## 轨道刻度尺容器引用。
-@export var ruler: TrackEditorRuler = null
+@export var ruler: TrackEditorRuler
 ## 轨道自适应滚动容器引用。
-@export var track_v_external_scroll_container: TrackEditorTrackVExternalScrollContainer = null
+@export var track_v_external_scroll_container: TrackEditorTrackVExternalScrollContainer
 ## 轨道容器引用。
-@export var track_v_box_container: VBoxContainer = null
+@export var track_v_box_container: VBoxContainer
 ## 左轨道工具栏引用。
-@export var left_track_tool_bar: VBoxContainer = null
+@export var left_track_tool_bar: VBoxContainer
 ## 右轨道工具栏引用。
-@export var right_track_tool_bar: VBoxContainer = null
+@export var right_track_tool_bar: VBoxContainer
 ## 左轨道工具栏垂直滚动容器引用。
-@export var left_track_tool_v_external_scroll_container: ExternalScrollContainer = null
+@export var left_track_tool_v_external_scroll_container: ExternalScrollContainer
 ## 右轨道工具栏垂直滚动容器引用。
-@export var right_track_tool_v_external_scroll_container: ExternalScrollContainer = null
+@export var right_track_tool_v_external_scroll_container: ExternalScrollContainer
 ## 水平滚动条引用。
-@export var h_scroll_bar: HScrollBar = null
+@export var h_scroll_bar: HScrollBar
 ## 垂直滚动条引用。
-@export var v_scroll_bar: VScrollBar = null
+@export var v_scroll_bar: VScrollBar
 
 
 @export_subgroup("Scenes")
 ## 项场景引用。
-@export var item_scene: PackedScene = null
+@export var item_scene: PackedScene
 ## 轨道场景引用。
-@export var track_scene: PackedScene = null
+@export var track_scene: PackedScene
 ## 左轨道工具栏项场景引用。
-@export var left_track_tool_bar_item_scene: PackedScene = null
+@export var left_track_tool_bar_item_scene: PackedScene
 ## 右轨道工具栏项场景引用。
-@export var right_track_tool_bar_item_scene: PackedScene = null
+@export var right_track_tool_bar_item_scene: PackedScene
 #endregion
 
 ## 选中的项引用。

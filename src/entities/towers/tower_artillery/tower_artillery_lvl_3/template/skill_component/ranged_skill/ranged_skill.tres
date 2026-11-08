@@ -26,7 +26,7 @@ metadata/_custom_type_script = "uid://4dsevfnug1a1"
 [sub_resource type="Resource" id="Resource_ipws0"]
 script = ExtResource("6_ne3iq")
 list = PackedStringArray("uid://nc72uwjv2uxa")
-delay = 0.466
+delay_frames = 28
 metadata/_custom_type_script = "uid://b2b214g352w4u"
 
 [resource]
@@ -36,7 +36,6 @@ bullet_scene = "uid://dj23msxsdb22o"
 bullet_offsets = SubResource("Resource_32uxe")
 searcher = SubResource("Resource_ddm5a")
 skill_types = 1
-delay = 0.466
 animation = SubResource("Resource_wmilh")
 sfx = SubResource("Resource_ipws0")
 cooldown = 3.0

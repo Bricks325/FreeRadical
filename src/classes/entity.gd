@@ -67,7 +67,7 @@ enum SourceType {
 ## 设置与更新节点配置模板按钮。
 @export_tool_button("设置与更新节点配置模板") var set_and_update_config_template: Callable = _set_and_update_config_template
 ## 节点配置模板。
-@export var node_config_template: NodeConfigTemplateNode = null:
+@export var node_config_template: NodeConfigTemplateNode:
 	set(v):
 		node_config_template = v
 		update_configuration_warnings()

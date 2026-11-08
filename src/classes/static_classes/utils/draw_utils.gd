@@ -12,24 +12,19 @@ class_name DrawUtils
 static func draw_annulus(
 		drawer: CanvasItem,
 		position: Vector2,
-		min_range: float,
-		max_range: float,
+		min_radius: float,
+		max_radius: float,
 		color := Color(0, 1, 0, 0.2),
 		width: float = 3,
 		aspect: float = 0.7
 	) -> void:
-	var ranges := PackedFloat32Array([
-		min_range,
-		max_range
-	])
-
-	for radius: float in ranges:
+	for i: int in 2:
+		var radius: float = min_radius if i == 0 else max_radius
 		var minor: float = radius * aspect
-		var major: float = radius
 
 		drawer.draw_ellipse(
 			position,
-			major,
+			radius,
 			minor,
 			color,
 			false,
@@ -37,7 +32,7 @@ static func draw_annulus(
 		)
 		drawer.draw_ellipse(
 			position,
-			major,
+			radius,
 			minor,
 			color,
 		)
@@ -50,20 +45,15 @@ static func draw_annulus(
 static func draw_elliptical_annulus(
 		drawer: CanvasItem,
 		position: Vector2,
-		min_range: float,
-		max_range: float,
+		min_radius: float,
+		max_radius: float,
 		color := Color(0, 1, 0, 0.2),
 		width: float = 3,
 		aspect: float = 0.7
 	) -> void:
-	var range_list := PackedFloat32Array([
-		min_range,
-		max_range
-	])
-
-	for radius: float in range_list:
+	for i: int in 2:
+		var radius: float = min_radius if i == 0 else max_radius
 		var minor: float = radius * aspect
-		# 绘制轮廓
 		drawer.draw_ellipse(
 			position,
 			radius,
@@ -72,7 +62,6 @@ static func draw_elliptical_annulus(
 			false,
 			width
 		)
-		# 绘制填充椭圆
 		drawer.draw_ellipse(
 			position,
 			radius,

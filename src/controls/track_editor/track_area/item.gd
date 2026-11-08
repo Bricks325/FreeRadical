@@ -14,9 +14,9 @@ signal erase_request(item: TrackEditorItem)
 
 
 ## 以刻度为单位的位置标签。
-@export var tick_position_label: Label = null
+@export var tick_position_label: Label
 ## 项顺序标签。
-@export var order_label: Label = null
+@export var order_label: Label
 
 ## 以刻度为单位的位置。
 var tick_position: float = 0.0

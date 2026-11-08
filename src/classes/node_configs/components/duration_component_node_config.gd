@@ -7,4 +7,4 @@ class_name DurationComponentNodeConfig
 
 
 ## 持续时间（秒），-1 表示无限。
-@export var duration: float = -1
+@export_custom(PROPERTY_HINT_NONE, "suffix: s") var duration: float = -1

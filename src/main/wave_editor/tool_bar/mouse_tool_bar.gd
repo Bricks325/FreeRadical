@@ -3,7 +3,7 @@ extends MouseToolBar
 
 
 ## 波次编辑器引用。
-@export var wave_editor: WaveEditor = null
+@export var wave_editor: WaveEditor
 
 @onready var track_editors: Array[TrackEditor] = [
 	wave_editor.wave_track_editor,

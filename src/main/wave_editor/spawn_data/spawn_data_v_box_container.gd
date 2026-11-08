@@ -2,16 +2,15 @@ extends VBoxContainer
 class_name WaveEditorSpawnDataVBoxContainer
 
 
-@export var spawn_interval: LabeledSpinBox = null
-@export var entity: LabeledOptionButton = null
-@export var pathway: LabeledSpinBox = null
-@export var sub_pathway: LabeledSpinBox = null
-@export var count: LabeledSpinBox = null
-@export var enable_reversed: CheckButton = null
-@export var enable_loop: CheckButton = null
-
 @export_group("Ref")
-@export var wave_editor: WaveEditor = null
+@export var spawn_interval: LabeledSpinBox
+@export var entity: LabeledOptionButton
+@export var pathway: LabeledSpinBox
+@export var sub_pathway: LabeledSpinBox
+@export var count: LabeledSpinBox
+@export var enable_reversed: CheckButton
+@export var enable_loop: CheckButton
+@export var wave_editor: WaveEditor
 
 var spawn: WaveSpawn = null
 

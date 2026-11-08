@@ -3,7 +3,7 @@ extends LabeledTextureButton
 
 
 ## 按钮按下时进入的场景。
-@export_file("*.tscn") var enterted_scene_path: String = ""
+@export_file("*.tscn") var enterted_scene_path: String
 
 
 func _ready() -> void:

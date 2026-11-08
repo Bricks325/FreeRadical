@@ -6,4 +6,4 @@
 resource_local_to_scene = true
 script = ExtResource("1_kdqmc")
 right = &"walk_left_right"
-right_replace_left = true
+flip_right_for_left = true

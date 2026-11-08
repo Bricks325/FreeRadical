@@ -6,7 +6,7 @@ class_name MultipleRangedSkill
 ## [MultipleRangedSkill] 与 [RangedSkill] 相似，但是可以连续攻击多次。
 
 
-@export var config: MultipleRangedSkillNodeConfig = null:
+@export var config: MultipleRangedSkillNodeConfig:
 	set(v):
 		SignalUtils.reconnect_resource_changed(config, v, _on_config_changed)
 		config = v
@@ -51,7 +51,7 @@ func _use_skill(entity: Entity, target: Entity = null) -> void:
 			AudioManager.play_sfx(config.loop_sfx)
 			entity.facing_global_position = target.global_position
 			animated_sprite_c.play_animation(entity, config.loop_animation, &"loop")
-			if await entity.y_wait(config.delay):
+			if await entity.y_wait(Utils.frames_to_seconds(config.delay_frames)):
 				return
 
 			if not target:

@@ -6,16 +6,16 @@ class_name TowerUpgradeSelectMenu
 
 
 @export_group("Ref")
-@export var range_info_controller: RangeInfoController = null
-@export var animation_player: AnimationPlayer = null
-@export var place_holders: Control = null
-@export var ring: TextureRect = null
+@export var range_info_controller: RangeInfoController
+@export var animation_player: AnimationPlayer
+@export var place_holders: Control
+@export var ring: TextureRect
 
 @export_subgroup("Scene")
-@export var rally_button_scene: PackedScene = null
-@export var sell_button_scene: PackedScene = null
-@export var upgrade_button_scene: PackedScene = null
-@export var upgrade_skill_button_scene: PackedScene = null
+@export var rally_button_scene: PackedScene
+@export var sell_button_scene: PackedScene
+@export var upgrade_button_scene: PackedScene
+@export var upgrade_skill_button_scene: PackedScene
 
 ## 当前选择的实体
 var selected_entity: Entity = null

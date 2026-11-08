@@ -6,7 +6,7 @@ class_name RangedSkill
 ## [RangedSkill] 会生成一个子弹，通过子弹对目标造成影响。
 
 
-@export var config: RangedSkillNodeConfig = null:
+@export var config: RangedSkillNodeConfig:
 	set(v):
 		SignalUtils.reconnect_resource_changed(config, v, _on_config_changed)
 		config = v
@@ -37,7 +37,7 @@ func _use_skill(entity: Entity, target: Entity = null) -> void:
 	var animated_sprite_c: AnimatedSpriteComponent = entity.get_node_or_null(Constants.ANIMATED_SPRITE_COMPONENT_NODE_PATH)
 	entity.facing_global_position = target.global_position
 	animated_sprite_c.play_animation(entity, config.animation, &"ranged")
-	if await entity.y_wait(config.delay):
+	if await entity.y_wait(Utils.frames_to_seconds(config.delay_frames)):
 		compensate_cooldown(config)
 		return
 

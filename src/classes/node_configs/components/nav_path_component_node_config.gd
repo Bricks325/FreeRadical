@@ -9,7 +9,7 @@ class_name NavPathComponentNodeConfig
 ## 是否沿相反路线移动。
 @export var reversed_enabled: bool = false
 ## 移动速度。
-@export var speed: float = 133.0
+@export_custom(PROPERTY_HINT_NONE, "suffix: px/s") var speed: float = 133.0
 ## 移动动画组。
 @export var motion_animation: FacingAnimationSet = null
 ## 是否强制与来源实体所在路径同步。

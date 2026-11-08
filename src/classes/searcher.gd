@@ -45,12 +45,12 @@ enum SearchFlag {
 		center_offsets = v
 		emit_changed()
 ## 搜索最小半径。
-@export var min_radius: float = 0.0:
+@export_custom(PROPERTY_HINT_NONE, "suffix: px") var min_radius: float = 0.0:
 	set(v):
 		min_radius = v
 		emit_changed()
 ## 搜索最大半径。
-@export var max_radius: float = 0.0:
+@export_custom(PROPERTY_HINT_NONE, "suffix: px") var max_radius: float = 0.0:
 	set(v):
 		max_radius = v
 		emit_changed()
@@ -147,7 +147,7 @@ func search_targets(center: Vector2, entity: Entity = null, filter := Callable()
 			target_entity_types,
 		)
 	)
-	if interact_policy_flag_sort_prioritys.size() == 0:
+	if interact_policy_flag_sort_prioritys.is_empty():
 		_sort_targets(targets, center)
 	else:
 		var buckets: Dictionary[InteractPolicyComponent.EntityFlag, Array] = {}
@@ -164,7 +164,7 @@ func search_targets(center: Vector2, entity: Entity = null, filter := Callable()
 				if not has_flags & flag:
 					continue
 
-				if not buckets.has(flag):
+				if flag not in buckets:
 					var bucket: Array[Entity] = []
 					buckets[flag] = bucket
 
@@ -179,7 +179,7 @@ func search_targets(center: Vector2, entity: Entity = null, filter := Callable()
 
 		var new_targets: Array[Entity] = []
 		for flag: InteractPolicyComponent.EntityFlag in interact_policy_flag_sort_prioritys:
-			if not buckets.has(flag):
+			if flag not in buckets:
 				continue
 
 			var bucket: Array[Entity] = buckets[flag]

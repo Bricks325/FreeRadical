@@ -4,7 +4,7 @@ class_name SelectMenuUpgradeButton
 
 @export_group("Ref")
 ## 价格标签引用。
-@export var price_tag: TextureRect = null
+@export var price_tag: TextureRect
 
 ## 升级项索引。
 var upgrade_item_index: int = 0

@@ -15,7 +15,7 @@ signal start_skill_cooldown(skill: Skill)
 @warning_ignore_restore("unused_signal")
 
 
-@export var config: SkillComponentNodeConfig = null:
+@export var config: SkillComponentNodeConfig:
 	set(v):
 		SignalUtils.reconnect_resource_changed(config, v, _on_config_changed)
 		config = v

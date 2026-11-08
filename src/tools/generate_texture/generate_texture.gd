@@ -144,7 +144,7 @@ func _create_sprite_frames(sprite_frames_name: String, animation_dict: Dictionar
 
 		for frame_index: int in range(animation_data.from, animation_data.to + 1):
 			var atlas_texture_name: String = "%s_%04d" % [sprite_frames_name, frame_index]
-			if not sprite_frames_texture_db.has(atlas_texture_name):
+			if atlas_texture_name not in sprite_frames_texture_db:
 				Log.error("未找到精灵帧纹理: name=%s" % atlas_texture_name)
 				continue
 

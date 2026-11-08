@@ -6,15 +6,16 @@ class_name FourWayFacingAnimationSet
 ## 上、下、左、右每个 90 度表示一个动画名称。
 
 
-## 左方向的动画名。
-@export var left: StringName = &""
 ## 右方向的动画名。
 @export var right: StringName = &""
-## 右方向的动画是否以镜像方式替换左方向的动画。
-@export var right_replace_left: bool = false:
+## 朝左时是否镜像播放右方向的动画（而非使用独立的左动画）。[br][br]
+## [b]注意[/b]：如果启用此选项，左方向的动画名将被忽略。
+@export var flip_right_for_left: bool = false:
 	set(v):
-		right_replace_left = v
+		flip_right_for_left = v
 		notify_property_list_changed()
+## 左方向的动画名。
+@export var left: StringName = &""
 ## 上方向的动画名。
 @export var up: StringName = &""
 ## 下方向的动画名。
@@ -22,7 +23,7 @@ class_name FourWayFacingAnimationSet
 
 
 func _validate_property(property: Dictionary):
-	if property.name == "left" and right_replace_left:
+	if property.name == "left" and flip_right_for_left:
 		property.usage = PROPERTY_USAGE_NONE
 
 
@@ -37,7 +38,7 @@ func get_animation_name_toward_point(center: Vector2, point: Vector2) -> Animati
 		Enums.Direction.DOWN:
 			animation_name = down
 		Enums.Direction.LEFT:
-			if right_replace_left:
+			if flip_right_for_left:
 				animation_name = right
 				animation_data.flip_h = true
 			else:

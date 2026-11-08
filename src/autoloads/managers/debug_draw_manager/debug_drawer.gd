@@ -1,3 +1,4 @@
+@tool
 @abstract
 extends Node2D
 class_name DebugDrawer
@@ -25,6 +26,7 @@ enum Type {
 }
 
 
+## 调试绘制器类型。
 @export var drawer_type: Type = Type.NONE
 
 

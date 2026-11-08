@@ -5,9 +5,10 @@ class_name SelectMenuButton
 @export var disabled_color := Color(0.725, 0.725, 0.725)
 
 @export_group("Ref")
-@export var button: Button = null
-@export var glow: TextureRect = null
+@export var button: Button
+@export var glow: TextureRect
 
+## 是否禁用。
 var disabled: bool = false
 ## 选择菜单引用
 var select_menu: TowerUpgradeSelectMenu = null

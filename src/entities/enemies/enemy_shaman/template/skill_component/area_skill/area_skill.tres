@@ -9,7 +9,7 @@
 resource_local_to_scene = true
 script = ExtResource("1_b0fxv")
 right = &"heal_left_right"
-right_replace_left = true
+flip_right_for_left = true
 metadata/_custom_type_script = "uid://bmqnty76ueopt"
 
 [sub_resource type="Resource" id="Resource_8umbj"]
@@ -47,6 +47,6 @@ resource_local_to_scene = true
 script = ExtResource("1_62eex")
 influence = SubResource("Resource_t5fix")
 searcher = SubResource("Resource_ik318")
-chance = 0.267
+chance = 16
 animation = SubResource("Resource_lc2l3")
 cooldown = 8.0

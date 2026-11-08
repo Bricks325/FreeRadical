@@ -7,7 +7,7 @@ class_name BulletComponent
 ## [BulletComponent] 可以让实体按照飞行轨迹飞行，命中目标后造成影响。
 
 
-@export var config: BulletComponentNodeConfig = null:
+@export var config: BulletComponentNodeConfig:
 	set(v): 
 		SignalUtils.reconnect_resource_changed(config, v, _on_config_changed)
 		config = v

@@ -7,7 +7,7 @@ class_name NavPathComponent
 ## [NavPathComponent] 可以让实体沿着路径移动。
 
 
-@export var config: NavPathComponentNodeConfig = null:
+@export var config: NavPathComponentNodeConfig:
 	set(v): 
 		SignalUtils.reconnect_resource_changed(config, v, _on_config_changed)
 		config = v

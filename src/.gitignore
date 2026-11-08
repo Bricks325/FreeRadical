@@ -5,3 +5,4 @@
 /android/
 lib/__pycache__/
 tools/__pycache__/
+*.tmp

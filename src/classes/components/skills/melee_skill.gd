@@ -7,7 +7,7 @@ class_name MeleeSkill
 ## 主要用于 [MeleeComponent] 与 [DodgeComponent] 进行近战技能。
 
 
-@export var config: MeleeSkillNodeConfig = null:
+@export var config: MeleeSkillNodeConfig:
 	set(v):
 		SignalUtils.reconnect_resource_changed(config, v, _on_config_changed)
 		config = v
@@ -40,11 +40,11 @@ func can_use(entity: Entity, _config: SkillNodeConfig, target: Entity = null) ->
 		return false
 
 	var target_scene_uid: String = target.scene_file_uid
-	if config.scene_path_bans.has(target_scene_uid):
+	if target_scene_uid in config.scene_path_bans:
 		return false
 	
 	var scene_path_allows: PackedStringArray = config.scene_path_allows
-	if scene_path_allows and not scene_path_allows.has(target_scene_uid):
+	if scene_path_allows and target_scene_uid not in scene_path_allows:
 		return false
 		
 	var entity_interact_policy_c: InteractPolicyComponent = entity.get_node_or_null(Constants.INTERACT_POLICY_COMPONENT_NODE_PATH)
@@ -63,7 +63,7 @@ func _use_skill(entity: Entity, target: Entity = null) -> void:
 	var animated_sprite_c: AnimatedSpriteComponent = entity.get_node_or_null(Constants.ANIMATED_SPRITE_COMPONENT_NODE_PATH)
 	entity.facing_global_position = target.global_position
 	animated_sprite_c.play_animation(entity, config.animation, &"melee")
-	if await entity.y_wait(config.delay) or not target or not target.state & Entity.State.MELEE:
+	if await entity.y_wait(Utils.frames_to_seconds(config.delay_frames)) or not target or not target.state & Entity.State.MELEE:
 		compensate_cooldown(config)
 		return
 	

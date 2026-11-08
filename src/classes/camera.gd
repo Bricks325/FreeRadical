@@ -6,14 +6,14 @@ class_name Camera
 ## [Camera] 用于控制游戏中的相机，包括缩放、拖拽等。
 
 
-## 缩放因子。
-@export var zoom_factor: float = 1.1
 ## 缩放时长。
-@export var zoom_duration: float = 0.2
+@export_custom(PROPERTY_HINT_NONE, "suffix: s") var zoom_duration: float = 0.2
+## 缩放因子。
+@export_custom(PROPERTY_HINT_NONE, "suffix: x") var zoom_factor: float = 1.1
 ## 最小缩放。
-@export var zoom_min: float = 0.0
+@export_custom(PROPERTY_HINT_NONE, "suffix: x") var zoom_min: float = 0.0
 ## 最大缩放。
-@export var zoom_max: float = 1.5
+@export_custom(PROPERTY_HINT_NONE, "suffix: x") var zoom_max: float = 1.5
 
 ## 是否正在拖拽。
 var _dragging: bool = false

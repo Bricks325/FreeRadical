@@ -8,7 +8,7 @@
 resource_local_to_scene = true
 script = ExtResource("1_jb28u")
 right = &"melee_left_right"
-right_replace_left = true
+flip_right_for_left = true
 
 [sub_resource type="Resource" id="Resource_2lnej"]
 resource_local_to_scene = true
@@ -23,5 +23,4 @@ resource_local_to_scene = true
 script = ExtResource("1_0dw16")
 influence = SubResource("Resource_2lnej")
 skill_types = 2
-delay = 0.2
 animation = SubResource("Resource_1wcxj")

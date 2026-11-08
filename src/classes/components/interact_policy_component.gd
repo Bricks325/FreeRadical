@@ -44,7 +44,7 @@ enum EntityFlag {
 
 
 ## 配置。
-@export var config: InteractPolicyComponentNodeConfig = null:
+@export var config: InteractPolicyComponentNodeConfig:
 	set(v): 
 		SignalUtils.reconnect_resource_changed(config, v, _on_config_changed)
 		config = v
@@ -60,11 +60,11 @@ func is_entity_flag_banned_either(other: InteractPolicyComponent) -> bool:
 
 ## 是否场景路径被当前策略禁止交互。
 func is_scene_banned(scene_path: String) -> bool:
-	if config.scene_path_bans.has(scene_path):
+	if scene_path in config.scene_path_bans:
 		return true
 	
 	var scene_path_allows: PackedStringArray = config.scene_path_allows
-	if scene_path_allows and not scene_path_allows.has(scene_path):
+	if scene_path_allows and scene_path not in scene_path_allows:
 		return true
 		
 	return false

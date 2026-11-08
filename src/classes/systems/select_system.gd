@@ -68,14 +68,14 @@ func _process_select_mode() -> void:
 			var barrack_c: BarrackComponent = SelectManager.selected_entity.get_node_or_null(
 				Constants.BARRACK_COMPONENT_NODE_PATH
 			)
-			var rally_max_range: float = barrack_c.config.rally_max_range
-			var rally_min_range: float = barrack_c.config.rally_min_range
+			var rally_max_radius: float = barrack_c.config.rally_max_radius
+			var rally_min_radius: float = barrack_c.config.rally_min_radius
 	
 			if MathUtils.is_in_elliptical_annulus(
 				entity_global_position,
 				mouse_global_position,
-				rally_max_range,
-				rally_min_range
+				rally_max_radius,
+				rally_min_radius
 			):
 				barrack_c.set_all_rally_center_global_position(mouse_global_position)
 			else:
@@ -85,14 +85,14 @@ func _process_select_mode() -> void:
 				if MathUtils.is_in_elliptical_annulus(
 					entity_global_position,
 					mouse_global_position,
-					rally_min_range
+					rally_min_radius
 				):
-					rally_center_global_position = MathUtils.point_at_elliptical_polar_offset(entity_global_position, rally_min_range, angle)
+					rally_center_global_position = MathUtils.point_at_elliptical_polar_offset(
+						entity_global_position, rally_min_radius, angle
+					)
 				else:
 					rally_center_global_position = MathUtils.point_at_elliptical_polar_offset(
-						entity_global_position,
-						rally_max_range,
-						angle
+						entity_global_position, rally_max_radius, angle
 					)
 				barrack_c.set_all_rally_center_global_position(rally_center_global_position)
 

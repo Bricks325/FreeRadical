@@ -1,7 +1,7 @@
 extends Button
 
 
-@export var confirmation_dialog: ConfirmationDialog = null
+@export var confirmation_dialog: ConfirmationDialog
 
 
 func _ready() -> void:

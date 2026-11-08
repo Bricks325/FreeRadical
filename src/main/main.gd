@@ -2,6 +2,7 @@ extends Node2D
 class_name Main
 
 
+## 主页背景音乐。
 @export var music: AudioGroup = null
 
 

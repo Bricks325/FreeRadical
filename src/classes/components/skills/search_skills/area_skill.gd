@@ -6,7 +6,7 @@ class_name AreaSkill
 ## [AreaSkill] 会以目标实体为中心造成影响。
 
 
-@export var config: AreaSkillNodeConfig = null:
+@export var config: AreaSkillNodeConfig:
 	set(v):
 		SignalUtils.reconnect_resource_changed(config, v, _on_config_changed)
 		config = v
@@ -40,7 +40,7 @@ func _use_skill(entity: Entity, target: Entity = null) -> void:
 	start_cooldown(config)
 	AudioManager.play_sfx(config.sfx)
 	animated_sprite_c.play_animation(entity, config.animation, &"area")
-	if await entity.y_wait(config.delay) or config.searcher and not target:
+	if await entity.y_wait(Utils.frames_to_seconds(config.delay_frames)) or config.searcher and not target:
 		compensate_cooldown(config)
 		return
 

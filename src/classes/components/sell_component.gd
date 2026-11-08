@@ -13,7 +13,7 @@ enum CreatedEntityType {
 }
 
 
-@export var config: SellComponentNodeConfig = null:
+@export var config: SellComponentNodeConfig:
 	set(v): 
 		SignalUtils.reconnect_resource_changed(config, v, _on_config_changed)
 		config = v

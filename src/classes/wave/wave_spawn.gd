@@ -5,16 +5,16 @@ class_name WaveSpawn
 
 ## 索引。
 @export var index: int = 0
-## 生成下一个实体间隔，单位为秒。
-@export var interval: float = 1.0
+## 生成下一个实体间隔（秒）。
+@export_custom(PROPERTY_HINT_NONE, "suffix: s") var interval: float = 1.0
 ## 生成的实体场景路径。
 @export_file("*.tscn") var entity: String = ""
 ## 生成的路径，-1 表示随机。
 @export var pathway_index: int = Constants.UNSET
 ## 生成的子路径，-1 表示随机。
 @export var sub_pathway_index: int = Constants.UNSET
-## 生成的间隔，单位为秒。
-@export var spawn_interval: float = 1.0
+## 生成的间隔（秒）。
+@export_custom(PROPERTY_HINT_NONE, "suffix: s") var spawn_interval: float = 1.0
 ## 生成的数量。
 @export var count: int = 10
 ## 实体是否启用沿相反路径移动。

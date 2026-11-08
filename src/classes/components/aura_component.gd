@@ -17,7 +17,7 @@ enum Type {
 }
 
 
-@export var config: AuraComponentNodeConfig = null:
+@export var config: AuraComponentNodeConfig:
 	set(v): 
 		SignalUtils.reconnect_resource_changed(config, v, _on_config_changed)
 		config = v

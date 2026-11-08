@@ -6,7 +6,7 @@ class_name BirthComponent
 ## [BirthComponent] 可以在实体出生时执行一些操作。
 
 
-@export var config: BirthComponentNodeConfig = null:
+@export var config: BirthComponentNodeConfig:
 	set(v): 
 		SignalUtils.reconnect_resource_changed(config, v, _on_config_changed)
 		config = v

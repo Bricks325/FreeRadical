@@ -1,17 +1,17 @@
 extends PanelContainer
 
 @export_group("Node Ref")
-@export var entity_name: Label = null
-@export var hp_label: Label = null
-@export var hp_value: Label = null
-@export var melee_type_icon: TextureRect = null
-@export var melee_value: Label = null
-@export var ranged_type_icon: TextureRect = null
-@export var ranged_value: Label = null
-@export var phys_armor_icon: TextureRect = null
-@export var phys_armor_value: Label = null
-@export var magic_armor_icon: TextureRect = null
-@export var magic_armor_value: Label = null
+@export var entity_name: Label
+@export var hp_label: Label
+@export var hp_value: Label
+@export var melee_type_icon: TextureRect
+@export var melee_value: Label
+@export var ranged_type_icon: TextureRect
+@export var ranged_value: Label
+@export var physical_armor_icon: TextureRect
+@export var physical_armor_value: Label
+@export var magic_armor_icon: TextureRect
+@export var magic_armor_value: Label
 
 ## 当前选择的实体
 var selected_entity: Entity = null
@@ -25,8 +25,8 @@ var info_bar_type: SelectComponent.InfoBarType = SelectComponent.InfoBarType.UNI
 	melee_value, 
 	ranged_type_icon, 
 	ranged_value, 
-	phys_armor_icon, 
-	phys_armor_value, 
+	physical_armor_icon, 
+	physical_armor_value, 
 	magic_armor_icon, 
 	magic_armor_value,
 ]
@@ -39,8 +39,8 @@ var info_bar_type: SelectComponent.InfoBarType = SelectComponent.InfoBarType.UNI
 		melee_value,
 		ranged_type_icon,
 		ranged_value,
-		phys_armor_icon,
-		phys_armor_value,
+		physical_armor_icon,
+		physical_armor_value,
 		magic_armor_icon,
 		magic_armor_value,
 	],
@@ -111,8 +111,8 @@ func _update_unit_info() -> void:
 	var health_c: HealthComponent = selected_entity.get_node_or_null(Constants.HEALTH_COMPONENT_NODE_PATH)
 	var health_c_config: HealthComponentNodeConfig = health_c.config
 	hp_value.text = "%d/%d" % [health_c_config.hp_max, health_c.hp]
-	phys_armor_value.text = "%d" % (health_c_config.physical_armor * 100)
-	magic_armor_value.text = "%d" % (health_c_config.magical_armor * 100)
+	physical_armor_value.text = "%d" % (health_c_config.physical_armor)
+	magic_armor_value.text = "%d" % (health_c_config.magical_armor)
 	
 	var melee_c: MeleeComponent = selected_entity.get_node_or_null(Constants.MELEE_COMPONENT_NODE_PATH)
 	if melee_c and melee_c.get_child(0):

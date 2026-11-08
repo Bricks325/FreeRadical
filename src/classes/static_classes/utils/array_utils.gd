@@ -61,10 +61,11 @@ static func get_array_diffs(array1: Array, array2: Array) -> Array[Array]:
 		if counts[item] > 1:
 			continue
 
-		if array2_has_items.has(item):
+		if item in array2_has_items:
 			diff2.append(item)
-		else:
-			diff1.append(item)
+			continue
+
+		diff1.append(item)
 
 	return [diff1, diff2]
 

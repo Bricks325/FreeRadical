@@ -4,7 +4,7 @@ class_name WaveSpawnerEntity
 
 
 ## 波次组。
-@export var wave_group: WaveGroup = null:
+@export var wave_group: WaveGroup:
 	set(v):
 		wave_group = v
 		if wave_spawner_component:

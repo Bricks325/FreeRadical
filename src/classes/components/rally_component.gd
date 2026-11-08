@@ -10,7 +10,7 @@ class_name RallyComponent
 const navigation_agent_path: NodePath = ^"NavigationAgent2D"
 
 
-@export var config: RallyComponentNodeConfig = null:
+@export var config: RallyComponentNodeConfig:
 	set(v): 
 		SignalUtils.reconnect_resource_changed(config, v, _on_config_changed)
 		config = v

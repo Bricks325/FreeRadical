@@ -9,12 +9,12 @@
 resource_local_to_scene = true
 script = ExtResource("1_0mp1i")
 right = &"ranged_left_right"
-right_replace_left = true
+flip_right_for_left = true
 
 [sub_resource type="Resource" id="Resource_367kr"]
 script = ExtResource("2_0dgj0")
-right_replace_left = true
 right = Vector2(13.285, -23.12)
+flip_right_for_left = true
 metadata/_custom_type_script = "uid://8ddntx9wc2qb"
 
 [sub_resource type="Resource" id="Resource_uea8m"]
@@ -30,6 +30,5 @@ bullet_scene = "uid://3wgsu2jj2mdg"
 bullet_offsets = SubResource("Resource_367kr")
 searcher = SubResource("Resource_uea8m")
 skill_types = 1
-delay = 0.167
 animation = SubResource("Resource_6rlp0")
 cooldown = 0.8

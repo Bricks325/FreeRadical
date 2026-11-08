@@ -7,7 +7,7 @@ class_name AnyFacingOffsetSet
 
 
 ## 任意方向的偏移。
-@export var any := Vector2.ZERO:
+@export_custom(PROPERTY_HINT_NONE, "suffix: px") var any := Vector2.ZERO:
 	set(v):
 		any = v
 		emit_changed()

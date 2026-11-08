@@ -6,7 +6,7 @@ class_name AnimatedSpriteComponent
 ## [AnimatedSpriteComponent] 可以让实体可以显示 [AnimatedSprite2D] 动画精灵节点。
 
 
-@export var config: AnimatedSpriteComponentNodeConfig = null:
+@export var config: AnimatedSpriteComponentNodeConfig:
 	set(v):
 		SignalUtils.reconnect_resource_changed(config, v, _on_config_changed)
 		config = v

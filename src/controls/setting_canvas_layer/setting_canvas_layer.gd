@@ -2,7 +2,7 @@ extends CanvasLayer
 class_name SettingCanvasLayer
 
 
-@export var animation_player: AnimationPlayer = null
+@export var animation_player: AnimationPlayer
 
 
 func _ready() -> void:

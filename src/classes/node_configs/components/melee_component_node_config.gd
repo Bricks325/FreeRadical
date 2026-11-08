@@ -9,7 +9,7 @@ class_name MeleeComponentNodeConfig
 ## 是否启用被动实体，被动实体不会前往拦截位置，通常用于障碍物。
 @export var passive_enabled: bool = false
 ## 移动速度。
-@export var speed: float = 100.0
+@export_custom(PROPERTY_HINT_NONE, "suffix: px/s") var speed: float = 100.0
 ## 移动动画组。
 @export var motion_animation: FacingAnimationSet = null
 ## 近战位置偏移组。

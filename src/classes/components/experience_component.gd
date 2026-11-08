@@ -8,7 +8,7 @@ class_name ExperienceComponent
 ## @deprecated: 未实现。
 
 
-@export var config: ExperienceComponentNodeConfig = null:
+@export var config: ExperienceComponentNodeConfig:
 	set(v):
 		SignalUtils.reconnect_resource_changed(config, v, _on_config_changed)
 		config = v

@@ -8,15 +8,13 @@ class_name Level
 ## 初始生命。
 @export var life: int = 20
 ## 默认塔位样式。
-@export_file("*.tscn") var default_tower_holder: String = ""
-## 地图大小。
-@export var world_size := Vector2(2560, 1440)
+@export_file("*.tscn") var default_tower_holder: String
 
 @export_group("Music")
 ## 准备阶段播放的音乐数据。
-@export var ready_music: AudioGroup = null
+@export var ready_music: AudioGroup
 ## 战斗阶段播放的音乐数据。
-@export var battle_music: AudioGroup = null
+@export var battle_music: AudioGroup
 
 
 func _enter_tree() -> void:
@@ -24,7 +22,6 @@ func _enter_tree() -> void:
 	EntityManager.init()
 	EntitySpatialHashManager.init()
 		
-	GlobalManager.world_size = world_size
 	GameManager.default_tower_holder = default_tower_holder
 
 

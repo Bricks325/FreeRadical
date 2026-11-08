@@ -6,9 +6,8 @@ class_name TowerRecord
 ## [TowerRecord] 用于存储跨实体的防御塔信息。
 
 
-# 需要支持外部修改
 ## 塔位场景路径。
-@export_file("*.tscn") var tower_holder: String = ""
+var tower_holder: String = ""
 
 
 func _ready() -> void:

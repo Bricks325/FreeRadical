@@ -1,7 +1,8 @@
 extends Button
 
 
-@export_file("*.tscn") var map_scene_path: String = ""
+## 地图场景路径。
+@export_file("*.tscn") var map_scene_path: String
 
 
 func _ready() -> void:

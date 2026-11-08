@@ -7,7 +7,7 @@ class_name SelectComponentNodeConfig
 
 
 ## 选择矩形大小。
-@export var select_rect := Rect2(-16, -16, 32, 32):
+@export_custom(PROPERTY_HINT_NONE, "suffix: px") var select_rect := Rect2(-16, -16, 32, 32):
 	set(v):
 		select_rect = v
 		emit_changed()
@@ -24,7 +24,7 @@ class_name SelectComponentNodeConfig
 ## 是否启用选择菜单。
 @export_custom(PROPERTY_HINT_GROUP_ENABLE, "") var select_menu_enabled: bool = false
 ## 选择菜单偏移。
-@export var select_menu_offset := Vector2.ZERO:
+@export_custom(PROPERTY_HINT_NONE, "suffix: px") var select_menu_offset := Vector2.ZERO:
 	set(v):
 		select_menu_offset = v
 		emit_changed()

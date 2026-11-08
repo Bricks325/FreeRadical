@@ -6,7 +6,7 @@ class_name FXComponent
 ## [FXComponent] 可以让实体显示特效。
 
 
-@export var config: FXComponentNodeConfig = null:
+@export var config: FXComponentNodeConfig:
 	set(v):
 		SignalUtils.reconnect_resource_changed(config, v, _on_config_changed)
 		config = v

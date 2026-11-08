@@ -13,28 +13,28 @@ class_name BarrackComponentNodeConfig
 
 @export_group("Rally")
 ## 最小集结范围。
-@export var rally_min_range: float = 0.0:
+@export_custom(PROPERTY_HINT_NONE, "suffix: px") var rally_min_radius: float = 0.0:
 	set(v):
-		rally_min_range = v
+		rally_min_radius = v
 		emit_changed()
 ## 最大集结范围。
-@export var rally_max_range: float = 300:
+@export_custom(PROPERTY_HINT_NONE, "suffix: px") var rally_max_radius: float = 300:
 	set(v):
-		rally_max_range = v
+		rally_max_radius = v
 		emit_changed()
-## 集结点半径，影响士兵与集结点之间的距离。
-@export var rally_radius: float = 30.0:
+## 阵型半径，影响士兵到集结点的距离。
+@export_custom(PROPERTY_HINT_NONE, "suffix: px") var formation_radius: float = 30.0:
 	set(v):
-		rally_radius = v
+		formation_radius = v
 		emit_changed()
 ## 集结音效组。
 @export var rally_sfx: AudioGroup = null
 
 @export_group("Spawn")
 ## 士兵场景路径。
-@export_file("*.tscn") var soldier_scene: String = ""
+@export_file("*.tscn") var soldier_scene: String
 ## 生成士兵间隔（秒）。
-@export var spawn_interval: float = 10.0
+@export_custom(PROPERTY_HINT_NONE, "suffix: s") var spawn_interval: float = 10.0
 ## 士兵生成偏移组。
 @export var spawn_offsets: FacingOffsetSet = null:
 	set(v):
@@ -48,8 +48,8 @@ class_name BarrackComponentNodeConfig
 		emit_changed()
 ## 生成士兵播放的动画。
 @export var spawn_animation: FacingAnimationSet = null
-## 生成士兵延迟（秒），用于在动画播放到特定帧后生成士兵。
-@export var spawn_delay: float = 0.0
+## 生成士兵延迟（帧），用于在动画播放到特定帧后生成士兵。
+@export_custom(PROPERTY_HINT_NONE, "suffix: frames") var spawn_delay_frames: float = 0.0
 ## 生成士兵播放的音效。
 @export var spawn_sfx: AudioGroup = null
 

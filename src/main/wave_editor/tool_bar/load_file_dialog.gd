@@ -2,7 +2,7 @@ extends FileDialog
 
 
 ## 波次编辑器引用。
-@export var wave_editor: WaveEditor = null
+@export var wave_editor: WaveEditor
 
 
 func _ready() -> void:

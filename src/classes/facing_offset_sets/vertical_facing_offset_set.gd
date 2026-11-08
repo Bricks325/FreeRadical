@@ -7,19 +7,19 @@ class_name VerticalFacingOffsetSet
 
 
 ## 上方向的偏移。
-@export var up := Vector2.ZERO:
+@export_custom(PROPERTY_HINT_NONE, "suffix: px") var up := Vector2.ZERO:
 	set(v):
 		up = v
 		emit_changed()
 ## 下方向的偏移。
-@export var down := Vector2.ZERO:
+@export_custom(PROPERTY_HINT_NONE, "suffix: px") var down := Vector2.ZERO:
 	set(v):
 		down = v
 		emit_changed()
-## 上下方向是否启用镜像。
-@export var vertical_mirror: bool = false:
+## 是否启用朝向左方向时镜像。
+@export var flip_on_left: bool = false:
 	set(v):
-		vertical_mirror = v
+		flip_on_left = v
 		notify_property_list_changed()
 
 
@@ -33,7 +33,7 @@ func get_offset_toward_point(center: Vector2, point: Vector2) -> Vector2:
 		Enums.Direction.LEFT_DOWN, Enums.Direction.RIGHT_DOWN:
 			offset = down
 
-	if vertical_mirror and direction & Enums.Direction.LEFT:
+	if flip_on_left and direction & Enums.Direction.LEFT:
 		offset *= Vector2(-1, 1)
 	return offset
 

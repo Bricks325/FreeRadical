@@ -36,7 +36,7 @@ func _preprocess_pathway_intersection() -> void:
 		for dx: int in range(-1, 2):
 			for dy: int in range(-1, 2):
 				var neighbor_key: Array[int] = [cell_x + dx, cell_y + dy]
-				if not grid.has(neighbor_key):
+				if neighbor_key not in grid:
 					continue
 				
 				for other_node: PathwayNode in grid[neighbor_key]:

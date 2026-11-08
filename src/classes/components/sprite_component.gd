@@ -6,7 +6,7 @@ class_name SpriteComponent
 ## [SpriteComponent] 可以让实体显示 [Sprite] 节点。
 
 
-@export var config: SpriteComponentNodeConfig = null:
+@export var config: SpriteComponentNodeConfig:
 	set(v):
 		SignalUtils.reconnect_resource_changed(config, v, _on_config_changed)
 		config = v

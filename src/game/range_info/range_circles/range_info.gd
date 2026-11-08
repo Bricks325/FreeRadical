@@ -2,11 +2,11 @@ extends Control
 class_name RangeInfo
 
 
-@export var size_tween_duration: float = 0.15
+@export_custom(PROPERTY_HINT_NONE, "suffix: s") var size_tween_duration: float = 0.15
 
 @export_group("Ref")
-@export var min_range_circle: RangeCircle = null
-@export var max_range_circle: RangeCircle = null
+@export var min_range_circle: RangeCircle
+@export var max_range_circle: RangeCircle
 
 var target_entity: Entity = null
 var target_source: Entity = null

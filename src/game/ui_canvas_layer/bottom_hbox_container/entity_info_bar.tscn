@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://01g5f17eor8s" path="res://assets/atlas/atlas_textures/game_gui/base_info_icons_0003.tres" id="5_dpyxj"]
 [ext_resource type="Texture2D" uid="uid://bbaa7opsu308v" path="res://assets/atlas/atlas_textures/game_gui/base_info_icons_0004.tres" id="6_rato6"]
 
-[node name="EntityInfoBar" type="PanelContainer" unique_id=1937124006 node_paths=PackedStringArray("entity_name", "hp_label", "hp_value", "melee_type_icon", "melee_value", "ranged_type_icon", "ranged_value", "phys_armor_icon", "phys_armor_value", "magic_armor_icon", "magic_armor_value")]
+[node name="EntityInfoBar" type="PanelContainer" unique_id=1937124006 node_paths=PackedStringArray("entity_name", "hp_label", "hp_value", "melee_type_icon", "melee_value", "ranged_type_icon", "ranged_value", "physical_armor_icon", "physical_armor_value", "magic_armor_icon", "magic_armor_value")]
 mouse_filter = 2
 script = ExtResource("1_1ujae")
 entity_name = NodePath("MarginContainer/HBoxContainer/EntityName")
@@ -16,8 +16,8 @@ melee_type_icon = NodePath("MarginContainer/HBoxContainer/MeleeHBoxContainer/Typ
 melee_value = NodePath("MarginContainer/HBoxContainer/MeleeHBoxContainer/Value")
 ranged_type_icon = NodePath("MarginContainer/HBoxContainer/RangedHBoxContainer/TypeIcon")
 ranged_value = NodePath("MarginContainer/HBoxContainer/RangedHBoxContainer/Value")
-phys_armor_icon = NodePath("MarginContainer/HBoxContainer/PhysArmorHBoxContainer/Icon")
-phys_armor_value = NodePath("MarginContainer/HBoxContainer/PhysArmorHBoxContainer/Value")
+physical_armor_icon = NodePath("MarginContainer/HBoxContainer/PhysicalArmorHBoxContainer/Icon")
+physical_armor_value = NodePath("MarginContainer/HBoxContainer/PhysicalArmorHBoxContainer/Value")
 magic_armor_icon = NodePath("MarginContainer/HBoxContainer/MagicArmorHBoxContainer/Icon")
 magic_armor_value = NodePath("MarginContainer/HBoxContainer/MagicArmorHBoxContainer/Value")
 
@@ -74,15 +74,15 @@ texture = ExtResource("4_1b7rs")
 layout_mode = 2
 text = "25-25/1"
 
-[node name="PhysArmorHBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer" unique_id=849431744]
+[node name="PhysicalArmorHBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer" unique_id=849431744]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Icon" type="TextureRect" parent="MarginContainer/HBoxContainer/PhysArmorHBoxContainer" unique_id=1144040450]
+[node name="Icon" type="TextureRect" parent="MarginContainer/HBoxContainer/PhysicalArmorHBoxContainer" unique_id=1144040450]
 layout_mode = 2
 texture = ExtResource("5_dpyxj")
 
-[node name="Value" type="Label" parent="MarginContainer/HBoxContainer/PhysArmorHBoxContainer" unique_id=45631269]
+[node name="Value" type="Label" parent="MarginContainer/HBoxContainer/PhysicalArmorHBoxContainer" unique_id=45631269]
 layout_mode = 2
 text = "20"
 

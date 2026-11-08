@@ -2,9 +2,9 @@ extends PanelContainer
 
 
 @export_group("Ref")
-@export var wave_flag: WaveFlag = null
-@export var spawn_list: VBoxContainer = null
-@export var spawn_list_item_scene: PackedScene = null
+@export var wave_flag: WaveFlag
+@export var spawn_list: VBoxContainer
+@export var spawn_list_item_scene: PackedScene
 
 var original_position := Vector2.ZERO
 

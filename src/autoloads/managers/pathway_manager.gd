@@ -59,7 +59,7 @@ func get_pathway_node(pathway_index: int, sub_pathway_index: int, index: int) ->
 
 ## 获取中间的子路径索引。
 func get_middle_sub_pathway_index() -> int:
-	return roundi(1.0 * sub_pathway_count / 2)
+	return roundi(sub_pathway_count / 2.0)
 
 
 ## 获取启用的路径。
@@ -140,22 +140,28 @@ func predict_target_global_position(target: Entity, predict_time: float) -> Vect
 	
 
 ## 获取指定路径上按距离排序的节点列表。[br][br]
-## [param pathway_index_list]: 路径索引列表。默认搜索所有路径。[br]
-## [param sub_pathway_index_list]: 子路径索引列表。默认搜索所有子路径。[br]
+## [param pathway_indexes]: 路径索引列表。默认搜索所有路径。[br]
+## [param sub_pathway_indexes]: 子路径索引列表。默认搜索所有子路径。[br]
 ## [param only_valid]: 是否只搜索已启用的路径。[br][br]
 ## [b]注意[/b]: 如果只需要一个最近的节点，为了性能请使用 [method find_nearest_node_at_global_position]。
 func find_nearest_nodes_at_global_position(
 		search_global_position: Vector2, 
-		pathway_index_list: Array = range(get_pathway_count()), 
-		sub_pathway_index_list: Array = range(sub_pathway_count),
+		pathway_indexes: Array, 
+		sub_pathway_indexes: Array = [],
 		only_valid: bool = true
 	) -> Array[PathwayNode]:
+	if pathway_indexes.is_empty():
+		pathway_indexes = range(get_pathway_count())
+
+	if sub_pathway_indexes.is_empty():
+		sub_pathway_indexes = range(sub_pathway_count)
+
 	var nodes: Array[PathwayNode] = []
-	for pathway_index: int in pathway_index_list:
+	for pathway_index: int in pathway_indexes:
 		if only_valid and get_pathway(pathway_index).is_disabled():
 			continue
 
-		for sub_pathway_index: int in sub_pathway_index_list:
+		for sub_pathway_index: int in sub_pathway_indexes:
 			var sub_pathway: SubPathway = get_sub_pathway(pathway_index, sub_pathway_index)
 			for node: PathwayNode in sub_pathway.nodes:
 				node.dist_squared = node.global_position.distance_squared_to(search_global_position)
@@ -169,22 +175,28 @@ func find_nearest_nodes_at_global_position(
 	
 
 ## 获取全局位置上最近的路径上的一个节点。[br][br]
-## [param pathway_index_list]: 路径索引列表。默认搜索所有路径。[br]
-## [param sub_pathway_index_list]: 子路径索引列表。默认搜索所有子路径。[br]
+## [param pathway_indexes]: 路径索引列表。默认搜索所有路径。[br]
+## [param sub_pathway_indexes]: 子路径索引列表。默认搜索所有子路径。[br]
 ## [param only_valid]: 是否只搜索已启用的路径。[br][br]
 ## 如果只需要多个最近的节点，请使用 [method find_nearest_nodes_at_global_position]。
 func find_nearest_node_at_global_position(
 		search_global_position: Vector2, 
-		pathway_index_list: Array = range(get_pathway_count()), 
-		sub_pathway_index_list: Array = range(sub_pathway_count),
+		pathway_indexes: Array = [], 
+		sub_pathway_indexes: Array = [],
 		only_valid: bool = true
 	) -> PathwayNode:
+	if pathway_indexes.is_empty():
+		pathway_indexes = range(get_pathway_count())
+
+	if sub_pathway_indexes.is_empty():
+		sub_pathway_indexes = range(sub_pathway_count)
+
 	var nearest_node: PathwayNode = null
-	for pathway_index: int in pathway_index_list:
+	for pathway_index: int in pathway_indexes:
 		if only_valid and get_pathway(pathway_index).is_disabled():
 			continue
 		
-		for sub_pathway_index: int in sub_pathway_index_list:
+		for sub_pathway_index: int in sub_pathway_indexes:
 			var sub_pathway: SubPathway = get_sub_pathway(pathway_index, sub_pathway_index)
 			for node: PathwayNode in sub_pathway.node_list:
 				var dist_squared: float = node.global_position.distance_squared_to(search_global_position)

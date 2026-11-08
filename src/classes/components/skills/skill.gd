@@ -45,7 +45,7 @@ func can_use(entity: Entity, config: SkillNodeConfig, target: Entity = null) -> 
 	if not TimeManager.has_elapsed(timestamp, config.cooldown):
 		return false
 
-	if randf() > config.chance:
+	if randf_range(0, 100) > config.chance:
 		return false
 
 	return true
@@ -80,7 +80,7 @@ func start_cooldown(config: SkillNodeConfig) -> void:
 
 ## 补偿技能冷却时间。
 func compensate_cooldown(config: SkillNodeConfig) -> void:
-	timestamp -= config.compensate_cooldown_percent * config.cooldown
+	timestamp -= config.compensate_cooldown_percent / 100 * config.cooldown
 
 
 func _on_config_changed() -> void:

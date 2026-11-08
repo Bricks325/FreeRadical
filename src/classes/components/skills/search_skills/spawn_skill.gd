@@ -6,7 +6,7 @@ class_name SpawnSkill
 ## [SpawnSkill] 会生成一个实体。
 
 
-@export var config: SpawnSkillNodeConfig = null:
+@export var config: SpawnSkillNodeConfig:
 	set(v):
 		SignalUtils.reconnect_resource_changed(config, v, _on_config_changed)
 		config = v
@@ -44,7 +44,7 @@ func _use_skill(entity: Entity, target: Entity = null) -> void:
 		spawn_global_position += config.spawn_offsets.get_offset_toward_point(entity_global_position, spawn_global_position)
 	entity.facing_global_position = spawn_global_position
 	animated_sprite_c.play_animation(entity, config.animation, &"spawn")
-	if await entity.y_wait(config.delay):
+	if await entity.y_wait(Utils.frames_to_seconds(config.delay_frames)):
 		compensate_cooldown(config)
 		return
 

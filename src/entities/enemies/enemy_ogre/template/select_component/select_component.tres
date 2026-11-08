@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://c2qgj80y7td10" path="res://classes/node_configs/components/select_component_node_config.gd" id="1_40rmn"]
 
 [resource]
+resource_local_to_scene = true
 script = ExtResource("1_40rmn")
 select_rect = Rect2(-40.08, -85.125, 80.06, 89.87)
 info_bar_type = 1

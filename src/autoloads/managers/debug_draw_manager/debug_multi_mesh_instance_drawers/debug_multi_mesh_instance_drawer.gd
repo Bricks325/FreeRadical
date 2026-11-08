@@ -1,3 +1,4 @@
+@tool
 @abstract
 extends DebugDrawer
 class_name DebugMultiMeshInstanceDrawer

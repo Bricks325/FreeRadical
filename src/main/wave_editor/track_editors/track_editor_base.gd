@@ -4,7 +4,7 @@ extends TrackEditor
 class_name WaveEditorTrackEditorBase
 
 
-@export var wave_editor: WaveEditor = null
+@export var wave_editor: WaveEditor
 
 
 func _ready() -> void:

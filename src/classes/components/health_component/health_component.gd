@@ -10,7 +10,7 @@ class_name HealthComponent
 const health_bar_path: NodePath = ^"HealthBar"
 
 
-@export var config: HealthComponentNodeConfig = null:
+@export var config: HealthComponentNodeConfig:
 	set(v): 
 		SignalUtils.reconnect_resource_changed(config, v, _on_config_changed)
 		config = v
@@ -20,14 +20,12 @@ const health_bar_path: NodePath = ^"HealthBar"
 ## 当前血量。
 var hp: float = 0.0:
 	set(v): 
-		last_hp = hp
 		hp = clampf(v, 0, config.hp_max)
 		hp_percent = hp / config.hp_max * 100
 		health_bar.value = hp_percent
 		queue_redraw()
+## 当前血量百分比。
 var hp_percent: float = 0.0
-## 上一次的血量。
-var last_hp: float = 0.0
 ## 回血时间戳。
 var regen_timestamp: float = 0.0
 ## 待机回血时间戳。

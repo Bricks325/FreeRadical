@@ -51,7 +51,7 @@ func _on_update(entity: Entity) -> bool:
 	_cleanup_invalid_block_targets(entity, melee_c)
 	var animated_sprite_c: AnimatedSpriteComponent = entity.get_node_or_null(Constants.ANIMATED_SPRITE_COMPONENT_NODE_PATH)
 	var target_ids: PackedInt32Array = melee_c.target_ids
-	if target_ids.size() == 0:
+	if target_ids.is_empty():
 		if melee_c.state == MeleeComponent.State.ORIGINAL_POSITION_ARRIVED:
 			return false
 
@@ -170,7 +170,7 @@ func _search_and_block_targets(entity: Entity, melee_c: MeleeComponent) -> void:
 				return common_filter.call(target, target_melee_c)
 		)
 
-	if targets.size() == 0:
+	if targets.is_empty():
 		return
 
 	_block_targets(entity, melee_c, targets)

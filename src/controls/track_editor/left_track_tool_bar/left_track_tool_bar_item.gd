@@ -4,7 +4,7 @@ class_name TrackEditorLeftTrackToolBarItem
 
 
 ## 轨道序号标签引用。
-@export var track_order_label: Label = null
+@export var track_order_label: Label
 
 
 ## 设置轨道序号标签。

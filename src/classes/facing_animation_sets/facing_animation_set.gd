@@ -12,7 +12,7 @@ class_name FacingAnimationSet
 ## 播放次数。
 @export var times: int = 1
 ## 播放倍速。
-@export var speed_scale: float = 1.0
+@export_custom(PROPERTY_HINT_NONE, "suffix: x") var speed_scale: float = 1.0
 
 
 func _init():

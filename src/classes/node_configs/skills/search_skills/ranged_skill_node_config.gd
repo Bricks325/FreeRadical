@@ -11,7 +11,7 @@ class_name RangedSkillNodeConfig
 
 @export_group("Bullet")
 ## 子弹场景路径。
-@export_file("*.tscn") var bullet_scene: String = ""
+@export_file("*.tscn") var bullet_scene: String
 ## 子弹发射数量。
 @export var bullet_count: int = 1
 ## 子弹初始位置偏移组。

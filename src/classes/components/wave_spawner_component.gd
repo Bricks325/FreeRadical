@@ -6,7 +6,7 @@ class_name WaveSpawnerComponent
 ## [WaveSpawnerComponent] 可以让实体生成波次数据中的实体。
 
 
-@export var config: WaveSpawnerComponentNodeConfig = null:
+@export var config: WaveSpawnerComponentNodeConfig:
 	set(v):
 		SignalUtils.reconnect_resource_changed(config, v, _on_config_changed)
 		config = v

@@ -86,11 +86,11 @@ func _on_update(_delta: float) -> void:
 					return not sub_wave.is_finished
 			)
 					
-			if wave.sub_wave_queue.size() == 0:
+			if wave.sub_wave_queue.is_empty():
 				wave_queue.pop_front()
 				Log.debug("波次发送完毕: index=%d" % wave_index)
 
-		if wave_queue.size() == 0 and not WaveManager.is_waves_finished:
+		if wave_queue.is_empty() and not WaveManager.is_waves_finished:
 			Log.debug("所有波次发送完毕")
 			WaveManager.is_waves_finished = true
 			WaveManager.waves_finished.emit()
@@ -135,5 +135,5 @@ func _process_sub_wave(wave: Wave) -> void:
 			spawn.is_finished = true
 			sub_wave.spawn_queue.pop_front()
 
-		if sub_wave.spawn_queue.size() == 0:
+		if sub_wave.spawn_queue.is_empty():
 			sub_wave.is_finished = true

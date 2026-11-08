@@ -4,13 +4,13 @@ class_name TowerEntity
 
 
 ## 塔位场景路径。
-@export_file("*.tscn") var tower_holder: String = "":
+@export_file("*.tscn") var tower_holder: String:
 	set(v): 
 		tower_holder = v
 		if tower_record:
 			tower_record.tower_holder = v
 ## 默认集结点局部位置。
-@export var default_rally_center_position := Vector2.ZERO:
+@export_custom(PROPERTY_HINT_NONE, "suffix: px") var default_rally_center_position := Vector2.ZERO:
 	set(v): 
 		default_rally_center_position = v
 		if barrack_record:

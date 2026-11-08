@@ -7,7 +7,7 @@ class_name TrackEditorRightTrackToolBarItem
 signal erase_track_request(track_index: int)
 
 
-@export var erase_track_button: Button = null
+@export var erase_track_button: Button
 
 
 func _ready() -> void:

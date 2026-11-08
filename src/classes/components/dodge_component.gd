@@ -8,7 +8,7 @@ class_name DodgeComponent
 ## @deprecated: 未实现。
 
 
-@export var config: DodgeComponentNodeConfig = null:
+@export var config: DodgeComponentNodeConfig:
 	set(v): 
 		SignalUtils.reconnect_resource_changed(config, v, _on_config_changed)
 		config = v

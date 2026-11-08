@@ -10,8 +10,8 @@ class_name VerticalFacingAnimationSet
 @export var up: StringName = &""
 ## 下方向的动画名。
 @export var down: StringName = &""
-## 上下方向是否启用镜像。
-@export var vertical_mirror: bool = false
+## 是否启用朝向左方向时镜像。
+@export var flip_on_left: bool = false
 
 
 func get_animation_name_toward_point(center: Vector2, point: Vector2) -> AnimationData:
@@ -19,7 +19,7 @@ func get_animation_name_toward_point(center: Vector2, point: Vector2) -> Animati
 	var animation_name: StringName = &""
 	var direction: Enums.Direction = MathUtils.get_quadrant_direction(center, point)
 
-	if vertical_mirror and direction & Enums.Direction.LEFT:
+	if flip_on_left and direction & Enums.Direction.LEFT:
 		animation_data.flip_h = true
 
 	match direction:

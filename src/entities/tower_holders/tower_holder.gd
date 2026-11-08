@@ -4,7 +4,7 @@ class_name TowerHolderEntity
 
 
 ## 默认集结点局部位置。
-@export var default_rally_center_position := Vector2.ZERO:
+@export_custom(PROPERTY_HINT_NONE, "suffix: px") var default_rally_center_position := Vector2.ZERO:
 	set(v): 
 		default_rally_center_position = v
 		if barrack_record:

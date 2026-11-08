@@ -38,7 +38,7 @@ func _on_insert(modifier: Entity) -> bool:
 
 		var other_modifier_scene_uid: String = other_modifier.scene_file_uid
 		var exclude_modifier_scene_paths: Dictionary[String, bool] = modifier_c_config.exclude_modifier_scene_paths
-		if exclude_modifier_scene_paths.has(other_modifier_scene_uid):
+		if other_modifier_scene_uid in exclude_modifier_scene_paths:
 			if not exclude_modifier_scene_paths[other_modifier_scene_uid]:
 				continue
 				
@@ -46,7 +46,7 @@ func _on_insert(modifier: Entity) -> bool:
 			continue
 
 		var include_modifier_scene_paths: Dictionary[String, bool] = modifier_c_config.include_modifier_scene_paths
-		if include_modifier_scene_paths and not include_modifier_scene_paths.has(other_modifier_scene_uid):
+		if include_modifier_scene_paths and other_modifier_scene_uid not in include_modifier_scene_paths:
 			if not include_modifier_scene_paths[other_modifier_scene_uid]:
 				continue
  				
@@ -70,11 +70,11 @@ func _on_insert(modifier: Entity) -> bool:
 		if is_break:
 			continue
 
-		if other_modifier_c_config.exclude_modifier_scene_paths.has(modifier_scene_uid):
+		if modifier_scene_uid in other_modifier_c_config.exclude_modifier_scene_paths:
 			continue
 
 		var other_include_modifier_scene_paths: Dictionary[String, bool] = other_modifier_c_config.include_modifier_scene_names
-		if other_include_modifier_scene_paths and not other_include_modifier_scene_paths.has(modifier_scene_uid):
+		if other_include_modifier_scene_paths and modifier_scene_uid not in other_include_modifier_scene_paths:
 			continue
 		
 		is_break = false
@@ -117,7 +117,7 @@ func _on_remove(modifier: Entity) -> bool:
 
 	for property_modifier: PropertyModifier in modifier_c.config.property_modifiers:
 		var key: Array = [property_modifier.node_path, property_modifier.property]
-		if reseted_property_set.has(key):
+		if key in reseted_property_set:
 			continue
 
 		reseted_property_set[key] = true
@@ -171,7 +171,7 @@ func _take_influfluence(modifier: Entity, modifier_c: ModifierComponent, target:
 	var influence_animation: FacingAnimationSet = modifier_c_config.influence_animation
 	if influence_animation:
 		animated_sprite_c.play_animation(modifier, influence_animation)
-	await modifier.y_wait(modifier_c_config.influence_delay)
+	await modifier.y_wait(Utils.frames_to_seconds(modifier_c_config.influence_delay_frames))
 		
 	modifier_c_config.influence.take_influence(modifier, target, target.global_position)
 	if influence_animation:
@@ -196,7 +196,7 @@ func _process_property_modifiers() -> void:
 
 			for property_modifier: PropertyModifier in property_modifier_list:
 				var key: Array = [property_modifier.node_path, property_modifier.property]
-				if not reseted_property_set.has(key):
+				if key not in reseted_property_set:
 					reseted_property_set[key] = true
 
 					_reset_property(entity, property_modifier)

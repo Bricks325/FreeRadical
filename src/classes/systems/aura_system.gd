@@ -38,7 +38,7 @@ func _on_insert(aura: Entity) -> bool:
 
 		var other_aura_scene_uid: String = other_aura.scene_file_uid
 		var exclude_aura_scene_paths: Dictionary[String, bool] = aura_c_config.exclude_aura_scene_paths
-		if exclude_aura_scene_paths.has(other_aura_scene_uid):
+		if other_aura_scene_uid in exclude_aura_scene_paths:
 			if not exclude_aura_scene_paths[other_aura_scene_uid]:
 				continue
 
@@ -46,7 +46,7 @@ func _on_insert(aura: Entity) -> bool:
 			continue
 
 		var include_aura_scene_paths: Dictionary[String, bool] = aura_c_config.include_aura_scene_paths
-		if include_aura_scene_paths and not include_aura_scene_paths.has(other_aura_scene_uid):
+		if include_aura_scene_paths and other_aura_scene_uid not in include_aura_scene_paths:
 			if not include_aura_scene_paths[other_aura_scene_uid]:
 				continue
 				
@@ -70,11 +70,11 @@ func _on_insert(aura: Entity) -> bool:
 		if is_break:
 			continue
 
-		if other_aura_c_config.exclude_aura_scene_paths.has(aura_scene_uid):
+		if aura_scene_uid in other_aura_c_config.exclude_aura_scene_paths:
 			continue
 
 		var other_include_aura_scene_paths: Dictionary[String, bool] = other_aura_c_config.include_aura_scene_paths
-		if other_include_aura_scene_paths and not other_include_aura_scene_paths.has(aura_scene_uid):
+		if other_include_aura_scene_paths and aura_scene_uid not in other_include_aura_scene_paths:
 			continue
 		
 		is_break = false
@@ -150,7 +150,7 @@ func _take_influfluence(aura: Entity, aura_c: AuraComponent) -> void:
 	var influence_animation: FacingAnimationSet = aura_c_config.influence_animation
 	if influence_animation:
 		animated_sprite_c.play_animation(aura, influence_animation)
-	await aura.y_wait(aura_c_config.influence_delay)
+	await aura.y_wait(Utils.frames_to_seconds(aura_c_config.influence_delay_frames))
 	
 	var filter: Callable = func(target: Entity) -> bool:
 		var interact_policy_c: InteractPolicyComponent = target.get_node_or_null(Constants.INTERACT_POLICY_COMPONENT_NODE_PATH)

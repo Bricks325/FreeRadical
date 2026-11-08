@@ -6,9 +6,9 @@ class_name NodeConfigTemplateNode
 
 
 ## 节点名称。
-@export var name: String = ""
+@export var name: String
 ## 节点配置。
-@export var config: NodeConfig = null
+@export var config: NodeConfig
 ## 子节点数组。
 @export var children: Array[NodeConfigTemplateNode] = []
 ## 子节点字典。

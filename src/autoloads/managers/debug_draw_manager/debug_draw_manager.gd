@@ -9,6 +9,15 @@ extends Node2D
 signal drawer_visible_changed(drawer: DebugDrawer)
 
 
+const editor_visibled_types: Dictionary[DebugDrawer.Type, bool] = {
+	DebugDrawer.Type.HEALTH: true,
+	DebugDrawer.Type.PATHWAY: true,
+	DebugDrawer.Type.OFFSET: true,
+	DebugDrawer.Type.RANGE: true,
+	DebugDrawer.Type.POINT: true,
+}
+
+
 ## 调试绘制器字典。
 var _drawers: Dictionary[DebugDrawer.Type, DebugDrawer] = {}
 ## 调试绘制器类型到可见性映射。
@@ -17,7 +26,7 @@ var _drawer_type_to_visible: Dictionary[DebugDrawer.Type, bool] = {}
 
 func _ready() -> void:
 	for drawer_type: DebugDrawer.Type in DebugDrawer.Type.values():
-		_drawer_type_to_visible[drawer_type] = false
+		_drawer_type_to_visible[drawer_type] = true if Engine.is_editor_hint() and drawer_type in editor_visibled_types else true
 
 	for drawer: DebugDrawer in get_children():
 		drawer.visible = false

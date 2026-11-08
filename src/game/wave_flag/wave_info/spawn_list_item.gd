@@ -3,8 +3,8 @@ class_name SpawnListItem
 
 
 @export_group("Ref")
-@export var spawn_entity_label: Label = null
-@export var spawn_count_label: Label = null
+@export var spawn_entity_label: Label
+@export var spawn_count_label: Label
 
 var spawn_entity_text: String = "":
 	set(v):

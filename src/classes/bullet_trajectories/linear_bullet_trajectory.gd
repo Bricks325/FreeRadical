@@ -6,7 +6,7 @@ class_name LinearBulletTrajectory
 
 
 ## 子弹从发射到命中或消失的时间。
-@export var flight_total_time: float = 0.0
+@export_custom(PROPERTY_HINT_NONE, "suffix: s") var flight_total_time: float = 0.0
 
 
 func _get_predict_time() -> float:

@@ -2,8 +2,8 @@ extends Control
 class_name RangeCircle
 
 
-@export var y_scale: float = 0.7
-@export var scale_tween_duration: float = 0.15
+@export_custom(PROPERTY_HINT_NONE, "suffix: x") var y_scale: float = 0.7
+@export_custom(PROPERTY_HINT_NONE, "suffix: s") var scale_tween_duration: float = 0.15
 
 var scale_tween: Tween = null
 var last_radius: float = 0.0

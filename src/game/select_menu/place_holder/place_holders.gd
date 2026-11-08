@@ -11,7 +11,7 @@ func _ready() -> void:
 	for child: TextureRect in get_children():
 		var child_label: Label = child.get_node("Label")
 		child_label.text = child.name
-		list.append(child.position + child.size / 2)
+		list.append(child.position + child.size * 0.5)
 
 
 func _draw() -> void:
