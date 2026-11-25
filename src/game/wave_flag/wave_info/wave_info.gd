@@ -1,7 +1,7 @@
 extends PanelContainer
 
 
-@export_group("Ref")
+@export_group("Reference")
 @export var wave_flag: WaveFlag
 @export var spawn_list: VBoxContainer
 @export var spawn_list_item_scene: PackedScene

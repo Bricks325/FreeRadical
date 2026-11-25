@@ -6,7 +6,7 @@ class_name TowerSystem
 
 
 func _on_insert(tower: Entity) -> bool:
-	var tower_c: TowerComponent = tower.get_node_or_null(Constants.TOWER_COMPONENT_NODE_PATH)
+	var tower_c: TowerComponent = tower.get_node_or_null(StringConstants.TOWER_COMPONENT_NODE_PATH)
 	if not tower_c:
 		return true
 		
@@ -15,7 +15,7 @@ func _on_insert(tower: Entity) -> bool:
 		shooter.source_type = Entity.SourceType.TOWER_SHOOTER
 
 		if tower_c.config.shooter_alternation_enabled:
-			var skill_c: SkillComponent = shooter.get_node_or_null(Constants.SKILL_COMPONENT_NODE_PATH)
+			var skill_c: SkillComponent = shooter.get_node_or_null(StringConstants.SKILL_COMPONENT_NODE_PATH)
 			if skill_c:
 				skill_c.start_skill_cooldown.connect(_on_start_skill_cooldown.bind(tower_c, shooter))
 
@@ -47,6 +47,6 @@ func _on_start_skill_cooldown(used_skill: Skill, tower_c: TowerComponent, used_s
 		if shooter == used_shooter:
 			continue
 		
-		var skill_c: SkillComponent = shooter.get_node_or_null(Constants.SKILL_COMPONENT_NODE_PATH)
+		var skill_c: SkillComponent = shooter.get_node_or_null(StringConstants.SKILL_COMPONENT_NODE_PATH)
 		for skill: Skill in skill_c.get_children():
 			skill.timestamp = used_skill.timestamp - tower_c_config.shooter_alternation_offset

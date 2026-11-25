@@ -4,7 +4,7 @@ class_name RangeInfo
 
 @export_custom(PROPERTY_HINT_NONE, "suffix: s") var size_tween_duration: float = 0.15
 
-@export_group("Ref")
+@export_group("Reference")
 @export var min_range_circle: RangeCircle
 @export var max_range_circle: RangeCircle
 

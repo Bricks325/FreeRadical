@@ -33,6 +33,8 @@ enum GetValueMode {
 @export_group("Area")
 ## 是否启用范围影响。
 @export_custom(PROPERTY_HINT_GROUP_ENABLE, "") var area_enabled: bool = false
+## 搜索中心是否为基础目标的位置，而非释放者的位置。
+@export var center_at_target: bool = false
 ## 搜索资源，用于搜索目标。
 @export var searcher: Searcher = null:
 	set(v): 
@@ -57,10 +59,11 @@ func _take(source: Entity, target: Entity, is_area: bool) -> void: pass
 
 
 ## 对实体造成影响。
-func take_influence(source: Entity, base_target: Entity, take_global_position: Vector2) -> Array[Entity]:
+func take_influence(source: Entity, base_target: Entity = null) -> Array[Entity]:
+	var center: Vector2 = base_target.global_position if center_at_target else source.global_position
 	var targets: Array[Entity] = []
 	if area_enabled:
-		targets = searcher.search_targets(take_global_position, source)
+		targets = searcher.search_targets(center, source)
 	else:
 		targets.append(base_target)
 
@@ -74,7 +77,7 @@ func take_influence(source: Entity, base_target: Entity, take_global_position: V
 			EntityManager.create_modifiers(target_id, mods, source_id)
 			EntityManager.create_auras(target_id, auras, source_id)
 
-	EntityManager.create_entities_at_global_position(payloads, take_global_position)
+	EntityManager.create_entities_at_global_position(payloads, center)
 
 	return targets
 

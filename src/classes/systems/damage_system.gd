@@ -22,7 +22,7 @@ func _on_update(_delta: float) -> void:
 		if target.state & Entity.State.DEAD:
 			continue
 
-		var health_c: HealthComponent = target.get_node_or_null(Constants.HEALTH_COMPONENT_NODE_PATH)
+		var health_c: HealthComponent = target.get_node_or_null(StringConstants.HEALTH_COMPONENT_NODE_PATH)
 		if not health_c:
 			continue
 			
@@ -30,7 +30,7 @@ func _on_update(_delta: float) -> void:
 		var source: Entity = EntityManager.get_entity_by_id(damage.source_id)
 		var source_name: StringName = damage.source_name
 
-		var dodge_c: DodgeComponent = target.get_node_or_null(Constants.DODGE_COMPONENT_NODE_PATH)
+		var dodge_c: DodgeComponent = target.get_node_or_null(StringConstants.DODGE_COMPONENT_NODE_PATH)
 		if dodge_c:
 			if dodge_c.select_skill(target, damage, source):
 				target.state |= Entity.State.DODGE
@@ -48,7 +48,7 @@ func _on_update(_delta: float) -> void:
 		health_c.hp -= actual_damage
 		
 		if not damage.damage_flags & Damage.Flag.NO_SPIKED:
-			if Utils.is_valid_number(health_c_config.spiked) and source and source.get_node_or_null(Constants.HEALTH_COMPONENT_NODE_PATH):
+			if Utils.is_valid_number(health_c_config.spiked) and source and source.get_node_or_null(StringConstants.HEALTH_COMPONENT_NODE_PATH):
 				var spiked_value: float = damage.value * health_c_config.spiked
 				
 				var bad_damage := Damage.new()
@@ -66,7 +66,7 @@ func _on_update(_delta: float) -> void:
 		damage_number.value = actual_damage
 		damage_number.damage_type = damage.damage_type
 		var from: Vector2 = target.global_position
-		var offset_c: OffsetComponent = target.get_node_or_null(Constants.OFFSET_COMPONENT_NODE_PATH)
+		var offset_c: OffsetComponent = target.get_node_or_null(StringConstants.OFFSET_COMPONENT_NODE_PATH)
 		if offset_c and offset_c.config.hit_offsets:
 			from += offset_c.config.hit_offsets.get_offset_toward_point(
 				target.global_position, target.facing_global_position
@@ -101,10 +101,11 @@ func _death(damage: Damage, target: Entity, health_c: HealthComponent, _source: 
 	await get_tree().physics_frame
 
 	target.state &= ~Entity.State.INTERRUPT_WAIT
-	AudioManager.play_sfx(health_c_config.death_sfx)
+	if health_c_config.death_sfx:
+		AudioManager.play_audio(health_c_config.death_sfx)
 	var death_animation: FacingAnimationSet = health_c_config.death_animation
 	if death_animation:
-		var animated_sprite_c: AnimatedSpriteComponent = target.get_node_or_null(Constants.ANIMATED_SPRITE_COMPONENT_NODE_PATH)
+		var animated_sprite_c: AnimatedSpriteComponent = target.get_node_or_null(StringConstants.ANIMATED_SPRITE_COMPONENT_NODE_PATH)
 		animated_sprite_c.play_animation(target, death_animation, &"death")
 		if await animated_sprite_c.y_wait_animation(target, death_animation):
 			return

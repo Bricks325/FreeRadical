@@ -6,7 +6,7 @@ class_name RallyBehavior
 
 
 func _on_update(entity: Entity) -> bool:
-	var rally_c: RallyComponent = entity.get_node_or_null(Constants.RALLY_COMPONENT_NODE_PATH)
+	var rally_c: RallyComponent = entity.get_node_or_null(StringConstants.RALLY_COMPONENT_NODE_PATH)
 	if not rally_c:
 		return false
 		
@@ -30,7 +30,7 @@ func _on_update(entity: Entity) -> bool:
 	
 	var next_global_position: Vector2 = entity.global_position + velocity
 	entity.facing_global_position = next_global_position
-	var animated_sprite_c: AnimatedSpriteComponent = entity.get_node_or_null(Constants.ANIMATED_SPRITE_COMPONENT_NODE_PATH)
+	var animated_sprite_c: AnimatedSpriteComponent = entity.get_node_or_null(StringConstants.ANIMATED_SPRITE_COMPONENT_NODE_PATH)
 	animated_sprite_c.play_animation(entity, rally_c.config.motion_animation, &"walk")
 	entity.global_position = next_global_position
 	entity.facing_global_position = next_global_position + velocity

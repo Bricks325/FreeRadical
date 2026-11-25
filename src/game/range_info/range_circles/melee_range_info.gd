@@ -3,26 +3,26 @@ extends RangeInfo
 
 func _update() -> void:
 	if target_source:
-		var barrack_c: BarrackComponent = target_source.get_node_or_null(Constants.BARRACK_COMPONENT_NODE_PATH)
+		var barrack_c: BarrackComponent = target_source.get_node_or_null(StringConstants.BARRACK_COMPONENT_NODE_PATH)
 		if barrack_c:
-			var barrack_record: BarrackRecord = target_source.get_node_or_null(Constants.BARRACK_RECORD_NODE_PATH)
+			var barrack_record: BarrackRecord = target_source.get_node_or_null(StringConstants.BARRACK_RECORD_NODE_PATH)
 			var soldier_ids: PackedInt32Array = barrack_record.soldier_ids
 			if soldier_ids:
 				var soldier: Entity = EntityManager.get_entity_by_id(soldier_ids[0])
-				var soldier_melee_c: MeleeComponent = soldier.get_node_or_null(Constants.MELEE_COMPONENT_NODE_PATH)
+				var soldier_melee_c: MeleeComponent = soldier.get_node_or_null(StringConstants.MELEE_COMPONENT_NODE_PATH)
 				if soldier_melee_c:
 					target_entity = soldier
 					
 	if not target_entity:
 		return
 
-	var rally_c: RallyComponent = target_entity.get_node_or_null(Constants.RALLY_COMPONENT_NODE_PATH)
+	var rally_c: RallyComponent = target_entity.get_node_or_null(StringConstants.RALLY_COMPONENT_NODE_PATH)
 	if rally_c:
 		global_position = rally_c.rally_center_global_position
 	else:
 		global_position = target_entity.global_position
 
-	var melee_c: MeleeComponent = target_entity.get_node_or_null(Constants.MELEE_COMPONENT_NODE_PATH)
+	var melee_c: MeleeComponent = target_entity.get_node_or_null(StringConstants.MELEE_COMPONENT_NODE_PATH)
 	var searcher: Searcher = melee_c.config.searcher
 
 	min_range_circle._show(searcher.min_radius)

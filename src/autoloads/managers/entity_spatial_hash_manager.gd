@@ -156,7 +156,7 @@ func _grouping_entities() -> void:
 		if not cell:
 			continue
 		
-		var interact_policy_c: InteractPolicyComponent = entity.get_node_or_null(Constants.INTERACT_POLICY_COMPONENT_NODE_PATH)
+		var interact_policy_c: InteractPolicyComponent = entity.get_node_or_null(StringConstants.INTERACT_POLICY_COMPONENT_NODE_PATH)
 		if not interact_policy_c:
 			continue
 		

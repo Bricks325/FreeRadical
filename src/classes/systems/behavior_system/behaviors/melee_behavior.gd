@@ -7,7 +7,7 @@ class_name MeleeBehavior
 
 #region 回调函数
 func _on_insert(entity: Entity) -> bool:
-	var melee_c: MeleeComponent = entity.get_node_or_null(Constants.MELEE_COMPONENT_NODE_PATH)
+	var melee_c: MeleeComponent = entity.get_node_or_null(StringConstants.MELEE_COMPONENT_NODE_PATH)
 	if not melee_c:
 		return true
 
@@ -18,7 +18,7 @@ func _on_insert(entity: Entity) -> bool:
 
 
 func _on_remove(entity: Entity) -> bool:
-	var melee_c: MeleeComponent = entity.get_node_or_null(Constants.MELEE_COMPONENT_NODE_PATH)
+	var melee_c: MeleeComponent = entity.get_node_or_null(StringConstants.MELEE_COMPONENT_NODE_PATH)
 	if not melee_c:
 		return true
 
@@ -28,7 +28,7 @@ func _on_remove(entity: Entity) -> bool:
 
 
 func _on_skip(entity: Entity) -> void:
-	var melee_c: MeleeComponent = entity.get_node_or_null(Constants.MELEE_COMPONENT_NODE_PATH)
+	var melee_c: MeleeComponent = entity.get_node_or_null(StringConstants.MELEE_COMPONENT_NODE_PATH)
 	if not melee_c:
 		return
 
@@ -36,11 +36,11 @@ func _on_skip(entity: Entity) -> void:
 
 
 func _on_update(entity: Entity) -> bool:
-	var melee_c: MeleeComponent = entity.get_node_or_null(Constants.MELEE_COMPONENT_NODE_PATH)
+	var melee_c: MeleeComponent = entity.get_node_or_null(StringConstants.MELEE_COMPONENT_NODE_PATH)
 	if not melee_c:
 		return false
 
-	var interact_policy_c: InteractPolicyComponent = entity.get_node_or_null(Constants.INTERACT_POLICY_COMPONENT_NODE_PATH)
+	var interact_policy_c: InteractPolicyComponent = entity.get_node_or_null(StringConstants.INTERACT_POLICY_COMPONENT_NODE_PATH)
 	if interact_policy_c:
 		if interact_policy_c.config.faction & InteractPolicyComponent.Faction.FRIENDLY:
 			melee_c.is_blocker = true
@@ -49,7 +49,7 @@ func _on_update(entity: Entity) -> bool:
 			melee_c.is_blocker = false
 
 	_cleanup_invalid_block_targets(entity, melee_c)
-	var animated_sprite_c: AnimatedSpriteComponent = entity.get_node_or_null(Constants.ANIMATED_SPRITE_COMPONENT_NODE_PATH)
+	var animated_sprite_c: AnimatedSpriteComponent = entity.get_node_or_null(StringConstants.ANIMATED_SPRITE_COMPONENT_NODE_PATH)
 	var target_ids: PackedInt32Array = melee_c.target_ids
 	if target_ids.is_empty():
 		if melee_c.state == MeleeComponent.State.ORIGINAL_POSITION_ARRIVED:
@@ -63,7 +63,7 @@ func _on_update(entity: Entity) -> bool:
 			if not _go_block_position(entity, melee_c, animated_sprite_c):
 				return true
 
-	var target_melee_c: MeleeComponent = target.get_node_or_null(Constants.MELEE_COMPONENT_NODE_PATH)
+	var target_melee_c: MeleeComponent = target.get_node_or_null(StringConstants.MELEE_COMPONENT_NODE_PATH)
 	if target_melee_c.state != MeleeComponent.State.BLOCK_POSITION_ARRIVED:
 		entity.facing_global_position = target.global_position
 		animated_sprite_c.play_idle_animation(entity)
@@ -125,7 +125,7 @@ func _move_to_global_position(entity: Entity, melee_c: MeleeComponent, to_global
 ## 搜索并拦截目标。
 func _search_and_block_targets(entity: Entity, melee_c: MeleeComponent) -> void:
 	var center: Vector2 = entity.global_position
-	var rally_c: RallyComponent = entity.get_node_or_null(Constants.RALLY_COMPONENT_NODE_PATH)
+	var rally_c: RallyComponent = entity.get_node_or_null(StringConstants.RALLY_COMPONENT_NODE_PATH)
 	if rally_c:
 		# 为了保证其他相同集结中心点的实体也能够搜索到目标，需要将集结中心点作为搜索中心
 		var rally_center_global_position: Vector2 = rally_c.rally_center_global_position
@@ -146,7 +146,7 @@ func _search_and_block_targets(entity: Entity, melee_c: MeleeComponent) -> void:
 			center,
 			entity,
 			func(target: Entity) -> bool:
-				var target_melee_c: MeleeComponent = target.get_node_or_null(Constants.MELEE_COMPONENT_NODE_PATH)
+				var target_melee_c: MeleeComponent = target.get_node_or_null(StringConstants.MELEE_COMPONENT_NODE_PATH)
 				if not target_melee_c:
 					return false
 
@@ -163,7 +163,7 @@ func _search_and_block_targets(entity: Entity, melee_c: MeleeComponent) -> void:
 			center,
 			entity,
 			func(target: Entity) -> bool:
-				var target_melee_c: MeleeComponent = target.get_node_or_null(Constants.MELEE_COMPONENT_NODE_PATH)
+				var target_melee_c: MeleeComponent = target.get_node_or_null(StringConstants.MELEE_COMPONENT_NODE_PATH)
 				if not target_melee_c:
 					return false
 
@@ -195,7 +195,7 @@ func _cleanup_invalid_block_targets(entity: Entity, melee_c: MeleeComponent) -> 
 			melee_c.unblock_target(entity, target)
 			continue
 
-		var target_melee_c: MeleeComponent = target.get_node_or_null(Constants.MELEE_COMPONENT_NODE_PATH)
+		var target_melee_c: MeleeComponent = target.get_node_or_null(StringConstants.MELEE_COMPONENT_NODE_PATH)
 
 		var search_flag: int = melee_c.config.searcher.search_flag if melee_c.is_blocker else target_melee_c.config.searcher.search_flag
 		if search_flag & Searcher.SearchFlag.SKIP_DEAD and target.state & Entity.State.DEAD:
@@ -215,7 +215,7 @@ func _cleanup_invalid_block_targets(entity: Entity, melee_c: MeleeComponent) -> 
 func _block_targets(entity: Entity, melee_c: MeleeComponent, targets: Array[Entity]) -> void:
 	var melee_c_config: MeleeComponentNodeConfig = melee_c.config
 	for target: Entity in targets:
-		var target_melee_c: MeleeComponent = target.get_node_or_null(Constants.MELEE_COMPONENT_NODE_PATH)
+		var target_melee_c: MeleeComponent = target.get_node_or_null(StringConstants.MELEE_COMPONENT_NODE_PATH)
 		var target_melee_c_config: MeleeComponentNodeConfig = target_melee_c.config
 		var block_global_position: Vector2 = melee_c.block_global_position
 		if melee_c.target_count == 0:

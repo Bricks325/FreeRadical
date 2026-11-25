@@ -14,7 +14,7 @@ signal item_selected(index: int)
 		if label:
 			label.text = v
 
-@export_group("Ref")
+@export_group("Reference")
 ## 选项按钮引用。
 @export var option_button: OptionButton = null
 ## 标签引用。

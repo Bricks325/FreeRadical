@@ -25,9 +25,17 @@ class_name RangedSkillNodeConfig
 ## 子弹发射模式。
 @export var bullet_spawn_mode: RangedSkill.BulletSpawnMode = RangedSkill.BulletSpawnMode.EQUAL_INTERVAL
 
+@export_custom(PROPERTY_HINT_GROUP_ENABLE, "") var loop_enabled: bool = false
+## 循环次数。
+@export var loop_count: int = 1
+## 循环间隔（秒）。
+@export_custom(PROPERTY_HINT_NONE, "suffix: s") var loop_interval: float = 0.0
+## 循环的前后摇资源。
+@export var loop_startup_and_recovery: StartupAndRecovery = null
+
 
 func _init() -> void:
 	super()
-		
+
 	SignalUtils.try_connect_resource_changed(searcher, emit_changed)
 	SignalUtils.try_connect_resource_changed(bullet_offsets, emit_changed)

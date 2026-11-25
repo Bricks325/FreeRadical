@@ -12,9 +12,9 @@ class_name Level
 
 @export_group("Music")
 ## 准备阶段播放的音乐数据。
-@export var ready_music: AudioGroup
+@export var preparation_music: AudioGroup
 ## 战斗阶段播放的音乐数据。
-@export var battle_music: AudioGroup
+@export var battling_music: AudioGroup
 
 
 func _enter_tree() -> void:
@@ -33,9 +33,9 @@ func _ready() -> void:
 	GameManager.life = life
 	
 	if GameManager.is_battling:
-		AudioManager.play_music(battle_music)
+		AudioManager.play_audio(battling_music)
 	else:
-		AudioManager.play_music(ready_music)
+		AudioManager.play_audio(preparation_music)
 
 
 func _exit_tree() -> void:
@@ -57,4 +57,4 @@ func _exit_tree() -> void:
 
 func _on_first_wave_sended() -> void:
 	GameManager.is_battling = true
-	AudioManager.play_music(battle_music)
+	AudioManager.play_audio(battling_music)

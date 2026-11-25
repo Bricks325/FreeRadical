@@ -2,7 +2,7 @@ extends RangeInfo
 
 
 func _update() -> void:
-	var skill_c: SkillComponent = target_entity.get_node_or_null(Constants.SKILL_COMPONENT_NODE_PATH)
+	var skill_c: SkillComponent = target_entity.get_node_or_null(StringConstants.SKILL_COMPONENT_NODE_PATH)
 	var first_skill := skill_c.get_child(0) as SearchSkill
 	if not first_skill:
 		return

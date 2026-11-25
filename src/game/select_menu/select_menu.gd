@@ -5,7 +5,7 @@ class_name TowerUpgradeSelectMenu
 ## 负责显示和隐藏选择菜单，并根据实体类型显示对应的按钮
 
 
-@export_group("Ref")
+@export_group("Reference")
 @export var range_info_controller: RangeInfoController
 @export var animation_player: AnimationPlayer
 @export var place_holders: Control
@@ -36,14 +36,14 @@ func _process(_delta: float) -> void:
 		_hide()
 		return
 		
-	var select_c: SelectComponent = selected_entity.get_node_or_null(Constants.SELECT_COMPONENT_NODE_PATH)
+	var select_c: SelectComponent = selected_entity.get_node_or_null(StringConstants.SELECT_COMPONENT_NODE_PATH)
 	global_position = selected_entity.global_position + select_c.config.select_menu_offset
 
 	
 func _show(entity: Entity) -> void:
 	_clear()
 	
-	var select_c: SelectComponent = entity.get_node_or_null(Constants.SELECT_COMPONENT_NODE_PATH)
+	var select_c: SelectComponent = entity.get_node_or_null(StringConstants.SELECT_COMPONENT_NODE_PATH)
 	if not select_c:
 		return
 		
@@ -84,7 +84,7 @@ func _create_buttons() -> void:
 
 
 func _try_create_sell_button() -> void:
-	var sell_c: SellComponent = selected_entity.get_node_or_null(Constants.SELL_COMPONENT_NODE_PATH)
+	var sell_c: SellComponent = selected_entity.get_node_or_null(StringConstants.SELL_COMPONENT_NODE_PATH)
 	if not sell_c:
 		return
 
@@ -99,7 +99,7 @@ func _try_create_sell_button() -> void:
 
 
 func _try_create_upgrade_button() -> void:
-	var upgrade_c: UpgradeComponent = selected_entity.get_node_or_null(Constants.UPGRADE_COMPONENT_NODE_PATH)
+	var upgrade_c: UpgradeComponent = selected_entity.get_node_or_null(StringConstants.UPGRADE_COMPONENT_NODE_PATH)
 	if not upgrade_c:
 		return
 
@@ -117,7 +117,7 @@ func _try_create_upgrade_button() -> void:
 
 
 func _try_create_rally_button() -> void:
-	var barrack_c: BarrackComponent = selected_entity.get_node_or_null(Constants.BARRACK_COMPONENT_NODE_PATH)
+	var barrack_c: BarrackComponent = selected_entity.get_node_or_null(StringConstants.BARRACK_COMPONENT_NODE_PATH)
 	if not barrack_c:
 		return
 

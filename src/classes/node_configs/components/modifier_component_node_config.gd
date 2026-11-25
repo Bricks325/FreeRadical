@@ -36,25 +36,23 @@ class_name ModifierComponentNodeConfig
 @export_file("*.tscn") var include_modifier_scene_paths: Dictionary[String, bool] = {}
 
 @export_group("Influence")
+## 造成影响间隔时间（秒）。
+@export_custom(PROPERTY_HINT_NONE, "suffix: s") var influence_interval: float = 0.0
+## 最大影响次数，-1 表示无限次数。
+@export var max_influence_count: int = 1
+## 影响的前后摇资源。
+@export var influence_startup_and_recovery: StartupAndRecovery = null
 ## 影响资源，用于对目标造成伤害或治愈目标。
 @export var influence: Influence = null:
 	set(v):
 		SignalUtils.reconnect_resource_changed(influence, v, emit_changed)
 		influence = v
 		emit_changed()
-## 造成影响间隔时间（秒）。
-@export_custom(PROPERTY_HINT_NONE, "suffix: s") var influence_interval: float = 0.0
-## 最大影响次数，-1 表示无限次数。
-@export var max_influence_count: int = 1
-## 影响延迟时间（帧）。
-@export_custom(PROPERTY_HINT_NONE, "suffix: frame") var influence_delay_frames: float = 0.0
-## 影响动画。
-@export var influence_animation: FacingAnimationSet = null
 
 
 func _init() -> void:
 	super()
-		
+
 	SignalUtils.try_connect_resource_changed(influence, emit_changed)
 
 

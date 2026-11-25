@@ -40,7 +40,7 @@ signal value_changed(value: float)
 		if spin_box:
 			spin_box.value = v
 
-@export_group("Ref")
+@export_group("Reference")
 ## 数值调节框引用。
 @export var spin_box: SpinBox = null
 ## 标签引用。

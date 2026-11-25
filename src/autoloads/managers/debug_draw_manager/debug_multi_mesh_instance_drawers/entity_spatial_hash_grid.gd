@@ -20,12 +20,7 @@ func ready() -> void:
 		)
 		var instance_transform := Transform2D(0, to_local(instance_global_position))
 		multi_mesh.set_instance_transform_2d(cell_index, instance_transform)
-		var h: float = 0.0
-		if grid_position.y % 2:
-			if grid_position.x % 2:
-				h = 0.33
-		else:
-			if not grid_position.x % 2:
-				h = 0.33
+		
+		var h: float = 0.0 if grid_position.x + grid_position.y % 2 else 0.33
 		var color := Color.from_hsv(h, 0.8, 0.8, 0.5)
 		multi_mesh.set_instance_color(cell_index, color)

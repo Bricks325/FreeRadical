@@ -11,7 +11,7 @@ class_name WaveSpawnerEntity
 			wave_spawner_component.config.wave_group = v
 		update_configuration_warnings()
 
-@onready var wave_spawner_component: WaveSpawnerComponent = get_node_or_null(Constants.WAVE_SPAWNER_COMPONENT_NODE_PATH)
+@onready var wave_spawner_component: WaveSpawnerComponent = get_node_or_null(StringConstants.WAVE_SPAWNER_COMPONENT_NODE_PATH)
 
 
 func _ready() -> void:

@@ -31,7 +31,7 @@ func _draw() -> void:
 		DrawUtils.draw_elliptical_annulus(self, position, config.rally_min_radius, config.rally_max_radius, Color(0.201, 0.431, 1.0, 0.2))
 
 	if DebugDrawManager.is_drawer_visible(DebugDrawer.Type.POINT):
-		var barrack_record: BarrackRecord = parent.get_node_or_null(Constants.BARRACK_RECORD_NODE_PATH)
+		var barrack_record: BarrackRecord = parent.get_node_or_null(StringConstants.BARRACK_RECORD_NODE_PATH)
 		if barrack_record:
 			var rally_center_position: Vector2 = to_local(barrack_record.rally_center_global_position)
 			draw_circle(
@@ -69,12 +69,12 @@ func _get_configuration_warnings() -> PackedStringArray:
 ## 设置所有士兵的集结点全局位置。
 func set_all_rally_center_global_position(
 		center_global_position: Vector2, 
-		play_sfx: bool = true
+		play_sound: bool = true
 	) -> void:
-	if play_sfx:
-		AudioManager.play_sfx(config.rally_sfx)
+	if play_sound:
+		AudioManager.play_audio(config.rally_sfx)
 		
-	var barrack_record: BarrackRecord = parent.get_node_or_null(Constants.BARRACK_RECORD_NODE_PATH)
+	var barrack_record: BarrackRecord = parent.get_node_or_null(StringConstants.BARRACK_RECORD_NODE_PATH)
 	barrack_record.rally_center_global_position = center_global_position
 	var soldier_ids: PackedInt32Array = barrack_record.soldier_ids
 	var soldier_size: int = soldier_ids.size()
@@ -90,7 +90,7 @@ func set_rally_center_global_position(
 		soldier_index: int,
 		soldier_count: int
 	) -> void:
-	var soldier_rally_c: RallyComponent = soldier.get_node_or_null(Constants.RALLY_COMPONENT_NODE_PATH)
+	var soldier_rally_c: RallyComponent = soldier.get_node_or_null(StringConstants.RALLY_COMPONENT_NODE_PATH)
 	var formation_position: Vector2 = to_formation_position(center_global_position, soldier_count, soldier_index)
 	soldier_rally_c.new_rally_global_position(soldier, formation_position, center_global_position, false)
 	queue_redraw()

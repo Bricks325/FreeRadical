@@ -101,7 +101,7 @@ func _get_configuration_warnings() -> PackedStringArray:
 
 ## 拦截目标。
 func block_target(entity: Entity, target: Entity) -> void:
-	var target_melee_c: MeleeComponent = target.get_node_or_null(Constants.MELEE_COMPONENT_NODE_PATH)
+	var target_melee_c: MeleeComponent = target.get_node_or_null(StringConstants.MELEE_COMPONENT_NODE_PATH)
 	var target_melee_c_config: MeleeComponentNodeConfig = target_melee_c.config
 	target_melee_c.target_ids.append(entity.id)
 	target_melee_c.target_count += config.block_cost
@@ -114,14 +114,14 @@ func block_target(entity: Entity, target: Entity) -> void:
 
 ## 单向解除拦截目标。
 func unblock_target(entity: Entity, target: Entity) -> void:
-	var target_melee_c: MeleeComponent = target.get_node_or_null(Constants.MELEE_COMPONENT_NODE_PATH)
+	var target_melee_c: MeleeComponent = target.get_node_or_null(StringConstants.MELEE_COMPONENT_NODE_PATH)
 	target_melee_c.target_ids.erase(entity.id)
 	target_melee_c.target_count -= config.block_cost
 
 
 ## 解除双方拦截的目标。
 func unblock_target_both(entity: Entity, target: Entity) -> void:
-	var target_melee_c: MeleeComponent = target.get_node_or_null(Constants.MELEE_COMPONENT_NODE_PATH)
+	var target_melee_c: MeleeComponent = target.get_node_or_null(StringConstants.MELEE_COMPONENT_NODE_PATH)
 	unblock_target(entity, target)
 
 	target_ids.erase(target.id)
@@ -132,7 +132,7 @@ func unblock_target_both(entity: Entity, target: Entity) -> void:
 func unblock_all_targets(entity: Entity) -> void:
 	for target_id: int in target_ids:
 		var target: Entity = EntityManager.get_entity_by_id(target_id)
-		var target_melee_c: MeleeComponent = target.get_node_or_null(Constants.MELEE_COMPONENT_NODE_PATH)
+		var target_melee_c: MeleeComponent = target.get_node_or_null(StringConstants.MELEE_COMPONENT_NODE_PATH)
 		target_melee_c.target_ids.erase(entity.id)
 		target_melee_c.target_count -= config.block_cost
 

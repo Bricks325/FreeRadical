@@ -24,7 +24,7 @@ class_name WaveFlag
 		
 		update_configuration_warnings()
 
-@export_group("Ref")
+@export_group("Reference")
 @export var animation_player: AnimationPlayer
 @export var arrow: TextureRect
 @export var decoration: TextureRect

@@ -7,4 +7,4 @@ class_name Main
 
 
 func _ready() -> void:
-	AudioManager.play_music(music)
+	AudioManager.play_audio(music)

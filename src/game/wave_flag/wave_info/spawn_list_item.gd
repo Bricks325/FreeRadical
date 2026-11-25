@@ -2,7 +2,7 @@ extends HBoxContainer
 class_name SpawnListItem
 
 
-@export_group("Ref")
+@export_group("Reference")
 @export var spawn_entity_label: Label
 @export var spawn_count_label: Label
 

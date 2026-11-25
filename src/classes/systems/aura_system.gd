@@ -6,7 +6,7 @@ class_name AuraSystem
 
 
 func _on_insert(aura: Entity) -> bool:
-	var aura_c: AuraComponent = aura.get_node_or_null(Constants.AURA_COMPONENT_NODE_PATH)
+	var aura_c: AuraComponent = aura.get_node_or_null(StringConstants.AURA_COMPONENT_NODE_PATH)
 	if not aura_c:
 		return true
 		
@@ -15,10 +15,10 @@ func _on_insert(aura: Entity) -> bool:
 	if not target:
 		return false
 
-	var interact_policy_c: InteractPolicyComponent = aura.get_node_or_null(Constants.INTERACT_POLICY_COMPONENT_NODE_PATH)
+	var interact_policy_c: InteractPolicyComponent = aura.get_node_or_null(StringConstants.INTERACT_POLICY_COMPONENT_NODE_PATH)
 	var aura_scene_uid: String = aura_c.scene_file_uid
 	if interact_policy_c:
-		var target_interact_policy_c: InteractPolicyComponent = target.get_node_or_null(Constants.INTERACT_POLICY_COMPONENT_NODE_PATH)
+		var target_interact_policy_c: InteractPolicyComponent = target.get_node_or_null(StringConstants.INTERACT_POLICY_COMPONENT_NODE_PATH)
 		if target_interact_policy_c:
 			if target_interact_policy_c.config.aura_type_bans & aura_c_config.aura_types:
 				return false
@@ -54,7 +54,7 @@ func _on_insert(aura: Entity) -> bool:
 			continue
 
 		var is_break: bool = false
-		var other_aura_c: AuraComponent = other_aura.get_node_or_null(Constants.AURA_COMPONENT_NODE_PATH)	
+		var other_aura_c: AuraComponent = other_aura.get_node_or_null(StringConstants.AURA_COMPONENT_NODE_PATH)	
 		var other_aura_c_config: AuraComponentNodeConfig = other_aura_c.config
 		var other_aura_types: int = other_aura_c_config.aura_types
 		var exclude_aura_types: Dictionary[AuraComponent.Type, bool] = aura_c_config.exclude_aura_types
@@ -101,13 +101,13 @@ func _on_insert(aura: Entity) -> bool:
 
 func _on_update(_delta: float) -> void:
 	for aura: Entity in EntityManager.get_component_entity_group(Enums.ComponentFlag.AURA):
-		var aura_c: AuraComponent = aura.get_node_or_null(Constants.AURA_COMPONENT_NODE_PATH)
+		var aura_c: AuraComponent = aura.get_node_or_null(StringConstants.AURA_COMPONENT_NODE_PATH)
 		var aura_c_config: AuraComponentNodeConfig = aura_c.config
 		if aura_c_config.track_target:
 			var target: Entity = EntityManager.get_entity_by_id(aura_c.target_id)
 			if target:
 				var new_global_position: Vector2 = target.global_position
-				var offset_c: OffsetComponent = target.get_node_or_null(Constants.OFFSET_COMPONENT_NODE_PATH)
+				var offset_c: OffsetComponent = target.get_node_or_null(StringConstants.OFFSET_COMPONENT_NODE_PATH)
 				if offset_c and offset_c.config.aura_offsets:
 					new_global_position += offset_c.config.aura_offsets.get_offset_toward_point(
 						target.global_position, target.facing_global_position
@@ -120,19 +120,11 @@ func _on_update(_delta: float) -> void:
 		if not TimeManager.has_elapsed(aura_c.influence_timestamp, aura_c_config.influence_interval):
 			continue
 
-		if Utils.is_valid_number(aura_c_config.max_influence_count):
-			if aura_c.current_influence_count > aura_c_config.max_influence_count:
-				EntityManager.queue_remove_entity(aura)
-				continue
-
 		_take_influfluence(aura, aura_c)
-			
-		aura_c.influence_timestamp = TimeManager.tick_timestamp
-		aura_c.current_influence_count += 1
 
 
 func _on_remove(aura: Entity) -> bool:
-	if not aura.get_node_or_null(Constants.AURA_COMPONENT_NODE_PATH):
+	if not aura.get_node_or_null(StringConstants.AURA_COMPONENT_NODE_PATH):
 		return true
 	
 	var source: Entity = EntityManager.get_entity_by_id(aura.source_id)
@@ -146,26 +138,39 @@ func _on_remove(aura: Entity) -> bool:
 
 func _take_influfluence(aura: Entity, aura_c: AuraComponent) -> void:
 	var aura_c_config: AuraComponentNodeConfig = aura_c.config
-	var animated_sprite_c: AnimatedSpriteComponent = aura.get_node_or_null(Constants.ANIMATED_SPRITE_COMPONENT_NODE_PATH)
-	var influence_animation: FacingAnimationSet = aura_c_config.influence_animation
-	if influence_animation:
-		animated_sprite_c.play_animation(aura, influence_animation)
-	await aura.y_wait(Utils.frames_to_seconds(aura_c_config.influence_delay_frames))
+	var animated_sprite_c: AnimatedSpriteComponent = aura.get_node_or_null(StringConstants.ANIMATED_SPRITE_COMPONENT_NODE_PATH)
 	
-	var filter: Callable = func(target: Entity) -> bool:
-		var interact_policy_c: InteractPolicyComponent = target.get_node_or_null(Constants.INTERACT_POLICY_COMPONENT_NODE_PATH)
-		if not interact_policy_c:
+	var influence_startup_and_recovery: StartupAndRecovery = aura_c_config.influence_startup_and_recovery
+	if influence_startup_and_recovery:
+		if await influence_startup_and_recovery.do_startup(aura, animated_sprite_c):
+			return
+		
+	var targets: Array[Entity] = aura_c_config.searcher.search_targets(
+		aura.global_position, 
+		aura, 
+		func(target: Entity) -> bool:
+			var interact_policy_c: InteractPolicyComponent = target.get_node_or_null(StringConstants.INTERACT_POLICY_COMPONENT_NODE_PATH)
+			if not interact_policy_c:
+				return true
+
+			if interact_policy_c.config.aura_type_bans & aura_c_config.aura_types:
+				return false
+
 			return true
-
-		if interact_policy_c.config.aura_type_bans & aura_c_config.aura_types:
-			return false
-
-		return true
-	var targets: Array[Entity] = aura_c_config.searcher.search_targets(aura.global_position, aura, filter)
+	)
 	for target: Entity in targets:
-		aura_c_config.influence.take_influence(aura, target, target.global_position)
+		aura_c_config.influence.take_influence(aura, target)
 
-	if influence_animation:
-		await animated_sprite_c.y_wait_animation(aura, influence_animation)
+	if influence_startup_and_recovery:
+		if await influence_startup_and_recovery.do_recovery(aura, animated_sprite_c):
+			return
 
+	aura_c.influence_timestamp = TimeManager.tick_timestamp
+	aura_c.current_influence_count += 1
+	if aura_c_config.max_influence_count < 0:
+		return
+
+	if aura_c.current_influence_count < aura_c_config.max_influence_count:
+		return
+		
 	EntityManager.queue_remove_entity(aura)

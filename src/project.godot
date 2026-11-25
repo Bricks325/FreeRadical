@@ -69,7 +69,7 @@ window/stretch/aspect="expand"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/bbcode_edit.editor/plugin.cfg", "res://addons/debug_menu/plugin.cfg", "res://addons/log/plugin.cfg", "res://addons/mask_check/plugin.cfg")
+enabled=PackedStringArray("res://addons/atlas_toolkit/plugin.cfg", "res://addons/bbcode_edit.editor/plugin.cfg", "res://addons/debug_menu/plugin.cfg", "res://addons/log/plugin.cfg", "res://addons/mask_check/plugin.cfg", "res://addons/utils/plugin.cfg")
 
 [file_customization]
 

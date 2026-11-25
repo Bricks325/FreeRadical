@@ -15,7 +15,7 @@ signal pressed
 		if label:
 			label.text = v
 
-@export_group("Ref")
+@export_group("Reference")
 ## 选项按钮引用。
 @export var texture_button: TextureButton = null
 ## 标签引用。

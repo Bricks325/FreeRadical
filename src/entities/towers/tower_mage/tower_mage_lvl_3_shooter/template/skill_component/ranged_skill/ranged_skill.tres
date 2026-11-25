@@ -1,17 +1,8 @@
 [gd_resource type="Resource" script_class="RangedSkillNodeConfig" format=3 uid="uid://1u0axbq680n0"]
 
 [ext_resource type="Script" uid="uid://cn6ap4nlr0bnk" path="res://classes/node_configs/skills/search_skills/ranged_skill_node_config.gd" id="1_livrc"]
-[ext_resource type="Script" uid="uid://45a06sxmdde2" path="res://classes/facing_animation_sets/vertical_facing_animation_set.gd" id="1_sbj7p"]
 [ext_resource type="Script" uid="uid://4kvs678x33m5" path="res://classes/facing_offset_sets/vertical_facing_offset_set.gd" id="2_caqvi"]
 [ext_resource type="Script" uid="uid://4dsevfnug1a1" path="res://classes/searcher.gd" id="5_rs4gt"]
-[ext_resource type="Script" uid="uid://b2b214g352w4u" path="res://classes/audio_group.gd" id="6_e5a40"]
-
-[sub_resource type="Resource" id="Resource_84ovf"]
-resource_local_to_scene = true
-script = ExtResource("1_sbj7p")
-up = &"ranged_up"
-down = &"ranged_down"
-flip_on_left = true
 
 [sub_resource type="Resource" id="Resource_c4v6e"]
 script = ExtResource("2_caqvi")
@@ -27,12 +18,6 @@ max_radius = 360.0
 sort_mode = 6
 metadata/_custom_type_script = "uid://4dsevfnug1a1"
 
-[sub_resource type="Resource" id="Resource_vtoys"]
-script = ExtResource("6_e5a40")
-list = PackedStringArray("uid://b4j870vtyljlk")
-delay_frames = 18
-metadata/_custom_type_script = "uid://b2b214g352w4u"
-
 [resource]
 resource_local_to_scene = true
 script = ExtResource("1_livrc")
@@ -40,6 +25,4 @@ bullet_scene = "uid://dyplbb1mienjd"
 bullet_offsets = SubResource("Resource_c4v6e")
 searcher = SubResource("Resource_4pd6d")
 skill_types = 1
-animation = SubResource("Resource_84ovf")
-sfx = SubResource("Resource_vtoys")
 cooldown = 1.5

@@ -17,7 +17,7 @@ func get_search_global_position(entity: Entity) -> Vector2:
 
 func search_target(config: SearchSkillNodeConfig, entity: Entity) -> Entity:
 	var filter: Callable = func(target: Entity) -> bool:
-		var interact_policy_c: InteractPolicyComponent = target.get_node_or_null(Constants.INTERACT_POLICY_COMPONENT_NODE_PATH)
+		var interact_policy_c: InteractPolicyComponent = target.get_node_or_null(StringConstants.INTERACT_POLICY_COMPONENT_NODE_PATH)
 		if not interact_policy_c:
 			return true
 

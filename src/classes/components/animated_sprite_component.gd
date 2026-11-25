@@ -25,23 +25,6 @@ func play_idle_animation(entity: Entity, force_play: bool = false) -> AnimationD
 	return play_animation(entity, config.idle_animation, &"idle", force_play)
 
 
-## 从上次播放到的位置继续播放新动画，见 [AnimatedSpriteComponent.play_animation]。
-func continue_play_new_animation(
-		entity: Entity,
-		animation_group: FacingAnimationSet, 
-		source_animation_key: String = "",
-		force_play: bool = false
-	) -> AnimationData:
-	var last_animated_sprite: AnimatedSprite2D = get_playing_animated_sprite(animation_group)
-	var last_frame: int = last_animated_sprite.frame
-	var last_progress: float = last_animated_sprite.progress
-	var animation_data: AnimationData = play_animation(entity, animation_group, source_animation_key, force_play)
-	var current_animated_sprite: AnimatedSprite2D = get_playing_animated_sprite(animation_group)
-	current_animated_sprite.set_frame_and_progress(last_frame, last_progress)
-	
-	return animation_data
-
-
 ## 播放新动画。
 func play_animation(
 		entity: Entity,
@@ -70,7 +53,7 @@ func play_animation(
 	if config.sync_source:
 		var source: Entity = EntityManager.get_entity_by_id(entity.source_id)
 		if source and not source.is_waiting():
-			var source_animated_sprite_c: AnimatedSpriteComponent = source.get_node_or_null(Constants.ANIMATED_SPRITE_COMPONENT_NODE_PATH)
+			var source_animated_sprite_c: AnimatedSpriteComponent = source.get_node_or_null(StringConstants.ANIMATED_SPRITE_COMPONENT_NODE_PATH)
 			var source_animation: FacingAnimationSet = source_animated_sprite_c.config.sync_animations.get(
 				source_animation_key
 			)
@@ -78,6 +61,23 @@ func play_animation(
 				source_animated_sprite_c.play_animation(source, source_animation, source_animation_key, force_play)
 				source_animated_sprite_c.y_wait_animation(source, source_animation)
 
+	return animation_data
+
+
+## 重播动画，从上次播放到的位置继续播放，见 [AnimatedSpriteComponent.play_animation]。
+func replay_animation(
+		entity: Entity,
+		animation_group: FacingAnimationSet, 
+		source_animation_key: String = "",
+		force_play: bool = false
+	) -> AnimationData:
+	var old_animated_sprite: AnimatedSprite2D = get_playing_animated_sprite(animation_group)
+	var old_frame: int = old_animated_sprite.frame
+	var old_progress: float = old_animated_sprite.progress
+	var animation_data: AnimationData = play_animation(entity, animation_group, source_animation_key, force_play)
+	var current_animated_sprite: AnimatedSprite2D = get_playing_animated_sprite(animation_group)
+	current_animated_sprite.set_frame_and_progress(old_frame, old_progress)
+	
 	return animation_data
 
 

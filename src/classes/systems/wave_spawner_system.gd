@@ -6,7 +6,7 @@ class_name WaveSpawnerSystem
 
 
 func _on_ready(entity: Entity) -> void:
-	var wave_spawner_c: WaveSpawnerComponent = entity.get_node_or_null(Constants.WAVE_SPAWNER_COMPONENT_NODE_PATH)
+	var wave_spawner_c: WaveSpawnerComponent = entity.get_node_or_null(StringConstants.WAVE_SPAWNER_COMPONENT_NODE_PATH)
 	if not wave_spawner_c:
 		return
 
@@ -29,7 +29,7 @@ func _on_update(_delta: float) -> void:
 		if WaveManager.is_waves_finished:
 			continue
 
-		var wave_spawner_c: WaveSpawnerComponent = spawner.get_node_or_null(Constants.WAVE_SPAWNER_COMPONENT_NODE_PATH)
+		var wave_spawner_c: WaveSpawnerComponent = spawner.get_node_or_null(StringConstants.WAVE_SPAWNER_COMPONENT_NODE_PATH)
 		var wave_spawner_c_config: WaveSpawnerComponentNodeConfig = wave_spawner_c.config
 		var wave_queue: Array[Wave] = wave_spawner_c.wave_queue
 		var wave: Wave = wave_queue[0]
@@ -39,7 +39,9 @@ func _on_update(_delta: float) -> void:
 		if wave.is_first_getted:
 			wave.is_first_getted = false
 			Log.debug("开始波次计时: index=%d, duration=%.2f" % [wave_index, wave.interval])
-			AudioManager.play_sfx(wave_spawner_c_config.wave_timer_start_sfx)
+			
+			if wave_spawner_c_config.wave_timer_start_sfx:
+				AudioManager.play_audio(wave_spawner_c_config.wave_timer_start_sfx)
 
 			var wave_list: Array[Wave] = wave_spawner_c_config.wave_group.wave_list
 			for sub_wave: SubWave in wave_list[wave_index].sub_wave_list:
@@ -76,7 +78,9 @@ func _on_update(_delta: float) -> void:
 			if wave.is_first_elapsed_time:
 				wave.is_first_elapsed_time = false
 				Log.debug("发送波次: index=%d" % wave_index)
-				AudioManager.play_sfx(wave_spawner_c_config.wave_timer_finish_sfx)
+				
+				if wave_spawner_c_config.wave_timer_finish_sfx:
+					AudioManager.play_audio(wave_spawner_c_config.wave_timer_finish_sfx)
 				WaveManager.wave_sended.emit(wave_index)
 
 			_process_sub_wave(wave)
@@ -115,7 +119,7 @@ func _process_sub_wave(wave: Wave) -> void:
 			continue
 
 		var entity: Entity = EntityManager.create_entity(spawn.entity)
-		var nav_path_c: NavPathComponent = entity.get_node_or_null(Constants.NAV_PATH_COMPONENT_NODE_PATH)
+		var nav_path_c: NavPathComponent = entity.get_node_or_null(StringConstants.NAV_PATH_COMPONENT_NODE_PATH)
 		if nav_path_c:
 			var nav_path_c_config: NavPathComponentNodeConfig = nav_path_c.config
 			nav_path_c_config.reversed_enabled = spawn.reversed_enabled

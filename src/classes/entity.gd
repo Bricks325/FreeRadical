@@ -148,11 +148,11 @@ func queue_free_component(component: Component) -> void:
 func set_global_position_with_components(new_global_position: Vector2) -> void:
 	global_position = new_global_position
 	
-	var rally_c: RallyComponent = get_node_or_null(Constants.RALLY_COMPONENT_NODE_PATH)
+	var rally_c: RallyComponent = get_node_or_null(StringConstants.RALLY_COMPONENT_NODE_PATH)
 	if rally_c:
 		rally_c.new_rally_global_position(self, new_global_position)
 	
-	var nav_path_c: NavPathComponent = get_node_or_null(Constants.NAV_PATH_COMPONENT_NODE_PATH)
+	var nav_path_c: NavPathComponent = get_node_or_null(StringConstants.NAV_PATH_COMPONENT_NODE_PATH)
 	if nav_path_c:
 		nav_path_c.set_nav_path_to_nearest_node(self, new_global_position)
 
@@ -201,7 +201,7 @@ func _set_and_update_config_template() -> void:
 
 	var save_path: String = template_dir.path_join("node_config_template.tres")
 	node_config_template = FileUtils.save_and_load_resource(new_config_template, save_path)
-	Log.info("生成配置模板: path=%s" % save_path)
+	Log.info("生成配置模板: %s" % save_path)
 	EditorInterface.mark_scene_as_unsaved()
 
 
@@ -240,7 +240,7 @@ func _build_config_template_node_recursive(node: Node, current_config_template_p
 			new_config = FileUtils.save_and_load_resource(new_config, save_path)
 			child.config = new_config
 			config_template_node.config = new_config
-			Log.verbose("创建配置: path=%s" % save_path)
+			Log.verbose("创建配置: %s" % save_path)
 
 		current_config_template_parent.add_child(config_template_node)
 		_build_config_template_node_recursive(child, config_template_node, template_dir)

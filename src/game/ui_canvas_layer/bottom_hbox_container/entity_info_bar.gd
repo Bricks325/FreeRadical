@@ -1,6 +1,6 @@
 extends PanelContainer
 
-@export_group("Node Ref")
+@export_group("Node Reference")
 @export var entity_name: Label
 @export var hp_label: Label
 @export var hp_value: Label
@@ -10,8 +10,8 @@ extends PanelContainer
 @export var ranged_value: Label
 @export var physical_armor_icon: TextureRect
 @export var physical_armor_value: Label
-@export var magic_armor_icon: TextureRect
-@export var magic_armor_value: Label
+@export var magical_armor_icon: TextureRect
+@export var magical_armor_value: Label
 
 ## 当前选择的实体
 var selected_entity: Entity = null
@@ -27,8 +27,8 @@ var info_bar_type: SelectComponent.InfoBarType = SelectComponent.InfoBarType.UNI
 	ranged_value, 
 	physical_armor_icon, 
 	physical_armor_value, 
-	magic_armor_icon, 
-	magic_armor_value,
+	magical_armor_icon, 
+	magical_armor_value,
 ]
 ## 信息栏对应信息类型显示配置
 @onready var show_configs: Dictionary[SelectComponent.InfoBarType, Array] = {
@@ -41,8 +41,8 @@ var info_bar_type: SelectComponent.InfoBarType = SelectComponent.InfoBarType.UNI
 		ranged_value,
 		physical_armor_icon,
 		physical_armor_value,
-		magic_armor_icon,
-		magic_armor_value,
+		magical_armor_icon,
+		magical_armor_value,
 	],
 	SelectComponent.InfoBarType.TOWER: [
 		ranged_type_icon,
@@ -78,7 +78,7 @@ func _process(_delta: float) -> void:
 		SelectComponent.InfoBarType.UNIT:
 			_update_unit_info()
 		SelectComponent.InfoBarType.TOWER:
-			if selected_entity.get_node_or_null(Constants.TOWER_COMPONENT_NODE_PATH):
+			if selected_entity.get_node_or_null(StringConstants.TOWER_COMPONENT_NODE_PATH):
 				_update_tower_info()
 	
 	
@@ -89,7 +89,7 @@ func _show(entity: Entity) -> void:
 		
 	_hide()
 	
-	var select_c: SelectComponent = entity.get_node_or_null(Constants.SELECT_COMPONENT_NODE_PATH)
+	var select_c: SelectComponent = entity.get_node_or_null(StringConstants.SELECT_COMPONENT_NODE_PATH)
 		
 	selected_entity = entity
 	info_bar_type = select_c.config.info_bar_type
@@ -108,19 +108,19 @@ func _hide() -> void:
 
 ## 更新单位信息
 func _update_unit_info() -> void:
-	var health_c: HealthComponent = selected_entity.get_node_or_null(Constants.HEALTH_COMPONENT_NODE_PATH)
+	var health_c: HealthComponent = selected_entity.get_node_or_null(StringConstants.HEALTH_COMPONENT_NODE_PATH)
 	var health_c_config: HealthComponentNodeConfig = health_c.config
 	hp_value.text = "%d/%d" % [health_c_config.hp_max, health_c.hp]
 	physical_armor_value.text = "%d" % (health_c_config.physical_armor)
-	magic_armor_value.text = "%d" % (health_c_config.magical_armor)
+	magical_armor_value.text = "%d" % (health_c_config.magical_armor)
 	
-	var melee_c: MeleeComponent = selected_entity.get_node_or_null(Constants.MELEE_COMPONENT_NODE_PATH)
+	var melee_c: MeleeComponent = selected_entity.get_node_or_null(StringConstants.MELEE_COMPONENT_NODE_PATH)
 	if melee_c and melee_c.get_child(0):
 		_set_melee_value(melee_c)
 	else:
 		_hide_melee_info()
 		
-	var skill_c: SkillComponent = selected_entity.get_node_or_null(Constants.SKILL_COMPONENT_NODE_PATH)
+	var skill_c: SkillComponent = selected_entity.get_node_or_null(StringConstants.SKILL_COMPONENT_NODE_PATH)
 	if skill_c:
 		_set_ranged_value(skill_c)
 	else:
@@ -129,17 +129,17 @@ func _update_unit_info() -> void:
 
 ## 更新防御塔信息
 func _update_tower_info() -> void:
-	var tower_c: TowerComponent = selected_entity.get_node_or_null(Constants.TOWER_COMPONENT_NODE_PATH)
+	var tower_c: TowerComponent = selected_entity.get_node_or_null(StringConstants.TOWER_COMPONENT_NODE_PATH)
 
 	if tower_c.get_child_count() == 0:
-		var skill_c: SkillComponent = selected_entity.get_node_or_null(Constants.SKILL_COMPONENT_NODE_PATH)
+		var skill_c: SkillComponent = selected_entity.get_node_or_null(StringConstants.SKILL_COMPONENT_NODE_PATH)
 		if skill_c:
 			_set_ranged_value(skill_c)
 		else:
 			_hide_ranged_info()
 	else:
 		var first_entity: Entity = tower_c.get_child(0)
-		var skill_c: SkillComponent = first_entity.get_node_or_null(Constants.SKILL_COMPONENT_NODE_PATH)
+		var skill_c: SkillComponent = first_entity.get_node_or_null(StringConstants.SKILL_COMPONENT_NODE_PATH)
 		if skill_c:
 			_set_ranged_value(skill_c)
 		else:
@@ -158,7 +158,7 @@ func _set_ranged_value(skill_c: SkillComponent) -> void:
 		return
 
 	var bullet_template: NodeConfigTemplateNode = NodeConfigManager.get_node_config_template_by_entity_uid(first_ranged_skill.config.bullet_scene)
-	var bullet_c_config: BulletComponentNodeConfig = bullet_template.get_node_config(Constants.BULLET_COMPONENT_NODE_PATH)
+	var bullet_c_config: BulletComponentNodeConfig = bullet_template.get_node_config(StringConstants.BULLET_COMPONENT_NODE_PATH)
 	var damage_influence := bullet_c_config.influence as DamageInfluence
 	if damage_influence:
 		ranged_value.text = "%d-%d/%.1f" % [damage_influence.min_value, damage_influence.max_value, first_ranged_skill.config.cooldown]

@@ -2,7 +2,7 @@ extends VBoxContainer
 class_name WaveEditorSpawnDataVBoxContainer
 
 
-@export_group("Ref")
+@export_group("Reference")
 @export var spawn_interval: LabeledSpinBox
 @export var entity: LabeledOptionButton
 @export var pathway: LabeledSpinBox

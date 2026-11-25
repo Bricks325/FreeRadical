@@ -6,7 +6,7 @@ class_name HealthSystem
 
 
 func _on_insert(entity: Entity) -> bool:
-	var health_c: HealthComponent = entity.get_node_or_null(Constants.HEALTH_COMPONENT_NODE_PATH)
+	var health_c: HealthComponent = entity.get_node_or_null(StringConstants.HEALTH_COMPONENT_NODE_PATH)
 	if not health_c:
 		return true
 		
@@ -20,7 +20,7 @@ func _on_update(_delta: float) -> void:
 		if entity.state & Entity.State.DEAD:
 			continue
 
-		var health_c: HealthComponent = entity.get_node_or_null(Constants.HEALTH_COMPONENT_NODE_PATH)
+		var health_c: HealthComponent = entity.get_node_or_null(StringConstants.HEALTH_COMPONENT_NODE_PATH)
 
 		_process_regen(entity, health_c)
 		_update_total_pending_damage(entity, health_c)
@@ -50,7 +50,7 @@ func _update_total_pending_damage(entity: Entity, health_c: HealthComponent) -> 
 	var total_damage: float = 0.0
 	for bullet_id: int in entity.aimed_bullet_ids:
 		var bullet: Entity = EntityManager.get_entity_by_id(bullet_id)
-		var bullet_c: BulletComponent = bullet.get_node_or_null(Constants.BULLET_COMPONENT_NODE_PATH)
+		var bullet_c: BulletComponent = bullet.get_node_or_null(StringConstants.BULLET_COMPONENT_NODE_PATH)
 		if not bullet_c:
 			continue
 

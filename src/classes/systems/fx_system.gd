@@ -6,7 +6,7 @@ class_name FXSystem
 
 
 func _on_insert(entity: Entity) -> bool:
-	var fx_c: FXComponent = entity.get_node_or_null(Constants.FX_COMPONENT_NODE_PATH)
+	var fx_c: FXComponent = entity.get_node_or_null(StringConstants.FX_COMPONENT_NODE_PATH)
 	if not fx_c:
 		return true
 		
@@ -16,7 +16,7 @@ func _on_insert(entity: Entity) -> bool:
 
 
 func _play_animation(entity: Entity) -> void:
-	var animated_sprite_c: AnimatedSpriteComponent = entity.get_node_or_null(Constants.ANIMATED_SPRITE_COMPONENT_NODE_PATH)
+	var animated_sprite_c: AnimatedSpriteComponent = entity.get_node_or_null(StringConstants.ANIMATED_SPRITE_COMPONENT_NODE_PATH)
 		
 	if await animated_sprite_c.y_wait_animation(entity, animated_sprite_c.config.idle_animation):
 		return

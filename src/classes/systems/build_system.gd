@@ -6,7 +6,7 @@ class_name BuildSystem
 
 
 func _on_insert(entity: Entity) -> bool:
-	var build_c: BuildComponent = entity.get_node_or_null(Constants.BUILD_COMPONENT_NODE_PATH)
+	var build_c: BuildComponent = entity.get_node_or_null(StringConstants.BUILD_COMPONENT_NODE_PATH)
 	if not build_c:
 		return true
 		
@@ -20,7 +20,7 @@ func _on_update(_delta: float) -> void:
 		if build.is_waiting() or build.state & Entity.State.REMOVED:
 			continue
 
-		var build_c: BuildComponent = build.get_node_or_null(Constants.BUILD_COMPONENT_NODE_PATH)
+		var build_c: BuildComponent = build.get_node_or_null(StringConstants.BUILD_COMPONENT_NODE_PATH)
 		var build_c_config: BuildComponentNodeConfig = build_c.config
 		var build_progress_bar: TextureProgressBar = build_c.build_progress_bar
 		var max_value: float = build_progress_bar.max_value
@@ -35,8 +35,8 @@ func _on_update(_delta: float) -> void:
 		var target: Entity = EntityManager.create_entity(build_c_config.build_target)
 		target.global_position = build.global_position
 
-		var record_c: RecordComponent = build.get_node_or_null(Constants.RECORD_COMPONENT_NODE_PATH)
-		var new_record_c: RecordComponent = target.get_node_or_null(Constants.RECORD_COMPONENT_NODE_PATH)
+		var record_c: RecordComponent = build.get_node_or_null(StringConstants.RECORD_COMPONENT_NODE_PATH)
+		var new_record_c: RecordComponent = target.get_node_or_null(StringConstants.RECORD_COMPONENT_NODE_PATH)
 		if record_c and new_record_c:
 			record_c.transmit_record(new_record_c)
 			

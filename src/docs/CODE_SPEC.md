@@ -1,16 +1,22 @@
 # 代码规范
 
-该文档用于说明与规范代码的编写。
+本文档用于定义代码规范。
 
 ---
 
-## 1. 代码编写风格
+## 1. 代码编写风格规范
 
-本项目遵循官方的 GDScript 代码编写风格：
+本项目遵循官方的 GDScript 代码编写风格规范，具体参考：
 
 > [GDScript 编写风格指南](https://docs.godotengine.org/zh-cn/4.x/tutorials/scripting/gdscript/gdscript_styleguide.html)
 
-### 1.1 布尔值变量命名
+> [着色器编写风格指南](https://docs.godotengine.org/zh-cn/4.x/tutorials/shaders/shaders_style_guide.html)
+
+除了官方的 GDScript 代码编写风格规范，本项目还遵循以下额外的规范：
+
+### 1.1 变量与属性
+
+#### 1.1.1 布尔值变量命名
 
 布尔值变量命名时需要增加前缀，以表示其语义：
 
@@ -23,7 +29,7 @@
 | **`should_`**  | "是否应该..." | 建议/决策   | `should_update`, `should_flee`        |
 | **`_enabled`** | "启用状态"    | 功能开关    | `attack_enabled`                      |
 
-### 1.2 显式声明变量类型
+#### 1.1.2 显式声明变量类型
 
 在定义变量时禁止使用默认变体类型，应显式声明变量类型。
 
@@ -32,21 +38,29 @@
 ```gdscript
 var entities: Array[Entity] = []
 for entity: Entity in entities:
-    entity.health -= 10
+	entity.health -= 10
 ```
 
-### 1.3 日志格式
+#### 1.1.3 省略必填属性的显式声明默认值
 
-日志格式应让主次分明，事件在前增加冒号，参数名在后，参数用等号说明值，每个参数之间用空格隔开。
+在定义必填属性时，应省略显式声明默认值，以表示该属性是必填的，不能在使用时省略。
+
+示例：
 
 ```gdscript
-Log.info("事件: 参数名=值")
+@export var node: Node
 ```
+
+
+### 1.2 日志格式
+
+日志格式：事件: 参数名=值，或无参数的日志格式；事件: 信息。
 
 示例：
 
 ```gdscript
 Log.info("受到伤害: entity_name=%s id=%s hp=%s" % [entity.name, entity.id, entity.hp])
+Log.info("保存文件: %s" % path)
 ```
 
 ---
@@ -67,7 +81,7 @@ Godot 文档注释使用 BBCode 语法编写，具体语法参考：
 ## 绘制椭圆。[br][br]
 ## [b]提示[/b]: 这是一个用于演示的方法，实际绘制椭圆请使用 [method CanvasItem.draw_ellipse]。
 func draw_ellipse(position: Vector2, width: float, filled: bool = true) -> void:
-    pass
+	pass
 ```
 
 ### 2.2 所有代码必须使用代码块包裹
@@ -86,7 +100,7 @@ func draw_ellipse(position: Vector2, width: float, filled: bool = true) -> void:
 ## print(vector_add(v1, v2))     # Vector2(4, 6)
 ## [/codeblock]
 func vector_add(a: Vector2, b: Vector2) -> Vector2:
-    return a + b
+	return a + b
 ```
 
 ### 2.3 方法文档注释编写规范
@@ -115,13 +129,113 @@ func 方法名(参数名: 参数类型) -> 返回值类型: pass
 ## -> 错误信息，成功返回 [code]"ok"[/code]，失败返回错误信息字符串。[br][br]
 ## [b]提示[/b]: 这是一个用于演示的方法，实际绘制椭圆请使用 [method CanvasItem.draw_ellipse]。
 func draw_ellipse(
-        position: Vector2, 
-        major: float, 
-        minor: float, 
-        color: Color, 
-        filled: bool = true, 
-        width: float = -1.0
-    ) -> String:
-        ...
+		position: Vector2,
+		major: float,
+		minor: float,
+		color: Color,
+		filled: bool = true,
+		width: float = -1.0
+	) -> String:
+		...
 ```
 
+---
+
+## 3. 创建实体流程
+
+1. 在 `src/scenes/entities` 目录创建一个场景，场景根节点为 `Entity` 实体节点。
+2. 为场景挂载各种组件：
+	- 如：`SkillComponent` 远程攻击组件，可以使实体向其他实体发射子弹。
+	- 一些组件可能有子组件：如 `SkillComponent` 有 `RangedSkill` 单次远程攻击子组件。
+3. 在实体的检查器中点击 `设置与更新节点配置模板` 按钮，生成节点配置模板。
+4. 修改组件中的配置属性：
+	- 如：`RangedSkill` 的攻击范围、攻击速度等。
+5. 可以扩展 `Entity` 的脚本来在一些回调中进行一些操作：
+	- 如：`_on_update` 回调，每帧会被调用。
+6. 运行 `src/tools/generate_entity_scene_data` 更新场景数据 `src/data/entity_scene_data.tres` 与节点配置模板数据 `src/data/node_config_template_data.tres`。
+
+> **注意**：为了可复用性不应该依赖扩展脚本来为实体增加逻辑，而是将逻辑抽象为组件的属性，除非该逻辑不会被复用或过于特例化。
+
+---
+
+## 4. 创建组件流程
+
+1. 在 `src/classes/components` 中创建一个 `.gd` 脚本：
+	- 命名格式： `组件名_component`，如：`health_component`。
+2. 使用 `class_name` 声明组件类名：
+	- 命名格式： `组件名Component`，如：`HealthComponent`。
+3. 为组件声明属性：
+	- 如：`max_hp` 最大血量、`hp` 当前血量。
+	- 请为属性增加文档注释以便在编辑器查看。
+4. 在 `src/classes/systems` 中创建一个 `.gd` 脚本并继承 `System` 类：
+	- 命名格式： `系统名System`，如：`HealthSystem`。
+5. 使用 `class_name` 声明系统类名：
+	- 命名格式： `系统名System`，如：`HealthSystem`。
+6. 通过一些回调函数对拥有特定组件的实体进行操作：
+	- 如：`_on_insert` 回调，会在实体被插入时调用。
+7. 将此系统节点增加到需要的场景的 `SystemController` 节点。
+
+---
+
+## 5. 导入图集流程
+
+1. 将图像文件放到 `src/storage/atlas` 中。
+
+每张纹理必须放到 storage/atlas 目录下，并按照以下目录组织：
+	- ```text
+	<ATLAS_NAME>/                     # 图集名称。
+		- atlas_textures/               # 此目录下的纹理会被保存为 AtlasTexture 资源。
+			- <CATEGORY_NAME>/          # 使用目录对相关纹理进行分类，可以镶套多个目录。
+				- texture1.png
+				- texture2.png
+				- ...
+			- ...
+		- sprite_frames/                # 此目录下的纹理会被保存为 SpriteFrame 资源。
+			- <CATEGORY_NAME>/          # 使用目录对相关动画进行分类，可以镶套多个目录。
+				- <ANIMATION_NAME>/     # 每一个目录代表一个动画。
+					- frame1.png
+					- frame2.png
+					- ...
+				- ...
+			- ...
+	```
+
+2. 将图像文件放到 `py_tools/generate_atlas/input/图集名称/图像类型` 中。
+	- 图像类型为 `atlas_texture` 或 `sprite_frames` 分别用于生成 `AtlasTexture` 与 `SpriteFrames` 资源。
+3. 运行 `py_tools/generate_atlas.py` 脚本生成图集。
+4. 将图集放入 `src/assets/atlas` 中。
+5. 在 `src/tools/generate_texture/sprite_frames_datas/` 中创建 `SpriteFramesData` 资源。
+	- 命名格式：动画名应由方向和动作两部分组成，使用下划线分隔，格式为 "动作_方向"，无方向的动画可以省略方向部分。
+	- 方向是 `FacingAnimationSet` 资源的属性: `"up"`、`"down"`、`"left_right"` 等。
+	- 动作是任意描述动画的名称：`"idle"`、`"walk"`、`"melee"`、`"death"` 等。
+	- 如：`"walk_left_right"` 表示左右的行走动画。
+6. 在编辑器中运行 `src/tools/generate_texture/generate_texture.gd` 工具生成 `SpriteFrames` 与 `AtlasTexture`。
+
+---
+
+## 6. 创建关卡流程
+
+### 6.1 创建关卡
+
+1. 在 `src/game/levels` 目录创建一个继承自 `src/game/levels/level.tscn` 场景。
+2. 在 `Background` 节点中添加背景图片。
+3. 在 `Gird` 节点中绘制地形网格。
+4. 在 `PathwayContainer` 节点中添加 `Pathway` 路径节点。
+	- 子路径会自动根据 `Pathway` 生成。
+5. 在 `WaveFlagContainer` 节点中添加 `WaveFlag` 波次旗帜节点。
+	- 每个 `WaveFlag` 需要绑定一个 `Pathway` 路径节点，来显示波次到来时间与释放波次。
+	- 为了便于管理，请让每个波次旗帜与 `Pathway` 路径节点一一对应，例如：波次旗帜 1 对应路径节点 1，波次旗帜 2 对应路径节点 2，以此类推。
+6. 在 `World` 节点中添加 `WaveSpawner` 波次生成器节点。
+	- 为 `WaveSpawner` 波次生成器节点添加 `wave_group` 波次组资源，并保存在 `src/game/levels/波次组资源名.tscn` 中，用于波次编辑器加载。
+	- 波次组资源名格式为 `level_关卡索引_wave`，例如：第一关的波次组资源名为 `level_1_wave`。
+7. 在 `World` 节点中添加塔位等实体。
+	- 塔位需要设置 `default_rally_center_position`  默认集结点。
+
+### 6.2 添加入口
+1. 在 `src/map/map.tscn` 的 `FlagController` 节点中添加 `Flag` 关卡旗帜节点。
+	- 旗帜节点需要指定 `level_scene_path` 关卡场景路径，来进入该关卡。
+
+### 6.3 编辑出怪
+1. 在主页的左上角点击 `波次编辑器` 按钮。
+2. 在波次编辑器中编辑出怪。
+3. 保存波次。

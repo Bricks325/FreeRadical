@@ -6,7 +6,7 @@ class_name DodgeBehavior
 
 
 func _on_update(entity: Entity) -> bool:
-	var dodge_c: DodgeComponent = entity.get_node_or_null(Constants.DODGE_COMPONENT_NODE_PATH)
+	var dodge_c: DodgeComponent = entity.get_node_or_null(StringConstants.DODGE_COMPONENT_NODE_PATH)
 	if not dodge_c:
 		return false
 

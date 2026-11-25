@@ -6,7 +6,7 @@ class_name AnimatedSpriteSystem
 
 
 func _on_insert(entity: Entity) -> bool:
-	var animated_sprite_c: AnimatedSpriteComponent = entity.get_node_or_null(Constants.ANIMATED_SPRITE_COMPONENT_NODE_PATH)
+	var animated_sprite_c: AnimatedSpriteComponent = entity.get_node_or_null(StringConstants.ANIMATED_SPRITE_COMPONENT_NODE_PATH)
 	if not animated_sprite_c:
 		return true
 		

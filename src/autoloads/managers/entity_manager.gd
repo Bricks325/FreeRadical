@@ -74,13 +74,13 @@ func register_entity_world(entity_world: EntityWorld) -> void:
 func queue_insert_entity(entity: Entity) -> void:
 	entity.visible = false
 	_insert_queue.append(entity)
-	Log.verbose("增加实体到插入队列: entity=%s" % entity)
+	Log.verbose("增加实体到插入队列: entity=%s queue_size=%d" % [entity, _insert_queue.size()])
 
 
 ## 将实体增加到移除队列
 func queue_remove_entity(entity: Entity) -> void:
 	_remove_queue.append(entity)
-	Log.verbose("增加实体到移除队列: entity=%s" % entity)
+	Log.verbose("增加实体到移除队列: entity=%s queue_size=%d" % [entity, _remove_queue.size()])
 
 
 ## 通过场景路径创建实体。
@@ -99,7 +99,7 @@ func setup_entity(entity: Entity) -> Entity:
 	entity.id = _next_id
 	entity.name = "%sI%d" % [entity.name, _next_id]
 
-	Log.debug("创建实体: entity=%s" % entity)
+	Log.debug("创建实体: %s" % entity)
 	_next_id += 1
 
 	entity_ready.emit(entity)
@@ -159,7 +159,7 @@ func create_modifiers(
 	var config_func: Callable = func(entity: Entity) -> void:
 		entity.source_id = source_id
 
-		var modifier_c: ModifierComponent = entity.get_node_or_null(Constants.MODIFIER_COMPONENT_NODE_PATH)
+		var modifier_c: ModifierComponent = entity.get_node_or_null(StringConstants.MODIFIER_COMPONENT_NODE_PATH)
 		modifier_c.target_id = target_id
 
 	return create_entities(
@@ -179,7 +179,7 @@ func create_auras(
 	var config_func: Callable = func(entity: Entity) -> void:
 		entity.source_id = source_id
 
-		var aura_c: AuraComponent = entity.get_node_or_null(Constants.AURA_COMPONENT_NODE_PATH)
+		var aura_c: AuraComponent = entity.get_node_or_null(StringConstants.AURA_COMPONENT_NODE_PATH)
 		aura_c.target_id = target_id
 		
 	return create_entities(
@@ -225,13 +225,13 @@ func _process_insert_queue() -> void:
 		_insert_queue[head_index] = null
 		head_index += 1
 	
-		# if _entities:
-		# 	var entities_len: int = _entities.size()
-		# 	if entity.id != entities_len:
-		# 		Log.error(
-		# 			"实体数组长度未与实体 id 对应: id=%d len=%d" 
-		# 			% [entity.id, entities_len]
-		# 		)
+		if _entities:
+			var entities_len: int = _entities.size()
+			if entity.id != entities_len:
+				Log.error(
+					"实体数组长度未与实体 id 对应: id=%d len=%d" 
+					% [entity.id, entities_len]
+				)
 		
 		if not SystemManager.process_entity_insert(entity):
 			continue
@@ -239,7 +239,7 @@ func _process_insert_queue() -> void:
 		_entities.append(entity)
 
 		entity.visible = true
-		Log.verbose("插入实体: entity=%s" % entity)
+		Log.verbose("插入实体: %s" % entity)
 
 	_insert_queue.clear()
 
@@ -262,7 +262,7 @@ func _process_remove_queue() -> void:
 		# 先处理所有移除回调，再释放实体
 		pending_free_entities.append(entity)
 		entity.entity_removing.emit()
-		Log.verbose("移除实体: entity=%s" % entity)
+		Log.verbose("移除实体: %s" % entity)
 
 	_remove_queue.clear()
 	for entity: Entity in pending_free_entities:
@@ -288,10 +288,10 @@ func _grouping_entities() -> void:
 
 			var script: GDScript = child.get_script()
 			var component_class_name: StringName = script.get_global_name()
-			var component_flag: Enums.ComponentFlag = Constants.COMPONENT_NAME_TO_FLAG[component_class_name]
+			var component_flag: Enums.ComponentFlag = StringConstants.COMPONENT_NAME_TO_FLAG[component_class_name]
 			_component_entity_groups[component_flag].append(entity)
 		
-		var interact_policy_c: InteractPolicyComponent = entity.get_node_or_null(Constants.INTERACT_POLICY_COMPONENT_NODE_PATH)
+		var interact_policy_c: InteractPolicyComponent = entity.get_node_or_null(StringConstants.INTERACT_POLICY_COMPONENT_NODE_PATH)
 		if not interact_policy_c:
 			continue
 		

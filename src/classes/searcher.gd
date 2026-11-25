@@ -58,8 +58,8 @@ enum SearchFlag {
 @export var max_search: int = Constants.UNSET
 
 @export_group("Search Policy")
-## 是否启用排除自身实体。
-@export var exclude_self_entity_enabled: bool = true
+## 是否排除自身实体。
+@export var exclude_self: bool = true
 ## 搜索的阵容。
 @export var target_faction: InteractPolicyComponent.Faction = InteractPolicyComponent.Faction.ENEMY
 ## 搜索的实体类型。
@@ -122,7 +122,7 @@ func search_targets(center: Vector2, entity: Entity = null, filter := Callable()
 		center += center_offsets.get_offset_toward_point(entity.global_position, entity.facing_global_position)
 
 	var faction: InteractPolicyComponent.Faction = target_faction
-	var interact_policy_c: InteractPolicyComponent = entity.get_node_or_null(Constants.INTERACT_POLICY_COMPONENT_NODE_PATH)
+	var interact_policy_c: InteractPolicyComponent = entity.get_node_or_null(StringConstants.INTERACT_POLICY_COMPONENT_NODE_PATH)
 	if interact_policy_c:
 		if entity and interact_policy_c.config.faction & InteractPolicyComponent.Faction.ENEMY:
 			match target_faction:
@@ -153,7 +153,7 @@ func search_targets(center: Vector2, entity: Entity = null, filter := Callable()
 		var buckets: Dictionary[InteractPolicyComponent.EntityFlag, Array] = {}
 		var other_entities: Array[Entity] = []
 		for target: Entity in targets:
-			var target_interact_policy_c: InteractPolicyComponent = target.get_node_or_null(Constants.INTERACT_POLICY_COMPONENT_NODE_PATH)
+			var target_interact_policy_c: InteractPolicyComponent = target.get_node_or_null(StringConstants.INTERACT_POLICY_COMPONENT_NODE_PATH)
 			if not target_interact_policy_c:
 				other_entities.append(target)
 				continue
@@ -205,10 +205,10 @@ func _get_packed_filter(entity: Entity, interact_policy_c: InteractPolicyCompone
 
 	if extra_filters.size() > 0:
 		var extra_filter: Callable = func(target: Entity) -> bool:
-			if exclude_self_entity_enabled and target == entity:
+			if exclude_self and target == entity:
 				return false
 
-			var target_interact_policy_c: InteractPolicyComponent = target.get_node_or_null(Constants.INTERACT_POLICY_COMPONENT_NODE_PATH)
+			var target_interact_policy_c: InteractPolicyComponent = target.get_node_or_null(StringConstants.INTERACT_POLICY_COMPONENT_NODE_PATH)
 			if interact_policy_c and target_interact_policy_c:
 				if interact_policy_c.is_banned_either(target_interact_policy_c, entity.scene_file_uid, target.scene_file_uid):
 					return false
@@ -229,7 +229,7 @@ func _get_packed_filter(entity: Entity, interact_policy_c: InteractPolicyCompone
 
 ## 跳过注定死亡目标过滤器。
 func _skip_doomed_filter(target: Entity) -> bool:
-	var health_c: HealthComponent = target.get_node_or_null(Constants.HEALTH_COMPONENT_NODE_PATH)
+	var health_c: HealthComponent = target.get_node_or_null(StringConstants.HEALTH_COMPONENT_NODE_PATH)
 	if not health_c:
 		return false
 
@@ -266,11 +266,11 @@ func _sort_by_progress(a: Entity, b: Entity) -> bool:
 	var progress_a: float = INF if sort_ascending_enabled else -INF
 	var progress_b: float = INF if sort_ascending_enabled else -INF
 
-	var nav_path_c_a: NavPathComponent = a.get_node_or_null(Constants.NAV_PATH_COMPONENT_NODE_PATH)
+	var nav_path_c_a: NavPathComponent = a.get_node_or_null(StringConstants.NAV_PATH_COMPONENT_NODE_PATH)
 	if nav_path_c_a:
 		progress_a = nav_path_c_a.progress
 
-	var nav_path_c_b: NavPathComponent = b.get_node_or_null(Constants.NAV_PATH_COMPONENT_NODE_PATH)
+	var nav_path_c_b: NavPathComponent = b.get_node_or_null(StringConstants.NAV_PATH_COMPONENT_NODE_PATH)
 	if nav_path_c_b:
 		progress_b = nav_path_c_b.progress
 
@@ -282,10 +282,10 @@ func _sort_by_health(a: Entity, b: Entity) -> bool:
 	var hp_a: float = INF if sort_ascending_enabled else -INF
 	var hp_b: float = INF if sort_ascending_enabled else -INF
 
-	var health_c_a: HealthComponent = a.get_node_or_null(Constants.HEALTH_COMPONENT_NODE_PATH)
+	var health_c_a: HealthComponent = a.get_node_or_null(StringConstants.HEALTH_COMPONENT_NODE_PATH)
 	if health_c_a:
 		hp_a = health_c_a.hp
-	var health_c_b: HealthComponent = b.get_node_or_null(Constants.HEALTH_COMPONENT_NODE_PATH)
+	var health_c_b: HealthComponent = b.get_node_or_null(StringConstants.HEALTH_COMPONENT_NODE_PATH)
 	if health_c_b:
 		hp_b = health_c_b.hp
 
@@ -297,10 +297,10 @@ func _sort_by_gold(a: Entity, b: Entity) -> bool:
 	var gold_a: float = INF
 	var gold_b: float = INF
 
-	var health_c_a: HealthComponent = a.get_node_or_null(Constants.HEALTH_COMPONENT_NODE_PATH)
+	var health_c_a: HealthComponent = a.get_node_or_null(StringConstants.HEALTH_COMPONENT_NODE_PATH)
 	if health_c_a:
 		gold_a = health_c_a.config.death_gold
-	var health_c_b: HealthComponent = b.get_node_or_null(Constants.HEALTH_COMPONENT_NODE_PATH)
+	var health_c_b: HealthComponent = b.get_node_or_null(StringConstants.HEALTH_COMPONENT_NODE_PATH)
 	if health_c_b:
 		gold_b = health_c_b.config.death_gold
 
@@ -320,14 +320,14 @@ func _sort_by_melee_damage(a: Entity, b: Entity) -> bool:
 	var melee_damage_a: float = INF if sort_ascending_enabled else -INF
 	var melee_damage_b: float = INF if sort_ascending_enabled else -INF
 
-	var a_melee_c: MeleeComponent = a.get_node_or_null(Constants.MELEE_COMPONENT_NODE_PATH)
+	var a_melee_c: MeleeComponent = a.get_node_or_null(StringConstants.MELEE_COMPONENT_NODE_PATH)
 	if a_melee_c:
 		var first_melee_skill := a_melee_c.get_child(0) as MeleeSkill
 		if first_melee_skill:
 			var damage_influence := first_melee_skill.config.influence as DamageInfluence
 			if damage_influence:
 				melee_damage_a = (damage_influence.min_value + damage_influence.damage_max) / 2.0
-	var b_melee_c: MeleeComponent = b.get_node_or_null(Constants.MELEE_COMPONENT_NODE_PATH)
+	var b_melee_c: MeleeComponent = b.get_node_or_null(StringConstants.MELEE_COMPONENT_NODE_PATH)
 	if b_melee_c:
 		var first_melee_skill := b_melee_c.get_child(0) as MeleeSkill
 		if first_melee_skill:
@@ -343,21 +343,21 @@ func _sort_by_ranged_damage(a: Entity, b: Entity) -> bool:
 	var ranged_damage_a: float = INF if sort_ascending_enabled else -INF
 	var ranged_damage_b: float = INF if sort_ascending_enabled else -INF
 
-	var a_skill_c: SkillComponent = a.get_node_or_null(Constants.SKILL_COMPONENT_NODE_PATH)
+	var a_skill_c: SkillComponent = a.get_node_or_null(StringConstants.SKILL_COMPONENT_NODE_PATH)
 	if a_skill_c:
 		var first_ranged_skill := a_skill_c.get_child(0) as RangedSkill
 		if first_ranged_skill:
 			var bullet_template: NodeConfigTemplateNode = NodeConfigManager.get_node_config_template_by_entity_uid(first_ranged_skill.config.bullet_scene)
-			var bullet_c_config: BulletComponentNodeConfig = bullet_template.get_node_config(Constants.BULLET_COMPONENT_NODE_PATH)
+			var bullet_c_config: BulletComponentNodeConfig = bullet_template.get_node_config(StringConstants.BULLET_COMPONENT_NODE_PATH)
 			var damage_influence := bullet_c_config.influence as DamageInfluence
 			if damage_influence:
 				ranged_damage_a = (damage_influence.min_value + damage_influence.damage_max) / 2.0
-	var b_skill_c: SkillComponent = b.get_node_or_null(Constants.SKILL_COMPONENT_NODE_PATH)
+	var b_skill_c: SkillComponent = b.get_node_or_null(StringConstants.SKILL_COMPONENT_NODE_PATH)
 	if b_skill_c:
 		var first_ranged_skill := b_skill_c.get_child(0) as RangedSkill
 		if first_ranged_skill:
 			var bullet_template: NodeConfigTemplateNode = NodeConfigManager.get_node_config_template_by_entity_uid(first_ranged_skill.config.bullet_scene)
-			var bullet_c_config: BulletComponentNodeConfig = bullet_template.get_node_config(Constants.BULLET_COMPONENT_NODE_PATH)
+			var bullet_c_config: BulletComponentNodeConfig = bullet_template.get_node_config(StringConstants.BULLET_COMPONENT_NODE_PATH)
 			var damage_influence := bullet_c_config.influence as DamageInfluence
 			if damage_influence:
 				ranged_damage_b = (damage_influence.min_value + damage_influence.damage_max) / 2.0

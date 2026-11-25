@@ -4,7 +4,7 @@ class_name SelectMenuButton
 
 @export var disabled_color := Color(0.725, 0.725, 0.725)
 
-@export_group("Ref")
+@export_group("Reference")
 @export var button: Button
 @export var glow: TextureRect
 

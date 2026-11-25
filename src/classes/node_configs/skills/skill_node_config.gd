@@ -12,19 +12,15 @@ class_name SkillNodeConfig
 ## 技能类型标识。
 @export var skill_types: int = 0
 ## 技能释放概率。
-@export_range(0.0, 100.0, 0.01, "suffix: %") var chance: float = 1.0
-## 技能释放延迟（帧），用于等待动画到达特定帧后再释放技能。
-@export_custom(PROPERTY_HINT_NONE, "suffix: frames") var delay_frames: float = 0.0
-## 动画组。
-@export var animation: FacingAnimationSet = null
-## 音效组。
-@export var sfx: AudioGroup = null
+@export_range(0.0, 100.0, 0.01, "suffix: %") var chance: float = 100.0
+## 技能的前后摇资源。
+@export var startup_and_recovery: StartupAndRecovery
 
 @export_group("Cooldown")
 ## 技能冷却时间（秒）。
 @export_custom(PROPERTY_HINT_NONE, "suffix: s") var cooldown: float = 1.0
 ## 技能冷却时间补偿百分比，意外情况下被中断释放技能时减少重新冷却的时间。
-@export_range(0.0, 100.0, 0.01, "suffix: %") var compensate_cooldown_percent: float = 0.0
+@export_range(0.0, 100.0, 0.01, "suffix: %") var compensate_cooldown_percent: float = 75.0
 
 @export_subgroup("Share Cooldown")
 ## 是否启用共享冷却，可以使自身多个技能共享冷却。

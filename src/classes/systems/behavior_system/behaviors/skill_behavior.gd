@@ -6,7 +6,7 @@ class_name SkillBehavior
 
 
 func _on_insert(entity: Entity) -> bool:
-	var skill_c: SkillComponent = entity.get_node_or_null(Constants.SKILL_COMPONENT_NODE_PATH)
+	var skill_c: SkillComponent = entity.get_node_or_null(StringConstants.SKILL_COMPONENT_NODE_PATH)
 	if not skill_c:
 		return true
 
@@ -17,7 +17,7 @@ func _on_insert(entity: Entity) -> bool:
 
 
 func _on_update(entity: Entity) -> bool:
-	var skill_c: SkillComponent = entity.get_node_or_null(Constants.SKILL_COMPONENT_NODE_PATH)
+	var skill_c: SkillComponent = entity.get_node_or_null(StringConstants.SKILL_COMPONENT_NODE_PATH)
 	if not skill_c:
 		return false
 		

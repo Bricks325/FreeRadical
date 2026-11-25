@@ -1,0 +1,96 @@
+[gd_scene format=3 uid="uid://c704u3klev3up"]
+
+[ext_resource type="Script" uid="uid://b5t6e3einqqji" path="res://addons/atlas_toolkit/dock/dock.gd" id="1_8wib0"]
+
+[node name="Dock" type="EditorDock" unique_id=1859722944 node_paths=PackedStringArray("select_all_button", "deselect_all_button", "refresh_button", "atlas_list", "start_button", "generate_atlas_texture_check_box", "generate_sprite_frames_check_box")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+tooltip_text = "打开图集工具"
+title = "图集工具"
+default_slot = 2
+script = ExtResource("1_8wib0")
+select_all_button = NodePath("VBoxContainer/HBoxContainer/SelectAllButton")
+deselect_all_button = NodePath("VBoxContainer/HBoxContainer/DeselectAllButton")
+refresh_button = NodePath("VBoxContainer/HBoxContainer/RefreshButton")
+atlas_list = NodePath("VBoxContainer/AtlasList")
+start_button = NodePath("VBoxContainer/HBoxContainer2/StartButton")
+generate_atlas_texture_check_box = NodePath("VBoxContainer/HBoxContainer2/GenerateAtlasTextureCheckBox")
+generate_sprite_frames_check_box = NodePath("VBoxContainer/HBoxContainer2/GenerateSpriteFramesCheckBox")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2062730582]
+layout_mode = 2
+
+[node name="EditorFileDialog" type="EditorFileDialog" parent="VBoxContainer" unique_id=338144452]
+oversampling_override = 1.0
+title = "Open a Directory"
+initial_position = 1
+size = Vector2i(939, 360)
+file_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=979084835]
+layout_mode = 2
+
+[node name="BrowseButton" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=777913689]
+layout_mode = 2
+tooltip_text = "选择需要处理的目录"
+text = "浏览"
+
+[node name="SelectAllButton" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=197934220]
+layout_mode = 2
+tooltip_text = "选择所有图集"
+text = "全选"
+
+[node name="DeselectAllButton" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=648840493]
+layout_mode = 2
+tooltip_text = "取消选择所有图集"
+text = "取消全选"
+
+[node name="Spacer" type="Control" parent="VBoxContainer/HBoxContainer" unique_id=1351159933]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RefreshButton" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1545485912]
+layout_mode = 2
+tooltip_text = "刷新图集列表"
+text = "刷新"
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=414384911]
+layout_mode = 2
+text = "选择需要处理的图集"
+
+[node name="AtlasList" type="ItemList" parent="VBoxContainer" unique_id=110886451]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+select_mode = 2
+item_count = 9
+item_0/text = "decals"
+item_1/text = "enemies_common"
+item_2/text = "enemies_grass"
+item_3/text = "game_gui"
+item_4/text = "gui"
+item_5/text = "icon"
+item_6/text = "level_0"
+item_7/text = "map"
+item_8/text = "towers"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer" unique_id=1556734825]
+layout_mode = 2
+
+[node name="StartButton" type="Button" parent="VBoxContainer/HBoxContainer2" unique_id=972069339]
+layout_mode = 2
+tooltip_text = "开始处理所选图集"
+text = "开始处理图集"
+
+[node name="GenerateAtlasTextureCheckBox" type="CheckBox" parent="VBoxContainer/HBoxContainer2" unique_id=1542053743]
+layout_mode = 2
+button_pressed = true
+text = "生成 AtlasTexture"
+
+[node name="GenerateSpriteFramesCheckBox" type="CheckBox" parent="VBoxContainer/HBoxContainer2" unique_id=1026865541]
+layout_mode = 2
+button_pressed = true
+text = "生成 SpriteFrames"

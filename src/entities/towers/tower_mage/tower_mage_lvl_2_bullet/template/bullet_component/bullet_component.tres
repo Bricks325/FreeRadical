@@ -11,12 +11,6 @@ script = ExtResource("1_wsog3")
 right = &"flying_left_right"
 metadata/_custom_type_script = "uid://bmqnty76ueopt"
 
-[sub_resource type="Resource" id="Resource_3t4y3"]
-resource_local_to_scene = true
-script = ExtResource("1_wsog3")
-right = &"hit_left_right"
-metadata/_custom_type_script = "uid://bmqnty76ueopt"
-
 [sub_resource type="Resource" id="Resource_6iyfn"]
 resource_local_to_scene = true
 script = ExtResource("2_v8rei")
@@ -34,4 +28,3 @@ script = ExtResource("1_q24t8")
 trajectory = SubResource("Resource_mage_traj")
 flight_animation = SubResource("Resource_vc1yn")
 influence = SubResource("Resource_6iyfn")
-hit_animation = SubResource("Resource_3t4y3")

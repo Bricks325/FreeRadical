@@ -4,7 +4,7 @@ extends Control
 ## 进度条值补间动画持续时间。
 @export_custom(PROPERTY_HINT_NONE, "suffix: s") var value_tween_duration: float = 0.1
 
-@export_group("Ref")
+@export_group("Reference")
 ## 进度条引用。
 @export var progress_bar: TextureProgressBar = null
 

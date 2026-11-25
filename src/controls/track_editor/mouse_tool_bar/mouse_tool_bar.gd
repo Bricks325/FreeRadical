@@ -79,7 +79,7 @@ func _ready() -> void:
 func _on_mode_button_pressed(mode_button: MouseToolBarModeButton) -> void:
 	mode = mode_button.mode
 
-	Log.info("打开模式: mode=%d" % mode)
+	Log.info("打开模式: %d" % mode)
 
 
 func _on_mode_temporary_switched_pressed(button: MouseToolBarModeButton) -> void:

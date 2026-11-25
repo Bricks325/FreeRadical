@@ -3,7 +3,7 @@ class_name RangeInfoController
 ## 负责显示和隐藏范围信息
 
 
-@export_group("Ref")
+@export_group("Reference")
 @export var skill_range_info_scene: PackedScene
 @export var melee_range_info_scene: PackedScene
 @export var barrack_rally_range_info_scene: PackedScene
@@ -35,16 +35,16 @@ func _show(entity: Entity) -> void:
 
 	selected_entity = entity
 
-	var skill_c: SkillComponent = selected_entity.get_node_or_null(Constants.SKILL_COMPONENT_NODE_PATH)
+	var skill_c: SkillComponent = selected_entity.get_node_or_null(StringConstants.SKILL_COMPONENT_NODE_PATH)
 	if skill_c:
 		var first_skill: Skill = skill_c.get_child(0)
 		if first_skill.config.searcher:
 			_create_range_info_circle(skill_range_info_scene, entity)
 
-	var tower_c: TowerComponent = selected_entity.get_node_or_null(Constants.TOWER_COMPONENT_NODE_PATH)
+	var tower_c: TowerComponent = selected_entity.get_node_or_null(StringConstants.TOWER_COMPONENT_NODE_PATH)
 	if tower_c:
 		for sub_entity: Entity in tower_c.get_children():
-			var sub_entity_skill_c: SkillComponent = sub_entity.get_node_or_null(Constants.SKILL_COMPONENT_NODE_PATH)
+			var sub_entity_skill_c: SkillComponent = sub_entity.get_node_or_null(StringConstants.SKILL_COMPONENT_NODE_PATH)
 			if not sub_entity_skill_c:
 				continue
 
@@ -52,19 +52,19 @@ func _show(entity: Entity) -> void:
 			if first_skill.config.searcher:
 				_create_range_info_circle(skill_range_info_scene, sub_entity, entity)
 
-	var melee_c: MeleeComponent = selected_entity.get_node_or_null(Constants.MELEE_COMPONENT_NODE_PATH)
+	var melee_c: MeleeComponent = selected_entity.get_node_or_null(StringConstants.MELEE_COMPONENT_NODE_PATH)
 	if melee_c:
 		_create_range_info_circle(melee_range_info_scene, entity)
 
-	var barrack_c: BarrackComponent = selected_entity.get_node_or_null(Constants.BARRACK_COMPONENT_NODE_PATH)
+	var barrack_c: BarrackComponent = selected_entity.get_node_or_null(StringConstants.BARRACK_COMPONENT_NODE_PATH)
 	if barrack_c:
 		_create_range_info_circle(barrack_rally_range_info_scene, entity)
 
-		var barrack_record: BarrackRecord = selected_entity.get_node_or_null(Constants.BARRACK_RECORD_NODE_PATH)
+		var barrack_record: BarrackRecord = selected_entity.get_node_or_null(StringConstants.BARRACK_RECORD_NODE_PATH)
 		var soldier_ids: PackedInt32Array = barrack_record.soldier_ids
 		if soldier_ids:
 			var soldier: Entity = EntityManager.get_entity_by_id(soldier_ids[0])
-			var soldier_melee_c: MeleeComponent = soldier.get_node_or_null(Constants.MELEE_COMPONENT_NODE_PATH)
+			var soldier_melee_c: MeleeComponent = soldier.get_node_or_null(StringConstants.MELEE_COMPONENT_NODE_PATH)
 			if soldier_melee_c:
 				_create_range_info_circle(melee_range_info_scene, soldier, entity)
 

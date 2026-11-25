@@ -12,8 +12,6 @@ class_name MeleeSkillNodeConfig
 		SignalUtils.reconnect_resource_changed(influence, v, emit_changed)
 		influence = v
 		emit_changed()
-## 是否启用搜索第一个目标位置，如果为 false 则以释放者的位置为中心造成影响，而非第一个目标的位置。
-@export var search_at_target_position_enabled: bool = false
 
 @export_group("Interact Policy")
 ## 禁止交互的实体标识。

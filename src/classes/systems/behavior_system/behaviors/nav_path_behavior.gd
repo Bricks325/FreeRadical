@@ -6,7 +6,7 @@ class_name NavPathBehavior
 
 
 func _on_insert(entity: Entity) -> bool:
-	var nav_path_c: NavPathComponent = entity.get_node_or_null(Constants.NAV_PATH_COMPONENT_NODE_PATH)
+	var nav_path_c: NavPathComponent = entity.get_node_or_null(StringConstants.NAV_PATH_COMPONENT_NODE_PATH)
 	if not nav_path_c:
 		return true
 
@@ -28,11 +28,11 @@ func _on_insert(entity: Entity) -> bool:
 
 
 func _on_update(entity: Entity) -> bool:
-	var nav_path_c: NavPathComponent = entity.get_node_or_null(Constants.NAV_PATH_COMPONENT_NODE_PATH)
+	var nav_path_c: NavPathComponent = entity.get_node_or_null(StringConstants.NAV_PATH_COMPONENT_NODE_PATH)
 	if not nav_path_c:
 		return false
 	
-	var animated_sprite_c: AnimatedSpriteComponent = entity.get_node_or_null(Constants.ANIMATED_SPRITE_COMPONENT_NODE_PATH)
+	var animated_sprite_c: AnimatedSpriteComponent = entity.get_node_or_null(StringConstants.ANIMATED_SPRITE_COMPONENT_NODE_PATH)
 	
 	if nav_path_c.config.reversed_enabled:
 		return _update_reversed(entity, nav_path_c, animated_sprite_c)

@@ -44,7 +44,7 @@ func new_rally_global_position(
 		entity: Entity,
 		new_global_position: Vector2, 
 		center: Vector2 = new_global_position,
-		play_sfx: bool = true
+		play_sound: bool = true
 	) -> void:
 	if entity.state & Entity.State.WAITING:
 		entity.state |= Entity.State.INTERRUPT_WAIT
@@ -53,8 +53,8 @@ func new_rally_global_position(
 	navigation_agent.target_position = new_global_position
 	rally_center_global_position = center
 	
-	if play_sfx:
-		AudioManager.play_sfx(config.motion_sfx)
+	if play_sound:
+		AudioManager.play_audio(config.motion_sfx)
 
 
 func _on_child_order_changed() -> void:

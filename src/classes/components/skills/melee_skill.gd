@@ -18,7 +18,7 @@ class_name MeleeSkill
 func _draw() -> void:
 	if not config:
 		return
-		
+
 	if DebugDrawManager.is_drawer_visible(DebugDrawer.Type.RANGE):
 		if config.influence:
 			config.influence.draw_influence_range(self, position)
@@ -28,10 +28,10 @@ func can_use(entity: Entity, _config: SkillNodeConfig, target: Entity = null) ->
 	if not super(entity, config, target):
 		return false
 
-	var target_interact_policy_c: InteractPolicyComponent = target.get_node_or_null(Constants.INTERACT_POLICY_COMPONENT_NODE_PATH)
+	var target_interact_policy_c: InteractPolicyComponent = target.get_node_or_null(StringConstants.INTERACT_POLICY_COMPONENT_NODE_PATH)
 	if not target_interact_policy_c:
 		return true
-		
+
 	var target_interact_policy_c_config: InteractPolicyComponentNodeConfig = target_interact_policy_c.config
 	if target_interact_policy_c_config.skill_type_bans & config.skill_types:
 		return false
@@ -42,37 +42,42 @@ func can_use(entity: Entity, _config: SkillNodeConfig, target: Entity = null) ->
 	var target_scene_uid: String = target.scene_file_uid
 	if target_scene_uid in config.scene_path_bans:
 		return false
-	
+
 	var scene_path_allows: PackedStringArray = config.scene_path_allows
 	if scene_path_allows and target_scene_uid not in scene_path_allows:
 		return false
-		
-	var entity_interact_policy_c: InteractPolicyComponent = entity.get_node_or_null(Constants.INTERACT_POLICY_COMPONENT_NODE_PATH)
+
+	var entity_interact_policy_c: InteractPolicyComponent = entity.get_node_or_null(StringConstants.INTERACT_POLICY_COMPONENT_NODE_PATH)
 	if not entity_interact_policy_c:
 		return true
-		
+
 	if entity_interact_policy_c.is_banned_either(target_interact_policy_c, entity.scene_file_uid, target.scene_file_uid):
 		return false
-		
+
 	return true
 
 
 func _use_skill(entity: Entity, target: Entity = null) -> void:
 	start_cooldown(config)
-	AudioManager.play_sfx(config.sfx)
-	var animated_sprite_c: AnimatedSpriteComponent = entity.get_node_or_null(Constants.ANIMATED_SPRITE_COMPONENT_NODE_PATH)
+
 	entity.facing_global_position = target.global_position
-	animated_sprite_c.play_animation(entity, config.animation, &"melee")
-	if await entity.y_wait(Utils.frames_to_seconds(config.delay_frames)) or not target or not target.state & Entity.State.MELEE:
+	var animated_sprite_c: AnimatedSpriteComponent = entity.get_node_or_null(StringConstants.ANIMATED_SPRITE_COMPONENT_NODE_PATH)
+
+	if await config.startup_and_recovery.do_startup(entity, animated_sprite_c):
 		compensate_cooldown(config)
 		return
-	
-	if config.search_at_target_position_enabled:
-		config.influence.take_influence(entity, target, target.global_position)
+
+	if (
+			not target
+			or not target.state & Entity.State.MELEE
+			or not entity.state & Entity.State.MELEE
+	):
+		compensate_cooldown(config)
 	else:
-		config.influence.take_influence(entity, target, entity.global_position)
-	
-	if await animated_sprite_c.y_wait_animation(entity, config.animation):
+		entity.facing_global_position = entity.global_position
+		config.influence.take_influence(entity, target)
+
+	if await config.startup_and_recovery.do_recovery(entity, animated_sprite_c):
 		return
-		
+
 	animated_sprite_c.play_idle_animation(entity)

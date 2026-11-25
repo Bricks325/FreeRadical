@@ -92,7 +92,7 @@ const STYLE_TYPE_NAME: StringName = &"TrackEditor"
 #endregion
 
 #region 引用
-@export_group("Ref")
+@export_group("Reference")
 ## 轨道刻度长度旋钮引用。
 @export var tick_length_spin_box: SpinBox
 ## 轨道刻度长度滑块引用。

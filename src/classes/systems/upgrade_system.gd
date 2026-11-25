@@ -7,7 +7,7 @@ class_name UpgradeSystem
 
 func _on_update(_delta: float) -> void:
 	for entity: Entity in EntityManager.get_component_entity_group(Enums.ComponentFlag.UPGRADE):
-		var upgrade_c: UpgradeComponent = entity.get_node_or_null(Constants.UPGRADE_COMPONENT_NODE_PATH)
+		var upgrade_c: UpgradeComponent = entity.get_node_or_null(StringConstants.UPGRADE_COMPONENT_NODE_PATH)
 		var current_upgrading_index: int = upgrade_c.current_upgrading_index
 		if not Utils.is_valid_number(current_upgrading_index):
 			continue
@@ -17,12 +17,12 @@ func _on_update(_delta: float) -> void:
 		var new_entity: Entity = EntityManager.create_entity(upgrade_item.upgrade_to)
 		new_entity.global_position = entity.global_position
 
-		var record_c: RecordComponent = entity.get_node_or_null(Constants.RECORD_COMPONENT_NODE_PATH)
-		var new_record_c: RecordComponent = new_entity.get_node_or_null(Constants.RECORD_COMPONENT_NODE_PATH)
+		var record_c: RecordComponent = entity.get_node_or_null(StringConstants.RECORD_COMPONENT_NODE_PATH)
+		var new_record_c: RecordComponent = new_entity.get_node_or_null(StringConstants.RECORD_COMPONENT_NODE_PATH)
 		if record_c and new_record_c:
 			record_c.transmit_record(new_record_c)
 		
-		var new_price_record: PriceRecord = new_entity.get_node_or_null(Constants.PRICE_RECORD_NODE_PATH)
+		var new_price_record: PriceRecord = new_entity.get_node_or_null(StringConstants.PRICE_RECORD_NODE_PATH)
 		if new_price_record:
 			new_price_record.total_price += upgrade_item.price
 		

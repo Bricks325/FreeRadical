@@ -6,12 +6,13 @@ class_name BirthSystem
 
 
 func _on_first_update(entity: Entity) -> void:
-	var birth_c: BirthComponent = entity.get_node_or_null(Constants.BIRTH_COMPONENT_NODE_PATH)
+	var birth_c: BirthComponent = entity.get_node_or_null(StringConstants.BIRTH_COMPONENT_NODE_PATH)
 	if not birth_c:
 		return
-
-	AudioManager.play_sfx(birth_c.config.birth_sfx)
-	var animated_sprite_c: AnimatedSpriteComponent = entity.get_node_or_null(Constants.ANIMATED_SPRITE_COMPONENT_NODE_PATH)
+	
+	if birth_c.config.birth_sfx:
+		AudioManager.play_audio(birth_c.config.birth_sfx)
+	var animated_sprite_c: AnimatedSpriteComponent = entity.get_node_or_null(StringConstants.ANIMATED_SPRITE_COMPONENT_NODE_PATH)
 	var birth_animation: FacingAnimationSet = birth_c.config.birth_animation
 	if not birth_animation:
 		return

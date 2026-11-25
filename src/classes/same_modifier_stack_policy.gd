@@ -26,13 +26,13 @@ enum Mode {
 func apply(modifier: Entity, samed_entity_list: Array[Entity]) -> bool:
 	samed_entity_list.sort_custom(
 		func(m1: Entity, m2: Entity) -> bool: 
-			var modifier_c1: ModifierComponent = m1.get_node_or_null(Constants.MODIFIER_COMPONENT_NODE_PATH)
-			var modifier_c2: ModifierComponent = m2.get_node_or_null(Constants.MODIFIER_COMPONENT_NODE_PATH)
+			var modifier_c1: ModifierComponent = m1.get_node_or_null(StringConstants.MODIFIER_COMPONENT_NODE_PATH)
+			var modifier_c2: ModifierComponent = m2.get_node_or_null(StringConstants.MODIFIER_COMPONENT_NODE_PATH)
 			return modifier_c1.config.level > modifier_c2.config.level
 	)
 	var min_level_e: Entity = samed_entity_list[-1]
 	var max_level_e: Entity = samed_entity_list[0]
-	var max_level_duration_c: DurationComponent = max_level_e.get_node_or_null(Constants.DURATION_COMPONENT_NODE_PATH)
+	var max_level_duration_c: DurationComponent = max_level_e.get_node_or_null(StringConstants.DURATION_COMPONENT_NODE_PATH)
 	var max_level_duration_c_config: DurationComponentNodeConfig = null
 	if max_level_duration_c:
 		max_level_duration_c_config = max_level_duration_c.config

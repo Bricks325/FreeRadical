@@ -12,7 +12,7 @@ signal loading_finished
 signal progress_bar_value_tween_finished
 
 
-@export_group("Ref")
+@export_group("Reference")
 @export var loading_screen_scene: PackedScene
 
 ## 目标场景路径。
@@ -42,7 +42,7 @@ func _process(_delta: float):
 			await progress_bar_value_tween_finished
 
 			var scene: PackedScene = ResourceLoader.load_threaded_get(_target_scene_path)
-			Log.debug("切换场景: scene_path=%s" % ResourceUID.uid_to_path(_target_scene_path))
+			Log.debug("切换场景: %s" % ResourceUID.uid_to_path(_target_scene_path))
 			get_tree().change_scene_to_packed(scene)
 
 

@@ -17,7 +17,7 @@ class_name AreaSkill
 func _draw() -> void:
 	if not config:
 		return
-		
+
 	if DebugDrawManager.is_drawer_visible(DebugDrawer.Type.RANGE):
 		if config.searcher:
 			config.searcher.draw_search_range(self, position)
@@ -26,39 +26,35 @@ func _draw() -> void:
 		if config.influence:
 			config.influence.draw_influence_range(self, position)
 
-		
+
 func _use_skill(entity: Entity, target: Entity = null) -> void:
-	var animated_sprite_c: AnimatedSpriteComponent = entity.get_node_or_null(Constants.ANIMATED_SPRITE_COMPONENT_NODE_PATH)
-	
 	if config.searcher:
 		target = search_target(config, entity)
 		if not target:
 			return
-	
-		entity.facing_global_position = target.global_position
-		
+
 	start_cooldown(config)
-	AudioManager.play_sfx(config.sfx)
-	animated_sprite_c.play_animation(entity, config.animation, &"area")
-	if await entity.y_wait(Utils.frames_to_seconds(config.delay_frames)) or config.searcher and not target:
+
+	entity.facing_global_position = target.global_position
+	var animated_sprite_c: AnimatedSpriteComponent = entity.get_node_or_null(StringConstants.ANIMATED_SPRITE_COMPONENT_NODE_PATH)
+
+	if await config.startup_and_recovery.do_startup(entity, animated_sprite_c):
 		compensate_cooldown(config)
 		return
 
 	if config.searcher:
 		if not target:
 			target = search_target(config, entity)
-			if not target:
-				compensate_cooldown(config)
-				return
 
+		if not target:
+			compensate_cooldown(config)
+		else:
 			entity.facing_global_position = target.global_position
-			animated_sprite_c.continue_play_new_animation(entity, config.animation, &"area")
-			
-		config.influence.take_influence(entity, target, target.global_position)
+			config.influence.take_influence(entity, target)
 	else:
-		config.influence.take_influence(entity, entity, entity.global_position)
+		config.influence.take_influence(entity, entity)
 
-	if await animated_sprite_c.y_wait_animation(entity, config.animation):
+	if await config.startup_and_recovery.do_recovery(entity, animated_sprite_c):
 		return
-		
+
 	animated_sprite_c.play_idle_animation(entity)

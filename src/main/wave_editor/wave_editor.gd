@@ -2,7 +2,7 @@ extends Control
 class_name WaveEditor
 
 
-@export_group("Ref")
+@export_group("Reference")
 @export var entity_scene_path_data: EntitySceneData
 @export var wave_track_editor: TrackEditor
 @export var sub_wave_track_editor: TrackEditor
@@ -45,7 +45,7 @@ func _ready() -> void:
 
 ## 加载关卡波次组。
 func load_wave_group(path: String) -> void:
-	Log.info("加载关卡波次组: path=%s" % path)
+	Log.info("加载关卡波次组: %s" % path)
 	wave_track_editor.clear_tracks(false)
 	wave_track_editor.create_track()
 	wave_group = load(path)
@@ -64,7 +64,7 @@ func load_wave_group(path: String) -> void:
 
 ## 保存关卡波次组。
 func save_wave_group(path: String) -> void:
-	Log.info("保存关卡波次组: path=%s" % path)
+	Log.info("保存关卡波次组: %s" % path)
 	ResourceSaver.save(wave_group, path)
 
 

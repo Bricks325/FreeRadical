@@ -6,7 +6,7 @@ class_name SpawnerBehavior
 
 
 func _on_insert(entity: Entity) -> bool:
-	if not entity.get_node_or_null(Constants.SPAWNER_COMPONENT_NODE_PATH):
+	if not entity.get_node_or_null(StringConstants.SPAWNER_COMPONENT_NODE_PATH):
 		return true
 		
 	entity._spawner.call()

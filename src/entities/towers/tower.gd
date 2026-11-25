@@ -17,8 +17,8 @@ class_name TowerEntity
 			barrack_record.default_rally_center_position = v
 		update_configuration_warnings()
 		
-@onready var barrack_record: BarrackRecord = get_node_or_null(Constants.BARRACK_RECORD_NODE_PATH)
-@onready var tower_record: TowerRecord = get_node_or_null(Constants.TOWER_RECORD_NODE_PATH)
+@onready var barrack_record: BarrackRecord = get_node_or_null(StringConstants.BARRACK_RECORD_NODE_PATH)
+@onready var tower_record: TowerRecord = get_node_or_null(StringConstants.TOWER_RECORD_NODE_PATH)
 
 
 func _ready() -> void:

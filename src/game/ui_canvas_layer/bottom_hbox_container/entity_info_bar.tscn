@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://01g5f17eor8s" path="res://assets/atlas/atlas_textures/game_gui/base_info_icons_0003.tres" id="5_dpyxj"]
 [ext_resource type="Texture2D" uid="uid://bbaa7opsu308v" path="res://assets/atlas/atlas_textures/game_gui/base_info_icons_0004.tres" id="6_rato6"]
 
-[node name="EntityInfoBar" type="PanelContainer" unique_id=1937124006 node_paths=PackedStringArray("entity_name", "hp_label", "hp_value", "melee_type_icon", "melee_value", "ranged_type_icon", "ranged_value", "physical_armor_icon", "physical_armor_value", "magic_armor_icon", "magic_armor_value")]
+[node name="EntityInfoBar" type="PanelContainer" unique_id=1937124006 node_paths=PackedStringArray("entity_name", "hp_label", "hp_value", "melee_type_icon", "melee_value", "ranged_type_icon", "ranged_value", "physical_armor_icon", "physical_armor_value", "magical_armor_icon", "magical_armor_value")]
 mouse_filter = 2
 script = ExtResource("1_1ujae")
 entity_name = NodePath("MarginContainer/HBoxContainer/EntityName")
@@ -18,8 +18,8 @@ ranged_type_icon = NodePath("MarginContainer/HBoxContainer/RangedHBoxContainer/T
 ranged_value = NodePath("MarginContainer/HBoxContainer/RangedHBoxContainer/Value")
 physical_armor_icon = NodePath("MarginContainer/HBoxContainer/PhysicalArmorHBoxContainer/Icon")
 physical_armor_value = NodePath("MarginContainer/HBoxContainer/PhysicalArmorHBoxContainer/Value")
-magic_armor_icon = NodePath("MarginContainer/HBoxContainer/MagicArmorHBoxContainer/Icon")
-magic_armor_value = NodePath("MarginContainer/HBoxContainer/MagicArmorHBoxContainer/Value")
+magical_armor_icon = NodePath("MarginContainer/HBoxContainer/MagicArmorHBoxContainer/Icon")
+magical_armor_value = NodePath("MarginContainer/HBoxContainer/MagicArmorHBoxContainer/Value")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=1414186535]
 layout_mode = 2

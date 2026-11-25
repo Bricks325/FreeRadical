@@ -32,35 +32,40 @@ func _use_skill(entity: Entity, target: Entity = null) -> void:
 		target = search_target(config, entity)
 		if not target:
 			return
-			
-	start_cooldown(config)
-	AudioManager.play_sfx(config.sfx)
 
-	var animated_sprite_c: AnimatedSpriteComponent = entity.get_node_or_null(Constants.ANIMATED_SPRITE_COMPONENT_NODE_PATH)
-	var entity_global_position: Vector2 = entity.global_position
-	var spawn_global_position: Vector2 = target.global_position if config.searcher else entity_global_position
-	entity.facing_global_position = spawn_global_position
+	start_cooldown(config)
+
+	var spawn_global_position: Vector2 = target.global_position if config.searcher else entity.global_position
 	if config.spawn_offsets:
-		spawn_global_position += config.spawn_offsets.get_offset_toward_point(entity_global_position, spawn_global_position)
+		spawn_global_position += config.spawn_offsets.get_offset_toward_point(entity.global_position, spawn_global_position)
 	entity.facing_global_position = spawn_global_position
-	animated_sprite_c.play_animation(entity, config.animation, &"spawn")
-	if await entity.y_wait(Utils.frames_to_seconds(config.delay_frames)):
+	var animated_sprite_c: AnimatedSpriteComponent = entity.get_node_or_null(StringConstants.ANIMATED_SPRITE_COMPONENT_NODE_PATH)
+
+	if await config.startup_and_recovery.do_startup(entity, animated_sprite_c):
 		compensate_cooldown(config)
 		return
 
-	if config.searcher and not target:
-		target = search_target(config, entity)
+	var config_func: Callable = func(new_entity: Entity) -> void:
+		new_entity.set_global_position_with_components(spawn_global_position)
+		new_entity.source_id = entity.id
+
+	if config.searcher:
+		if not target:
+			target = search_target(config, entity)
+			if target:
+				spawn_global_position = target.global_position
+				if config.spawn_offsets:
+					spawn_global_position += config.spawn_offsets.get_offset_toward_point(entity.global_position, spawn_global_position)
+
 		if not target:
 			compensate_cooldown(config)
-			return
-		
-		entity.facing_global_position = spawn_global_position
-		animated_sprite_c.continue_play_new_animation(entity, config.animation, &"spawn")
+		else:
+			entity.facing_global_position = spawn_global_position
+			EntityManager.create_entities(config.spawns, config_func)
+	else:
+		EntityManager.create_entities(config.spawns, config_func)
 
-	EntityManager.create_entities(config.spawns, 
-		func(new_entity: Entity) -> void:
-			new_entity.set_global_position_with_components(spawn_global_position)
-			new_entity.source_id = entity.id
-	)
+	if await config.startup_and_recovery.do_recovery(entity, animated_sprite_c):
+		return
 
-	await animated_sprite_c.y_wait_animation(entity, config.animation)
+	animated_sprite_c.play_idle_animation(entity)

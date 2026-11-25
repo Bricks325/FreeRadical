@@ -8,7 +8,7 @@ extends Node2D
 		level_scene_path = v
 		update_configuration_warnings()
 
-@export_group("Ref")
+@export_group("Reference")
 @export var animated_sprite: AnimatedSprite2D
 @export var area: Area2D
 

@@ -2,7 +2,7 @@ extends SelectMenuButton
 class_name SelectMenuUpgradeButton
 
 
-@export_group("Ref")
+@export_group("Reference")
 ## 价格标签引用。
 @export var price_tag: TextureRect
 
@@ -13,7 +13,7 @@ var upgrade_item_index: int = 0
 
 
 func _update() -> void:
-	var upgrade_c: UpgradeComponent = selected_entity.get_node_or_null(Constants.UPGRADE_COMPONENT_NODE_PATH)
+	var upgrade_c: UpgradeComponent = selected_entity.get_node_or_null(StringConstants.UPGRADE_COMPONENT_NODE_PATH)
 	var upgrade_item: UpgradeItem = upgrade_c.config.upgrade_items.upgrade_items[upgrade_item_index]
 	
 	var price: float = upgrade_item.price
@@ -28,5 +28,5 @@ func _update() -> void:
 func _on_pressed() -> void:
 	super()
 
-	var upgrade_c: UpgradeComponent = selected_entity.get_node_or_null(Constants.UPGRADE_COMPONENT_NODE_PATH)
+	var upgrade_c: UpgradeComponent = selected_entity.get_node_or_null(StringConstants.UPGRADE_COMPONENT_NODE_PATH)
 	upgrade_c.current_upgrading_index = upgrade_item_index

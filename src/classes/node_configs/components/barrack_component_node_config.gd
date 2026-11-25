@@ -46,15 +46,11 @@ class_name BarrackComponentNodeConfig
 	set(v):
 		max_soldier_count = v
 		emit_changed()
-## 生成士兵播放的动画。
-@export var spawn_animation: FacingAnimationSet = null
-## 生成士兵延迟（帧），用于在动画播放到特定帧后生成士兵。
-@export_custom(PROPERTY_HINT_NONE, "suffix: frames") var spawn_delay_frames: float = 0.0
-## 生成士兵播放的音效。
-@export var spawn_sfx: AudioGroup = null
+## 生成士兵的前后摇资源。
+@export var spawn_startup_and_recovery: StartupAndRecovery
 
 
 func _init() -> void:
 	super()
-		
+
 	SignalUtils.try_connect_resource_changed(spawn_offsets, emit_changed)

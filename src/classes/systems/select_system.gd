@@ -20,7 +20,7 @@ func _on_update(_delta: float) -> void:
 	else:
 		var mouse_global_position: Vector2 = InputManager.mouse_global_position
 		for entity: Entity in EntityManager.get_component_entity_group(Enums.ComponentFlag.SELECT):
-			var select_c: SelectComponent = entity.get_node_or_null(Constants.SELECT_COMPONENT_NODE_PATH)
+			var select_c: SelectComponent = entity.get_node_or_null(StringConstants.SELECT_COMPONENT_NODE_PATH)
 			if not select_c.is_click_at_global_select_rect(mouse_global_position):
 				continue
 			
@@ -35,7 +35,7 @@ func _select(entity: Entity) -> void:
 	SelectManager.selected_entity = entity
 	SelectManager.select_mode = SelectManager.SelectMode.NONE
 	
-	var rally_c: RallyComponent = entity.get_node_or_null(Constants.RALLY_COMPONENT_NODE_PATH)
+	var rally_c: RallyComponent = entity.get_node_or_null(StringConstants.RALLY_COMPONENT_NODE_PATH)
 	if rally_c and rally_c.config.can_select_rally:
 		SelectManager.select_mode = SelectManager.SelectMode.RALLY
 		
@@ -59,14 +59,14 @@ func _process_select_mode() -> void:
 	match SelectManager.select_mode:
 		SelectManager.SelectMode.RALLY:
 			var rally_c: RallyComponent = SelectManager.selected_entity.get_node_or_null(
-				Constants.RALLY_COMPONENT_NODE_PATH
+				StringConstants.RALLY_COMPONENT_NODE_PATH
 			)
 			rally_c.new_rally_global_position(SelectManager.selected_entity, InputManager.mouse_global_position)
 		SelectManager.SelectMode.BARRACK_RALLY:
 			var entity_global_position: Vector2 = SelectManager.selected_entity.global_position
 			var mouse_global_position: Vector2 = InputManager.mouse_global_position
 			var barrack_c: BarrackComponent = SelectManager.selected_entity.get_node_or_null(
-				Constants.BARRACK_COMPONENT_NODE_PATH
+				StringConstants.BARRACK_COMPONENT_NODE_PATH
 			)
 			var rally_max_radius: float = barrack_c.config.rally_max_radius
 			var rally_min_radius: float = barrack_c.config.rally_min_radius
